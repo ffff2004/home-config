@@ -209,11 +209,11 @@
       };
 
       "XF86MonBrightnessUp" = mkDefault {
-        action = spawn "brightnessctl" "--class=backlight" "set" "5%+" "-d" "intel_backlight";
+        action = spawn "brightnessctl" "--class=backlight" "set" "2%+" "-d" "intel_backlight";
         allow-when-locked = true;
       };
       "XF86MonBrightnessDown" = mkDefault {
-        action = spawn "brightnessctl" "--class=backlight" "set" "5%-" "-d" "intel_backlight";
+        action = spawn "brightnessctl" "--class=backlight" "set" "2%-" "-d" "intel_backlight";
         allow-when-locked = true;
       };
     };
