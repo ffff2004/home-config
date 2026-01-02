@@ -11,7 +11,7 @@
     Unit = {
       Description = "Bridge Wayland clipboard to X11 clipboard";
       Documentation = "https://github.com/bugaevc/wl-clipboard";
-      After = "graphical-session.target";
+      After = config.wayland.systemd.target;
     };
     Install = {
       WantedBy = [ config.wayland.systemd.target ];
