@@ -3,7 +3,7 @@
   umu-launcher,
   lib,
   protonPath,
-  enableWayland ? true,
+  enableWayland ? false,
 }:
 writeShellScriptBin "umu-run" ''
   if [ -z "$PROTONPATH" ]; then

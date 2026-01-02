@@ -8,7 +8,8 @@ umu-launcher-wrapper:
 let
   maaPath = "$HOME/Games/maa";
   pkg = pkgs.callPackage ./maa-proton.nix {
-    inherit maaPath umu-launcher-wrapper;
+    inherit maaPath;
+    umu-launcher-wrapper = config.umu.wrapperWithWayland;
   };
 in
 {

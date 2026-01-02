@@ -4,6 +4,18 @@
   pkgs,
   ...
 }:
+let
+  cfg = config.umu;
+  wrapper = pkgs.callPackage ./umu-launcher-wrapper.nix {
+    umu-launcher = cfg.package;
+    inherit (cfg) protonPath;
+  };
+  wrapperWithWayland = pkgs.callPackage ./umu-launcher-wrapper.nix {
+    umu-launcher = cfg.package;
+    inherit (cfg) protonPath;
+    enableWayland = true;
+  };
+in
 {
   options.umu =
     let
@@ -14,34 +26,24 @@
         type = types.package;
         default = config.lib.genericLinux.wrapIfEnabled pkgs.umu-launcher "umu-run";
       };
-      eval.wrapper = mkOption {
+      wrapper = mkOption {
+        type = types.package;
+        readOnly = true;
+      };
+      wrapperWithWayland = mkOption {
         type = types.package;
         readOnly = true;
       };
       protonPath = mkOption {
         type = types.either types.str types.path;
       };
-      enableWayland = mkOption {
-        type = types.bool;
-        default = true;
-      };
     };
-  config =
-    let
-      cfg = config.umu;
-      wrapper = pkgs.callPackage ./umu-launcher-wrapper.nix {
-        umu-launcher = cfg.package;
-        inherit (cfg) protonPath enableWayland;
-      };
-    in
-    {
-      umu = {
-        protonPath = "$HOME/.steam/steam/compatibilitytools.d/GE-Proton10-25";
-        eval.wrapper = wrapper;
-      };
-      home.packages = [ wrapper ];
+  config = {
+    umu = {
+      protonPath = "$HOME/.steam/steam/compatibilitytools.d/GE-Proton10-25";
+      inherit wrapper wrapperWithWayland;
     };
-  imports = [
-    (import ./apps config.umu.eval.wrapper)
-  ];
+    home.packages = [ wrapper ];
+  };
+  imports = [ ./apps ];
 }
