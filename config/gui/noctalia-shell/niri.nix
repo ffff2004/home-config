@@ -65,10 +65,10 @@
         hotkey-overlay.title = "Noctalia Clipboard History";
       };
       "XF86Calculator".action = spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "calculator";
-      "Super+L" = {
-        action = spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock";
-        hotkey-overlay.title = "Lock the Screen";
-      };
+      # "Super+L" = {
+      #   action = spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock";
+      #   hotkey-overlay.title = "Lock the Screen";
+      # };
       "Mod+Space" = {
         action = spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "toggle";
         hotkey-overlay.title = "Noctalia Launcher";
