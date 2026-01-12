@@ -1,7 +1,7 @@
 config = { }
 
 
-[templates.pywalfox]
-input_path = "~/.config/noctalia/templates/pywalfox.json"
-output_path = "~/.cache/wal/colors.json"
-post_hook = "pywalfox update"
+[templates.pywalfox-update]
+input_path = "~/.config/noctalia/templates/pywalfox-update.sh"
+output_path = "~/.cache/wal/pywalfox-update.sh"
+post_hook = "bash ~/.cache/wal/pywalfox-update.sh"

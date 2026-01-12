@@ -1,3 +1,4 @@
+cat > ~/.cache/wal/colors.json <<EOF
 {
     "wallpaper": "",
     "alpha": "100",
@@ -20,3 +21,6 @@
         "color15": ""
     }
 }
+EOF
+pywalfox <* if {{ is_dark_mode }} *>dark<* else *>light<* endif *>
+pywalfox update
