@@ -3,12 +3,17 @@
     {
       matches = [
         {
-          title = "com.alibabainc.dingtalk";
-          app-id = "com.alibabainc.dingtalk";
-          is-floating = true;
+          title = "^com.alibabainc.dingtalk$";
+          app-id = "^com.alibabainc.dingtalk$";
+          # is-floating = true; # Does not match for some reason
         }
       ];
-      open-focused = false;
+      # open-focused = false;
+      default-floating-position = {
+        x = 150;
+        y = -60;
+        relative-to = "bottom-right";
+      };
     }
   ];
 }
