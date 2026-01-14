@@ -11,21 +11,13 @@
   imports = [
     inputs.noctalia.homeModules.default
     ./niri.nix
+    ./user-templates
   ];
   programs.noctalia-shell = {
     enable = true;
     package = config.lib.genericLinux.wrapIfEnabled pkgsFrom.noctalia.default "qs -c noctalia-shell";
     systemd.enable = true;
+    settings = localLib.mkSymlinkToSource ./config/settings.json;
   };
-  xdg.configFile = lib.mkIf config.programs.noctalia-shell.enable (
-    lib.genAttrs' (localLib.lsFileRecursively ./config) (
-      file:
-      lib.nameValuePair "noctalia/${lib.removePrefix ((toString ./config) + "/") (toString file)}" {
-        source = localLib.mkSymlinkToSource file;
-      }
-    )
-  );
-  home.packages = lib.mkIf config.programs.noctalia-shell.enable [
-    pkgs.app2unit
-  ];
+  home.packages = lib.mkIf config.programs.noctalia-shell.enable [ pkgs.app2unit ];
 }
