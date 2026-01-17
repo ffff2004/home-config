@@ -12,8 +12,8 @@
 
       # Program launchers
       "Mod+T" = mkDefault {
-        action = spawn "alacritty";
-        hotkey-overlay.title = "Open a Terminal: alacritty";
+        action = spawn "xdg-terminal-exec";
+        hotkey-overlay.title = "Open a Terminal";
       };
       "Mod+Space" = mkDefault {
         action = spawn "fuzzel";
