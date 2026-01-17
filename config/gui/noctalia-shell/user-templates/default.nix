@@ -9,10 +9,9 @@
   programs.noctalia-shell.user-templates = {
     config = { };
     templates = {
-      pywalfox = {
-        input_path = localLib.mkSymlinkToSource ./pywalfox-update.sh;
-        output_path = "~/.cache/wal/pywalfox-update.sh";
-        post_hook = "sh ~/.cache/wal/pywalfox-update.sh";
+      alacritty = {
+        input_path = localLib.mkSymlinkToSource ./alacritty.toml;
+        output_path = "~/.config/alacritty/themes/noctalia.toml";
       };
     };
   };

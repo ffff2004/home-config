@@ -1,6 +1,12 @@
 { lib, config, ... }:
 
 {
+  systemd.user.services.noctalia-shell = lib.mkIf config.programs.noctalia-shell.enable {
+    Service.Environment = lib.pipe config.programs.niri.settings.environment [
+      lib.attrsToList
+      (map (a: "${a.name}=${a.value}"))
+    ];
+  };
   programs.niri.settings = lib.mkIf config.programs.noctalia-shell.enable {
     binds = with config.lib.niri.actions; {
       # Core Noctalia
