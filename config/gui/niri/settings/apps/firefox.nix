@@ -27,6 +27,16 @@
         ];
         open-maximized = true;
       }
+
+      {
+        matches = [
+          {
+            inherit app-id;
+            title = "^文件上传 - ";
+          }
+        ];
+        open-floating = false;
+      }
     ];
 
   programs.niri.settings.binds = with config.lib.niri.actions; {

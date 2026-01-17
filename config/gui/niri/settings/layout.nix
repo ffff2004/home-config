@@ -11,6 +11,7 @@
     };
 
     center-focused-column = "never";
+    always-center-single-column = true;
 
     preset-column-widths = [
       { proportion = 0.33333; }
