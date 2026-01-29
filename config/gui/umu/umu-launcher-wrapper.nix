@@ -3,9 +3,10 @@
   umu-launcher,
   lib,
   protonPath,
+  exe ? "umu-run",
   enableWayland ? false,
 }:
-writeShellScriptBin "umu-run" ''
+writeShellScriptBin exe ''
   if [ -z "$PROTONPATH" ]; then
       export PROTONPATH="${protonPath}"
   fi

@@ -1,4 +1,25 @@
+[ -n "$WAYLAND_DISPLAY" ] || { echo "WAYLAND_DISPLAY not set" >&2; exit 1; }
 
+# 检查 waydroid 状态
+status_output=$(waydroid status 2>/dev/null)
+
+# 提取 Container 状态行
+session_status=$(printf '%s\n' "$status_output" | grep '^Session:' | awk '{print $2}')
+
+# 启动应用（无论状态如何）
+waydroid app launch com.hypergryph.arknights &
+
+# 如果容器是 STOPPED，则需等待启动完成
+if [ "$session_status" = "STOPPED" ]; then
+    echo "Container is STOPPED, waiting for startup..."
+    sleep 5
+fi
+
+# 尝试 ADB 连接并检查结果
+if ! adb connect 192.168.240.112:5555; then
+    echo "Error: Failed to connect to WayDroid via ADB." >&2
+    exit 1
+fi
 
 # 创建adb符号链接
 adb_target="$maa_path/adb"
@@ -6,7 +27,7 @@ adb_source="$(which adb)"
 
 if [ ! -e "$adb_target" ] || [ "$(realpath "$adb_target")" != "$(realpath "$adb_source")" ]; then
     if ! ln -sf "$adb_source" "$adb_target" -v; then
-        zenity --error --title="MAA" --text="创建adb符号链接失败"
+        echo "创建adb符号链接失败" >&2
         exit 1
     fi
 fi

@@ -5,45 +5,71 @@
   ...
 }:
 let
+  inherit (lib) mkOption types;
   cfg = config.umu;
-  wrapper = pkgs.callPackage ./umu-launcher-wrapper.nix {
-    umu-launcher = cfg.package;
-    inherit (cfg) protonPath;
-  };
-  wrapperWithWayland = pkgs.callPackage ./umu-launcher-wrapper.nix {
-    umu-launcher = cfg.package;
-    inherit (cfg) protonPath;
-    enableWayland = true;
-  };
 in
 {
-  options.umu =
-    let
-      inherit (lib) mkOption types;
-    in
-    {
-      package = mkOption {
-        type = types.package;
-        default = config.lib.genericLinux.wrapIfEnabled pkgs.umu-launcher "umu-run";
-      };
-      wrapper = mkOption {
-        type = types.package;
-        readOnly = true;
-      };
-      wrapperWithWayland = mkOption {
-        type = types.package;
-        readOnly = true;
-      };
-      protonPath = mkOption {
-        type = types.either types.str types.path;
-      };
+  options.umu = {
+    package = mkOption {
+      type = types.package;
+      default = config.lib.genericLinux.wrapIfEnabled pkgs.umu-launcher "umu-run";
     };
+    wrappers = mkOption {
+      type = types.attrsOf (
+        types.submodule (
+          { name, ... }:
+          {
+            options = {
+              exe = mkOption {
+                type = types.str;
+                default = "umu-run-${name}";
+              };
+              protonPath = mkOption {
+                type = types.either types.path types.str;
+              };
+              enableWayland = mkOption {
+                type = types.bool;
+                default = false;
+              };
+            };
+          }
+        )
+      );
+      default = { };
+      description = "Enable wrappers for umu-launcher with specific features.";
+    };
+    eval.packages = mkOption {
+      type = types.lazyAttrsOf types.package;
+      readOnly = true;
+      default = lib.mapAttrs (
+        name: subcfg:
+        pkgs.callPackage ./umu-launcher-wrapper.nix (
+          {
+            umu-launcher = config.umu.package;
+          }
+          // subcfg
+        )
+      ) config.umu.wrappers;
+    };
+  };
   config = {
     umu = {
-      protonPath = "$HOME/.steam/steam/compatibilitytools.d/GE-Proton10-25";
-      inherit wrapper wrapperWithWayland;
+      wrappers =
+        let
+          compatibilityToolsPath = "$HOME/.local/share/Steam/compatibilitytools.d";
+          gePath = "${compatibilityToolsPath}/Proton-GE Latest";
+          dwPath = "${compatibilityToolsPath}/dwproton";
+        in
+        {
+          ge.protonPath = gePath;
+          ge-wl = {
+            protonPath = gePath;
+            enableWayland = true;
+          };
+          dw.protonPath = dwPath;
+        };
     };
-    home.packages = [ wrapper ];
+    home.packages = builtins.attrValues cfg.eval.packages;
   };
   imports = [ ./apps ];
 }

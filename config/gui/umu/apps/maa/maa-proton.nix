@@ -6,7 +6,7 @@
   maaPath,
   android-tools,
   zenity,
-  writeShellScriptBin,
+  writeShellScript,
   imagemagick,
   makeDesktopItem,
   copyDesktopItems,
@@ -24,7 +24,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   desktopItems = [
     (makeDesktopItem {
       name = "MAA";
-      exec = "${lib.getExe finalAttrs.script}";
+      exec = finalAttrs.script;
       icon = "maa";
       comment = finalAttrs.meta.description;
       desktopName = "MAA";
@@ -36,7 +36,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     copyDesktopItems
   ];
 
-  script = writeShellScriptBin "maa" ''
+  script = writeShellScript "maa" ''
     set -euo pipefail
     export PATH="${
       builtins.concatStringsSep ":" (
@@ -67,7 +67,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/bin
-    ln -s ${lib.getExe finalAttrs.script} $out/bin
+    ln -s ${finalAttrs.script} $out/bin/maa
 
     mkdir -p $out/share/icons/hicolor/512x512/apps/
     ln -s ${finalAttrs.icon512} $out/share/icons/hicolor/512x512/apps/maa.png
