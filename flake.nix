@@ -23,6 +23,11 @@
       url = "github:fym998/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    matugen = {
+      url = "github:/InioX/Matugen";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
