@@ -17,7 +17,7 @@
           x = 10;
           y = 8;
         };
-        opacity = .9;
+        opacity = .83;
       };
     };
   };
@@ -29,7 +29,7 @@
     };
     settings = {
       window_padding_width = 5;
-      background_opacity = 0.9;
+      background_opacity = .83;
       include = "~/.config/kitty/themes/noctalia.conf";
     };
   };
@@ -41,7 +41,7 @@
         include = "~/.config/foot/themes/noctalia";
         pad = "10x10";
       };
-      colors.alpha = .9;
+      colors.alpha = .83;
     };
   };
 }
