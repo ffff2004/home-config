@@ -37,7 +37,7 @@ ModifierOnlyKeyTimeout=250
 0=Shift+Super+space
 
 [Hotkey/EnumerateGroupForwardKeys]
-0=Super+space
+0=Control+Super+space
 
 [Hotkey/NextCandidate]
 0=Tab

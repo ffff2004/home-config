@@ -1,9 +1,14 @@
 {
+  config,
   pkgs,
   localLib,
   lib,
   ...
 }:
+let
+  cfg = config.i18n.inputMethod;
+  enable = cfg.enable && cfg.type == "fcitx5";
+in
 {
   i18n.inputMethod = {
     enable = true;
@@ -19,11 +24,13 @@
       ];
     };
   };
-  xdg.configFile = lib.genAttrs' (localLib.lsFileRecursively ./config) (
-    file:
-    lib.nameValuePair "fcitx5/${lib.removePrefix ((toString ./config) + "/") (toString file)}" {
-      source = localLib.mkSymlinkToSource file;
-    }
+  xdg.configFile = lib.mkIf enable (
+    lib.genAttrs' (localLib.lsFileRecursively ./config) (
+      file:
+      lib.nameValuePair "fcitx5/${lib.removePrefix ((toString ./config) + "/") (toString file)}" {
+        source = localLib.mkSymlinkToSource file;
+      }
+    )
   );
-  home.sessionVariables.QT_IM_MODULE = "fcitx";
+  home.sessionVariables.QT_IM_MODULE = lib.mkIf enable "fcitx";
 }
