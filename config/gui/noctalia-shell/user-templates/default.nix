@@ -7,11 +7,24 @@
 }:
 {
   programs.noctalia-shell.user-templates = {
-    config = { };
+    config = {
+      custom_colors = {
+        red = "#ff0000";
+        green = "#00ff00";
+        blue = "#0000ff";
+        yellow = "#ffff00";
+        magenta = "#ff00ff";
+        cyan = "#00ffff";
+      };
+    };
     templates = {
       alacritty = {
         input_path = localLib.mkSymlinkToSource ./alacritty.toml;
         output_path = "~/.config/alacritty/themes/noctalia.toml";
+      };
+      swaylock = {
+        input_path = localLib.mkSymlinkToSource ./swaylock.conf;
+        output_path = "~/.config/swaylock/config";
       };
     };
   };
