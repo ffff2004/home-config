@@ -14,9 +14,9 @@
     always-center-single-column = true;
 
     preset-column-widths = [
-      { proportion = 0.33333; }
+      { proportion = 1. / 3; }
       { proportion = 0.5; }
-      { proportion = 0.66667; }
+      { proportion = 2. / 3; }
       # { fixed = 1920; }
     ];
 

@@ -24,6 +24,9 @@
             # exclude master password / PiP
             is-floating = true;
           }
+          {
+            title = "^文件上传 - ";
+          }
         ];
         open-maximized = true;
       }

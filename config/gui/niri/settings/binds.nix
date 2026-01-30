@@ -164,6 +164,9 @@
       # Tabbed display toggle
       "Mod+W".action = mkDefault toggle-column-tabbed-display;
 
+      # Floating toggle
+      "Mod+Ctrl+Shift+F".action = mkDefault toggle-window-floating;
+
       # Screenshots
       "Print".action = mkDefault { screenshot = [ ]; };
       "Ctrl+Print".action = mkDefault { screenshot-window = [ ]; };

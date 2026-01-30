@@ -5,7 +5,7 @@
       matches = [
         { app-id = "^code$"; }
       ];
-      open-maximized = true;
+      default-column-width.proportion = 2. / 3;
     }
   ];
   programs.niri.settings.binds = with config.lib.niri.actions; {

@@ -2,7 +2,7 @@
   programs.niri.settings = {
     environment = {
       "LANG" = "zh_CN.UTF-8";
-      "LANGUAGE" = "zh_CN:en_SG";
+      "LANGUAGE" = "zh_CN:en_GB";
       # Set a variable like this:
       "QT_QPA_PLATFORM" = "wayland";
 

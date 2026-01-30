@@ -38,6 +38,15 @@
           relative-to = "bottom-right";
         };
       }
+      {
+        matches = [
+          {
+            app-id = "^QQ$";
+            title = "^QQ$";
+          }
+        ];
+        default-column-width.proportion = 2. / 3;
+      }
     ];
     workspaces.im = { };
   };
