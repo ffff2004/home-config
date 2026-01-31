@@ -6,7 +6,7 @@
 {
   services.swayidle =
     let
-      lockScreen = config.lib.genericLinux.getCmd pkgs.swaylock "swaylock -f";
+      lockScreen = config.lib.genericLinux.getCmd pkgs.swaylock "swaylock -f -F";
       powerOffMonitors = config.lib.genericLinux.getCmd config.programs.niri.package "niri msg action power-off-monitors";
       freezeShell = config.lib.genericLinux.getCmd pkgs.systemd "systemctl --user freeze noctalia-shell.service";
       unfreezeShell = config.lib.genericLinux.getCmd pkgs.systemd "systemctl --user thaw noctalia-shell.service";
