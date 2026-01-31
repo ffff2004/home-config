@@ -28,7 +28,7 @@
             title = "^文件上传 - ";
           }
         ];
-        open-maximized = true;
+        default-column-width.proportion = 2. / 3;
       }
 
       {
