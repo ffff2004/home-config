@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (config.wayland.systemd) target;
+  target = "niri.service";
 in
 {
   systemd.user.services = {
