@@ -67,6 +67,10 @@ in
             enableWayland = true;
           };
           dw.protonPath = dwPath;
+          dw-wl = {
+            protonPath = dwPath;
+            enableWayland = true;
+          };
         };
     };
     home.packages = builtins.attrValues cfg.eval.packages;

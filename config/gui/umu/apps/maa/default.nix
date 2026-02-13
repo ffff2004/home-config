@@ -8,7 +8,8 @@ let
   maaPath = "$HOME/Games/maa";
   pkg = pkgs.callPackage ./maa-proton.nix {
     inherit maaPath;
-    umu-launcher-wrapper = config.umu.eval.packages.ge-wl;
+    umu-launcher-wrapper = config.umu.eval.packages.dw-wl;
+    #niriConfig = config.programs.niri.finalConfig or null;
   };
 in
 {
@@ -31,7 +32,7 @@ in
       Description = "Run Arknights MAA daily";
     };
     Timer = {
-      OnCalendar = "*-*-* 08,20:00:00";
+      OnCalendar = "*-*-* 07,19:00:00";
       Persistent = false;
     };
     Install = {
