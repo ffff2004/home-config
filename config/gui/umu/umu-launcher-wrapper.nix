@@ -4,12 +4,14 @@
   lib,
   protonPath,
   exe ? "umu-run",
-  enableWayland ? false,
+  extraEnv ? { },
 }:
 writeShellScriptBin exe ''
   if [ -z "$PROTONPATH" ]; then
       export PROTONPATH="${protonPath}"
   fi
-  ${lib.optionalString enableWayland "export PROTON_ENABLE_WAYLAND=1"}
+  ${lib.concatMapStrings (nv: "export ${nv.name}=\"${toString nv.value}\"\n") (
+    lib.attrsToList extraEnv
+  )}
   exec ${lib.getExe umu-launcher} "$@"
 ''

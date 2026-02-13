@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkOption types;
+  inherit (lib) mkOption types recursiveUpdate;
   cfg = config.umu;
 in
 {
@@ -59,17 +59,38 @@ in
           compatibilityToolsPath = "$HOME/.local/share/Steam/compatibilitytools.d";
           gePath = "${compatibilityToolsPath}/Proton-GE Latest";
           dwPath = "${compatibilityToolsPath}/dwproton";
+          igpu_vk_icd_filenames = "/usr/share/vulkan/icd.d/intel_icd.x86_64.json";
         in
-        {
-          ge.protonPath = gePath;
-          ge-wl = {
-            protonPath = gePath;
-            enableWayland = true;
-          };
-          dw.protonPath = dwPath;
-          dw-wl = {
+        rec {
+          dw = {
             protonPath = dwPath;
-            enableWayland = true;
+            extraEnv = {
+              PROTON_DXVK_GPLASYNC = "1";
+              WINE_CANONICAL_HOLE = "skip_volatile_check";
+            };
+          };
+          dw-wl = recursiveUpdate dw {
+            extraEnv = {
+              PROTON_ENABLE_WAYLAND = "1";
+            };
+          };
+          dw-wl-igpu = recursiveUpdate dw-wl {
+            extraEnv = {
+              VK_ICD_FILENAMES = igpu_vk_icd_filenames;
+            };
+          };
+          ge = {
+            protonPath = gePath;
+          };
+          ge-wl = recursiveUpdate ge {
+            extraEnv = {
+              PROTON_ENABLE_WAYLAND = "1";
+            };
+          };
+          ge-wl-igpu = recursiveUpdate ge-wl {
+            extraEnv = {
+              VK_ICD_FILENAMES = igpu_vk_icd_filenames;
+            };
           };
         };
     };

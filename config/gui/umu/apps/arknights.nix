@@ -15,8 +15,8 @@ let
     };
     iconSize = 180;
     gameId = "yj";
-    umu-launcher-wrapper = config.umu.eval.packages.dw-wl;
-    wrapperCmd = "env PROTON_DXVK_GPLASYNC=1 WINE_CANONICAL_HOLE=skip_volatile_check";
+    umu-launcher-wrapper = config.umu.eval.packages.dw-wl-igpu;
+    wrapperCmd = "env VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/intel_icd.x86_64.json PROTON_DXVK_GPLASYNC=1 WINE_CANONICAL_HOLE=skip_volatile_check";
   };
 in
 {
