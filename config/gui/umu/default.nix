@@ -27,9 +27,17 @@ in
               protonPath = mkOption {
                 type = types.either types.path types.str;
               };
-              enableWayland = mkOption {
-                type = types.bool;
-                default = false;
+              extraEnv = mkOption {
+                type = types.attrsOf (
+                  types.nullOr (
+                    types.oneOf [
+                      types.str
+                      types.path
+                      types.int
+                    ]
+                  )
+                );
+                default = { };
               };
             };
           }
@@ -65,13 +73,13 @@ in
           dw = {
             protonPath = dwPath;
             extraEnv = {
-              PROTON_DXVK_GPLASYNC = "1";
+              PROTON_DXVK_GPLASYNC = 1;
               WINE_CANONICAL_HOLE = "skip_volatile_check";
             };
           };
           dw-wl = recursiveUpdate dw {
             extraEnv = {
-              PROTON_ENABLE_WAYLAND = "1";
+              PROTON_ENABLE_WAYLAND = 1;
             };
           };
           dw-wl-igpu = recursiveUpdate dw-wl {
@@ -84,7 +92,7 @@ in
           };
           ge-wl = recursiveUpdate ge {
             extraEnv = {
-              PROTON_ENABLE_WAYLAND = "1";
+              PROTON_ENABLE_WAYLAND = 1;
             };
           };
           ge-wl-igpu = recursiveUpdate ge-wl {
