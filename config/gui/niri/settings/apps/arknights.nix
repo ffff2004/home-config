@@ -15,13 +15,24 @@
         {
           matches = [
             {
+              title = "^明日方舟$";
+              # app-id = "^steam_app";
+            }
+          ];
+          open-floating = false;
+          open-on-workspace = workspace;
+        }
+
+        {
+          matches = [
+            {
               title = "^Form$";
               app-id = "^steam_app";
               # is-floating = true;
             }
             {
               title = "^Endfield$";
-              app-id = "^steam_app";
+              # app-id = "^steam_app";
             }
           ];
           open-floating = false;
@@ -32,12 +43,12 @@
           matches = [
             {
               title = "^EFTool$";
-              app-id = "^steam_app";
+              # app-id = "^steam_app";
               # is-floating = true;
             }
             {
               title = "^其他选项$";
-              app-id = "^steam_app";
+              # app-id = "^steam_app";
               # is-floating = true;
             }
           ];
@@ -52,8 +63,13 @@
               # is-floating = true;
             }
             {
-              title = "鹰角启动器$";
-              app-id = "^steam_app";
+              title = "^$";
+              app-id = "^explorer.exe$";
+              # is-floating = true;
+            }
+            {
+              title = "^鹰角启动器$";
+              # app-id = "^steam_app";
               # is-floating = true;
             }
           ];

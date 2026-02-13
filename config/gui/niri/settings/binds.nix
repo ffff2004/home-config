@@ -5,6 +5,9 @@
     with config.lib.niri.actions;
     let
       inherit (lib) mkDefault;
+      spawnSplit = cmd: {
+        spawn = lib.splitString " " cmd;
+      };
     in
     {
       # Hotkey overlay
@@ -21,11 +24,11 @@
       };
 
       # Screen reader toggle
-      "Super+Alt+S" = mkDefault {
-        action = spawn-sh "pkill orca || exec orca";
-        allow-when-locked = true;
-        hotkey-overlay.hidden = true;
-      };
+      # "Super+Alt+S" = mkDefault {
+      #   action = spawn-sh "pkill orca || exec orca";
+      #   allow-when-locked = true;
+      #   hotkey-overlay.hidden = true;
+      # };
 
       # Overview toggle
       "Mod+Tab" = mkDefault {
@@ -195,29 +198,31 @@
       };
 
       "XF86AudioRaiseVolume" = mkDefault {
-        action = spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
+        action = spawnSplit "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
         allow-when-locked = true;
       };
       "XF86AudioLowerVolume" = mkDefault {
-        action = spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
+        action = spawnSplit "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
         allow-when-locked = true;
       };
       "XF86AudioMute" = mkDefault {
-        action = spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        action = spawnSplit "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         allow-when-locked = true;
       };
       "XF86AudioMicMute" = mkDefault {
-        action = spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+        action = spawnSplit "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
         allow-when-locked = true;
       };
 
       "XF86MonBrightnessUp" = mkDefault {
-        action = spawn "brightnessctl" "--class=backlight" "set" "2%+" "-d" "intel_backlight";
+        action = spawnSplit "brightnessctl --class=backlight set 2%+ -d intel_backlight";
         allow-when-locked = true;
       };
       "XF86MonBrightnessDown" = mkDefault {
-        action = spawn "brightnessctl" "--class=backlight" "set" "2%-" "-d" "intel_backlight";
+        action = spawnSplit "brightnessctl --class=backlight set 2%- -d intel_backlight";
         allow-when-locked = true;
       };
+
+      "XF86Calculator".action = mkDefault (spawnSplit "xdg-terminal-exec python");
     };
 }

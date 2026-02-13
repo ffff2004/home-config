@@ -5,15 +5,15 @@
       app-id = "^firefox$";
     in
     [
-      {
-        matches = [
-          {
-            inherit app-id;
-            title = "^Picture-in-Picture|画中画$";
-          }
-        ];
-        open-floating = true;
-      }
+      # {
+      #   matches = [
+      #     {
+      #       inherit app-id;
+      #       title = "^Picture-in-Picture|画中画$";
+      #     }
+      #   ];
+      #   open-floating = true;
+      # }
 
       {
         matches = [
@@ -25,7 +25,7 @@
             is-floating = true;
           }
           {
-            title = "^文件上传 - ";
+            title = "文件";
           }
         ];
         default-column-width.proportion = 2. / 3;
@@ -35,7 +35,11 @@
         matches = [
           {
             inherit app-id;
-            title = "^文件上传 - ";
+          }
+        ];
+        excludes = [
+          {
+            title = "密码";
           }
         ];
         open-floating = false;
