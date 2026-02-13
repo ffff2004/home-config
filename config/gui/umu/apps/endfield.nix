@@ -18,7 +18,6 @@ let
     gameId = "yj";
     umu-launcher-wrapper = config.umu.eval.packages.dw-wl;
     preCmd = "${lib.getExe pkgs.wlr-randr} --output eDP-1 --scale 1";
-    wrapperCmd = "env PROTON_DXVK_GPLASYNC=1 WINE_CANONICAL_HOLE=skip_volatile_check";
     postCmd = "${lib.getExe pkgs.wlr-randr} --output eDP-1 --scale 1.5";
   };
 in
