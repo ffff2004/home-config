@@ -21,6 +21,6 @@
   };
   home.packages = lib.mkIf config.programs.noctalia-shell.enable [
     pkgs.app2unit
-    pkgsFrom.matugen.default
+    # pkgsFrom.matugen.default
   ];
 }

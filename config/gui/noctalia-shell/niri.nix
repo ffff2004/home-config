@@ -10,84 +10,83 @@ lib.mkIf config.programs.noctalia-shell.enable {
   programs.niri.settings = {
     binds =
       let
-        noctalia =
-          cmd:
-          [
+        noctalia = cmd: {
+          spawn = [
             (lib.getExe config.programs.noctalia-shell.package)
             "ipc"
             "call"
           ]
           ++ lib.splitString " " cmd;
+        };
       in
       {
         # Core Noctalia
         "Mod+S" = {
-          action.spawn = noctalia "controlCenter toggle";
+          action = noctalia "controlCenter toggle";
           hotkey-overlay.title = "Noctalia ControlCenter";
         };
         "Mod+Comma" = {
-          action.spawn = noctalia "settings toggle";
+          action = noctalia "settings toggle";
           hotkey-overlay.title = "Noctalia Settings";
         };
 
         # Audio
         "XF86AudioRaiseVolume" = {
-          action.spawn = noctalia "volume increase";
+          action = noctalia "volume increase";
           allow-when-locked = true;
         };
         "XF86AudioLowerVolume" = {
-          action.spawn = noctalia "volume decrease";
+          action = noctalia "volume decrease";
           allow-when-locked = true;
         };
         "XF86AudioMute" = {
-          action.spawn = noctalia "volume muteOutput";
+          action = noctalia "volume muteOutput";
           allow-when-locked = true;
         };
         "XF86AudioMicMute" = {
-          action.spawn = noctalia "volume muteInput";
+          action = noctalia "volume muteInput";
           allow-when-locked = true;
         };
 
         # Media
         "XF86AudioPlay" = {
-          action.spawn = noctalia "media playPause";
+          action = noctalia "media playPause";
           allow-when-locked = true;
         };
         "XF86AudioStop" = {
-          action.spawn = noctalia "media pause";
+          action = noctalia "media pause";
           allow-when-locked = true;
         };
         "XF86AudioNext" = {
-          action.spawn = noctalia "media next";
+          action = noctalia "media next";
           allow-when-locked = true;
         };
         "XF86AudioPrev" = {
-          action.spawn = noctalia "media previous";
+          action = noctalia "media previous";
           allow-when-locked = true;
         };
 
         # # Brightness
         # "XF86MonBrightnessUp" =  {
-        #   action.spawn = noctalia "brightness increase";
+        #   action = noctalia "brightness increase";
         #   allow-when-locked = true;
         # };
         # "XF86MonBrightnessDown" =  {
-        #   action.spawn = noctalia "brightness decrease";
+        #   action = noctalia "brightness decrease";
         #   allow-when-locked = true;
         # };
 
         # Utilities
         "Mod+V" = {
-          action.spawn = noctalia "launcher clipboard";
+          action = noctalia "launcher clipboard";
           hotkey-overlay.title = "Noctalia Clipboard History";
         };
-        "XF86Calculator".action.spawn = noctalia "launcher calculator";
         # "Super+L" = {
-        #   action.spawn = noctalia "lockScreen lock";
+        #   action = noctalia "lockScreen lock";
         #   hotkey-overlay.title = "Lock the Screen";
         # };
         "Mod+Space" = {
-          action.spawn = noctalia "launcher toggle";
+          action = noctalia "launcher toggle";
           hotkey-overlay.title = "Noctalia Launcher";
         };
       };
