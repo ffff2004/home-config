@@ -150,8 +150,12 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     # fi
 
     # 启动MAA
-    if ! $maa_cmd; then
-        zenity --error --title="MAA" --text="MAA出现错误"
+    $maa_cmd
+    exit_code=$?
+
+    if [ $exit_code -ne 0 ]; then
+        zenity --error --title="MAA" --text="MAA 出现错误\n错误码: $exit_code"
+        exit $exit_code
     fi
 
     # 重置分辨率

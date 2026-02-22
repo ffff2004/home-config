@@ -49,7 +49,9 @@
         cat > "$out/bin/${name}" <<'EOF99999999999'
         #!${pkgs.stdenvNoCC.shell}
         ${preCmd}
-        ${wrapperCmd} env GAMEID=${gameId} "${lib.getExe umu-launcher-wrapper}" "${bin}"
+        ${if postCmd == "" then "exec " else ""}${
+          if wrapperCmd != "" then "${wrapperCmd} " else ""
+        }env GAMEID=${gameId} "${lib.getExe umu-launcher-wrapper}" "${bin}"
         ${postCmd}
         EOF99999999999
 

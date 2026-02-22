@@ -8,7 +8,7 @@ let
     bin = "W:/wine/Hypergryph Launcher/games/Arknights Game/Arknights.exe";
     name = "arknights";
     desktopName = "Arknights";
-    description = "明日方舟";
+    description = "明日方舟 (PC版)";
     icon = pkgs.fetchurl {
       url = "https://bbs.hycdn.cn/asset/rhodes_island.png";
       hash = "sha256-9cTD1clBvKjENVIPf+0DMJw27+pdaJQUtQufj21ehCY=";
