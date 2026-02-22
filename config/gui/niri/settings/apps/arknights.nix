@@ -16,10 +16,16 @@
           matches = [
             {
               title = "^明日方舟$";
-              # app-id = "^steam_app";
+              app-id = "^steam_app|arknights.exe";
+            }
+            {
+              title = "^Form$";
+              app-id = "^platformprocess.exe$";
+              # is-floating = true;
             }
           ];
           open-floating = false;
+          open-fullscreen = true;
           open-on-workspace = workspace;
         }
 
@@ -32,7 +38,7 @@
             }
             {
               title = "^Endfield$";
-              # app-id = "^steam_app";
+              app-id = "^steam_app|^Endfield.exe$";
             }
           ];
           open-floating = false;
@@ -42,13 +48,8 @@
         {
           matches = [
             {
-              title = "^EFTool$";
-              # app-id = "^steam_app";
-              # is-floating = true;
-            }
-            {
-              title = "^其他选项$";
-              # app-id = "^steam_app";
+              title = "^EFTool$|^其他选项$";
+              app-id = "^steam_app|^eftool.exe$";
               # is-floating = true;
             }
           ];

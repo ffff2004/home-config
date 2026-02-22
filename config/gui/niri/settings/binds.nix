@@ -56,9 +56,15 @@
 
       # Move window/column
       "Mod+Ctrl+Left".action = mkDefault move-column-left;
-      "Mod+Ctrl+Down".action = mkDefault move-window-down;
-      "Mod+Ctrl+Up".action = mkDefault move-window-up;
       "Mod+Ctrl+Right".action = mkDefault move-column-right;
+      # "Mod+Ctrl+Down".action = mkDefault move-window-down;
+      # "Mod+Ctrl+Up".action = mkDefault move-window-up;
+      # "Mod+Ctrl+Page_Down".action = mkDefault move-column-to-workspace-down;
+      # "Mod+Ctrl+Page_Up".action = mkDefault move-column-to-workspace-up;
+      "Mod+Ctrl+Down".action = mkDefault move-column-to-workspace-down;
+      "Mod+Ctrl+Up".action = mkDefault move-column-to-workspace-up;
+      "Mod+Ctrl+U".action = mkDefault move-column-to-workspace-down;
+      "Mod+Ctrl+I".action = mkDefault move-column-to-workspace-up;
 
       # First/Last column
       "Mod+Home".action = mkDefault focus-column-first;
@@ -83,10 +89,6 @@
       "Mod+Page_Up".action = mkDefault focus-workspace-up;
       "Mod+U".action = mkDefault focus-workspace-down;
       "Mod+I".action = mkDefault focus-workspace-up;
-      "Mod+Ctrl+Page_Down".action = mkDefault move-column-to-workspace-down;
-      "Mod+Ctrl+Page_Up".action = mkDefault move-column-to-workspace-up;
-      "Mod+Ctrl+U".action = mkDefault move-column-to-workspace-down;
-      "Mod+Ctrl+I".action = mkDefault move-column-to-workspace-up;
 
       # Move whole workspace
       "Mod+Shift+Page_Down".action = mkDefault move-workspace-down;
