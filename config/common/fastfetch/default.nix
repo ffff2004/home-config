@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, localLib, ... }:
 let
   pkg = pkgs.fastfetch;
 in
@@ -6,7 +6,5 @@ in
   home.packages = [
     pkg
   ];
-  home.file.".config/fastfetch/config.jsonc".text = lib.replaceString "\"logo\": {" ''
-    "logo": {
-      "type": "small",'' (builtins.readFile "${pkg}/share/fastfetch/presets/examples/7.jsonc");
+  home.file.".config/fastfetch/config.jsonc".source = localLib.mkSymlinkToSource ./config.jsonc;
 }
