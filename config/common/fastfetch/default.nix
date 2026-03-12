@@ -6,5 +6,5 @@ in
   home.packages = [
     pkg
   ];
-  home.file.".config/fastfetch/config.jsonc".source = localLib.mkSymlinkToSource ./config.jsonc;
+  xdg.configFile."fastfetch/config.jsonc".source = localLib.mkSymlinkToSource ./config.jsonc;
 }
