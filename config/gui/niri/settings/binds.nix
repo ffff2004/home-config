@@ -16,11 +16,18 @@
       # Program launchers
       "Mod+T" = mkDefault {
         action = spawn "xdg-terminal-exec";
+        repeat = false;
         hotkey-overlay.title = "Open a Terminal";
       };
       "Mod+Space" = mkDefault {
         action = spawn "fuzzel";
+        repeat = false;
         hotkey-overlay.title = "Run an Application: fuzzel";
+      };
+
+      "XF86Calculator" = {
+        action = mkDefault (spawnSplit "xdg-terminal-exec python");
+        repeat = false;
       };
 
       # Screen reader toggle
@@ -196,6 +203,7 @@
 
       "Super+L" = mkDefault {
         action = spawn "swaylock";
+        repeat = false;
         hotkey-overlay.title = "Lock the Screen: swaylock";
       };
 
@@ -209,10 +217,12 @@
       };
       "XF86AudioMute" = mkDefault {
         action = spawnSplit "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        repeat = false;
         allow-when-locked = true;
       };
       "XF86AudioMicMute" = mkDefault {
         action = spawnSplit "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+        repeat = false;
         allow-when-locked = true;
       };
 
@@ -224,7 +234,5 @@
         action = spawnSplit "brightnessctl --class=backlight set 2%- -d intel_backlight";
         allow-when-locked = true;
       };
-
-      "XF86Calculator".action = mkDefault (spawnSplit "xdg-terminal-exec python");
     };
 }

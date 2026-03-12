@@ -24,10 +24,12 @@ lib.mkIf config.programs.noctalia-shell.enable {
         "Mod+S" = {
           action = noctalia "controlCenter toggle";
           hotkey-overlay.title = "Noctalia ControlCenter";
+          repeat = false;
         };
         "Mod+Comma" = {
           action = noctalia "settings toggle";
           hotkey-overlay.title = "Noctalia Settings";
+          repeat = false;
         };
 
         # Audio
@@ -42,28 +44,34 @@ lib.mkIf config.programs.noctalia-shell.enable {
         "XF86AudioMute" = {
           action = noctalia "volume muteOutput";
           allow-when-locked = true;
+          repeat = false;
         };
         "XF86AudioMicMute" = {
           action = noctalia "volume muteInput";
           allow-when-locked = true;
+          repeat = false;
         };
 
         # Media
         "XF86AudioPlay" = {
           action = noctalia "media playPause";
           allow-when-locked = true;
+          repeat = false;
         };
         "XF86AudioStop" = {
           action = noctalia "media pause";
           allow-when-locked = true;
+          repeat = false;
         };
         "XF86AudioNext" = {
           action = noctalia "media next";
           allow-when-locked = true;
+          repeat = false;
         };
         "XF86AudioPrev" = {
           action = noctalia "media previous";
           allow-when-locked = true;
+          repeat = false;
         };
 
         # # Brightness
@@ -80,14 +88,17 @@ lib.mkIf config.programs.noctalia-shell.enable {
         "Mod+V" = {
           action = noctalia "launcher clipboard";
           hotkey-overlay.title = "Noctalia Clipboard History";
+          repeat = false;
         };
         # "Super+L" = {
         #   action = noctalia "lockScreen lock";
         #   hotkey-overlay.title = "Lock the Screen";
+        #   repeat = false;
         # };
         "Mod+Space" = {
           action = noctalia "launcher toggle";
           hotkey-overlay.title = "Noctalia Launcher";
+          repeat = false;
         };
       };
 
