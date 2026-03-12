@@ -59,16 +59,6 @@
         {
           matches = [
             {
-              title = "^$";
-              app-id = "^steam_app";
-              # is-floating = true;
-            }
-            {
-              title = "^$";
-              app-id = "^explorer.exe$";
-              # is-floating = true;
-            }
-            {
               title = "^鹰角启动器$";
               # app-id = "^steam_app";
               # is-floating = true;

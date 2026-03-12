@@ -11,6 +11,7 @@
   programs.niri.settings.binds = with config.lib.niri.actions; {
     "Mod+C" = {
       action = spawn "code";
+      repeat = false;
       hotkey-overlay.title = "Run an Application: Visual Studio Code";
     };
   };

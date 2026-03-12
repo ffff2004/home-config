@@ -4,14 +4,14 @@
       {
         matches = [
           { title = "^Minecraft"; }
-          { app-id = "org.jackhuang.hmcl.Launcher"; }
-          { app-id = "org.prismlauncher.PrismLauncher"; }
+          { app-id = "^org.jackhuang.hmcl.Launcher$"; }
+          { app-id = "^org.prismlauncher.PrismLauncher$"; }
         ];
         open-on-workspace = "mc";
       }
       {
         matches = [
-          { app-id = "org.prismlauncher.PrismLauncher"; }
+          { app-id = "^org.prismlauncher.PrismLauncher$"; }
         ];
         open-floating = false;
       }

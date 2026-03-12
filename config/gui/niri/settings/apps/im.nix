@@ -14,11 +14,11 @@
         matches = [
           {
             app-id = "^wechat$";
-            title = "^Settings$";
+            title = "^Settings$|^设置$";
           }
           {
             app-id = "^wechat$";
-            title = "^设置$";
+            title = "^微信$";
           }
         ];
         open-floating = false;

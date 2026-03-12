@@ -28,7 +28,7 @@
             title = "文件";
           }
         ];
-        default-column-width.proportion = 2. / 3;
+        default-column-width.proportion = .75;
       }
 
       {
@@ -49,6 +49,7 @@
   programs.niri.settings.binds = with config.lib.niri.actions; {
     "Mod+B" = {
       action = spawn "firefox";
+      repeat = false;
       hotkey-overlay.title = "Run an Application: Firefox";
     };
   };
