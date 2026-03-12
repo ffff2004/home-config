@@ -3,6 +3,8 @@
 EnumerateWithTriggerKeys=False
 # Temporarily Toggle Input Method
 AltTriggerKeys=
+# Enumerate Input Method Forward
+EnumerateForwardKeys=
 # Enumerate Input Method Backward
 EnumerateBackwardKeys=
 # Skip first input method while enumerating
@@ -11,7 +13,7 @@ EnumerateSkipFirst=False
 ModifierOnlyKeyTimeout=250
 
 [Hotkey/TriggerKeys]
-0=Shift+space
+0=Control+space
 1=Zenkaku_Hankaku
 2=Hangul
 
@@ -20,9 +22,6 @@ ModifierOnlyKeyTimeout=250
 
 [Hotkey/DeactivateKeys]
 0=Hangul_Romaja
-
-[Hotkey/EnumerateForwardKeys]
-0=Control+space
 
 [Hotkey/EnumerateGroupForwardKeys]
 0=Control+Super+space

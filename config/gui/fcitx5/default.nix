@@ -32,5 +32,5 @@ in
       }
     )
   );
-  home.sessionVariables.QT_IM_MODULE = lib.mkIf enable "fcitx";
+  # home.sessionVariables = lib.mkIf enable { QT_IM_MODULES = "wayland;fcitx"; };
 }

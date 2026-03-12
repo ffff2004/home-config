@@ -1,10 +1,10 @@
 [Groups/0]
 # Group Name
-Name=Gaming
+Name=Default
 # Layout
 Default Layout=us
 # Default Input Method
-DefaultIM=keyboard-us
+DefaultIM=pinyin
 
 [Groups/0/Items/0]
 # Name
@@ -12,29 +12,29 @@ Name=keyboard-us
 # Layout
 Layout=
 
-[Groups/1]
-# Group Name
-Name=Default
-# Layout
-Default Layout=us
-# Default Input Method
-DefaultIM=pinyin
-
-[Groups/1/Items/0]
-# Name
-Name=keyboard-us
-# Layout
-Layout=
-
-[Groups/1/Items/1]
+[Groups/0/Items/1]
 # Name
 Name=pinyin
 # Layout
 Layout=
 
-[Groups/1/Items/2]
+[Groups/0/Items/2]
 # Name
 Name=mozc
+# Layout
+Layout=
+
+[Groups/1]
+# Group Name
+Name=Gaming
+# Layout
+Default Layout=us
+# Default Input Method
+DefaultIM=keyboard-us
+
+[Groups/1/Items/0]
+# Name
+Name=keyboard-us
 # Layout
 Layout=
 
