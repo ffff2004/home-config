@@ -32,6 +32,39 @@ in
         };
         opacity = opacity;
       };
+      hints = {
+        enabled = [
+          {
+            command = "xdg-open";
+            hyperlinks = true;
+            post_processing = true;
+            persist = false;
+            mouse = {
+              mods = "Control";
+              enabled = true;
+            };
+            binding = {
+              key = "O";
+              mods = "Control|Shift";
+            };
+            regex = ''(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>"\\s{-}\\^⟨⟩`\\\\]+'';
+          }
+          {
+            command = "code";
+            post_processing = true;
+            persist = false;
+            mouse = {
+              mods = "Control";
+              enabled = true;
+            };
+            binding = {
+              key = "E";
+              mods = "Control|Shift";
+            };
+            regex = ''(\\/[\\.\\w-]+)+(.[a-zA-Z]+?)'';
+          }
+        ];
+      };
     };
   };
   programs.kitty = {
