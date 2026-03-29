@@ -15,4 +15,10 @@
   #
   #  /etc/profiles/per-user/fym/etc/profile.d/hm-session-vars.sh
   #
+  home.sessionSearchVariables = {
+    PATH = [
+      "$HOME/.local/bin"
+      "$HOME/.local/sbin"
+    ];
+  };
 }
