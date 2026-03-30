@@ -1,14 +1,18 @@
 {
-  config,
   lib,
   localLib,
   pkgs,
   ...
 }:
-{
-  programs.uv.enable = true;
-  home.packages = [ (pkgs.writeShellScriptBin "nix-py" (builtins.readFile ./nix-py.sh)) ];
-}
-// lib.mkIf config.programs.uv.enable {
+let
+  enable = true;
+in
+lib.mkIf enable {
   xdg.configFile."uv/uv.toml".source = localLib.mkSymlinkToSource ./uv.toml;
+  home = {
+    packages = [
+      pkgs.uv
+      (pkgs.writeShellScriptBin "nix-py" (builtins.readFile ./nix-py.sh))
+    ];
+  };
 }

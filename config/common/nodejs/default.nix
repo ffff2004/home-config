@@ -1,12 +1,15 @@
 {
-  config,
   lib,
   localLib,
+  pkgs,
   ...
 }:
-{
-  programs.npm.enable = true;
-}
-// lib.mkIf config.programs.npm.enable {
-  home.file.".npmrc".source = localLib.mkSymlinkToSource ./npmrc;
+let
+  enable = true;
+in
+lib.mkIf enable {
+  home = {
+    packages = [ pkgs.nodejs ];
+    file.".npmrc".source = localLib.mkSymlinkToSource ./npmrc;
+  };
 }
