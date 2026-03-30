@@ -74,15 +74,15 @@ lib.mkIf config.programs.noctalia-shell.enable {
           repeat = false;
         };
 
-        # # Brightness
-        # "XF86MonBrightnessUp" =  {
-        #   action = noctalia "brightness increase";
-        #   allow-when-locked = true;
-        # };
-        # "XF86MonBrightnessDown" =  {
-        #   action = noctalia "brightness decrease";
-        #   allow-when-locked = true;
-        # };
+        # Brightness
+        "XF86MonBrightnessUp" = {
+          action = noctalia "brightness increase";
+          allow-when-locked = true;
+        };
+        "XF86MonBrightnessDown" = {
+          action = noctalia "brightness decrease";
+          allow-when-locked = true;
+        };
 
         # Utilities
         "Mod+V" = {

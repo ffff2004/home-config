@@ -17,7 +17,6 @@
         "overviewLayer": false,
         "pinnedApps": [
             "firefox",
-            "footclient",
             "Alacritty"
         ],
         "position": "center",
@@ -48,7 +47,7 @@
         "capsuleColorKey": "none",
         "capsuleOpacity": 1,
         "contentPadding": 0,
-        "density": "comfortable",
+        "density": "default",
         "displayMode": "always_visible",
         "floating": false,
         "fontScale": 1,
@@ -136,7 +135,7 @@
                     "showDiskUsageAsPercent": false,
                     "showGpuTemp": false,
                     "showLoadAverage": false,
-                    "showMemoryAsPercent": false,
+                    "showMemoryAsPercent": true,
                     "showMemoryUsage": true,
                     "showNetworkStats": false,
                     "showSwapUsage": false,
@@ -162,13 +161,6 @@
                     "textColor": "none",
                     "useFixedWidth": false,
                     "visualizerType": "linear"
-                },
-                {
-                    "defaultSettings": {
-                        "hideBackground": false,
-                        "minimumThreshold": 10
-                    },
-                    "id": "plugin:catwalk"
                 }
             ],
             "right": [
@@ -215,7 +207,8 @@
                         "钉钉",
                         "微信",
                         "fj3-PiymmW",
-                        "mGy6FDIApw"
+                        "mGy6FDIApw",
+                        "com.alibabainc.dingtalk"
                     ]
                 },
                 {
@@ -259,6 +252,10 @@
     },
     "brightness": {
         "backlightDeviceMappings": [
+            {
+                "device": "/sys/class/backlight/intel_backlight",
+                "output": "eDP-1"
+            }
         ],
         "brightnessStep": 2,
         "enableDdcSupport": false,
@@ -373,17 +370,6 @@
                         "showBackground": true,
                         "x": 230,
                         "y": 46
-                    },
-                    {
-                        "defaultSettings": {
-                            "hideBackground": false,
-                            "minimumThreshold": 10
-                        },
-                        "id": "plugin:catwalk",
-                        "scale": 1,
-                        "showBackground": true,
-                        "x": 46,
-                        "y": 230
                     }
                 ]
             }
@@ -467,7 +453,7 @@
                 "Up"
             ]
         },
-        "language": "en",
+        "language": "zh-CN",
         "lockOnSuspend": false,
         "lockScreenAnimations": false,
         "lockScreenBlur": 0,
@@ -480,9 +466,9 @@
         "reverseScroll": false,
         "scaleRatio": 1,
         "screenRadiusRatio": 1,
-        "shadowDirection": "bottom_right",
-        "shadowOffsetX": 2,
-        "shadowOffsetY": 3,
+        "shadowDirection": "center",
+        "shadowOffsetX": 0,
+        "shadowOffsetY": 0,
         "showChangelogOnStartup": true,
         "showHibernateOnLockScreen": false,
         "showScreenCorners": false,
@@ -532,7 +518,7 @@
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "nightTemp": "5520"
+        "nightTemp": "5645"
     },
     "notifications": {
         "backgroundOpacity": 1,
@@ -583,7 +569,7 @@
         "overlayLayer": true
     },
     "plugins": {
-        "autoUpdate": false
+        "autoUpdate": true
     },
     "sessionMenu": {
         "countdownDuration": 10000,
@@ -698,6 +684,10 @@
             {
                 "enabled": true,
                 "id": "gtk"
+            },
+            {
+                "enabled": true,
+                "id": "btop"
             }
         ],
         "enableUserTheming": true
@@ -743,7 +733,7 @@
         "overviewEnabled": false,
         "overviewTint": 0.6,
         "panelPosition": "follow_bar",
-        "randomIntervalSec": 5400,
+        "randomIntervalSec": 7200,
         "setWallpaperOnAllMonitors": true,
         "showHiddenFiles": false,
         "skipStartupTransition": false,
@@ -765,6 +755,6 @@
         "wallhavenResolutionMode": "atleast",
         "wallhavenResolutionWidth": "",
         "wallhavenSorting": "date_added",
-        "wallpaperChangeMode": "random"
+        "wallpaperChangeMode": "alphabetical"
     }
 }
