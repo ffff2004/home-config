@@ -1,7 +1,7 @@
 { pkgs, pkgsFrom, ... }:
 {
-  home.packages =
-    (builtins.attrValues {
+  home.packages = (
+    builtins.attrValues {
       inherit (pkgs)
         gh
 
@@ -22,9 +22,7 @@
         android-tools
         ;
 
-      inherit (pkgsFrom.fym998-nur) bitsrun-rs;
-    })
-    ++ [
-      (pkgs.writeShellScriptBin "nix-py" (builtins.readFile ./nix-py.sh))
-    ];
+      # inherit (pkgsFrom.fym998-nur) bitsrun-rs;
+    }
+  );
 }

@@ -1,0 +1,7 @@
+python-downloads = "manual"
+python-preference = "system"
+
+
+[[index]]
+url = "https://mirrors.cernet.edu.cn/pypi/web/simple/"
+default = true
