@@ -11,5 +11,6 @@ lib.mkIf enable {
   home = {
     packages = [ pkgs.nodejs ];
     file.".npmrc".source = localLib.mkSymlinkToSource ./.npmrc;
+    sessionSearchVariables.PATH = [ "$HOME/.npm-global/bin" ];
   };
 }
