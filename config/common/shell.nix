@@ -16,9 +16,9 @@
     "hmb" = "home-manager build";
     "hmbo" = "home-manager build --option substitute false";
     "soft-reboot" = "systemctl soft-reboot";
-    "wdsestop" = "waydroid session stop";
-    "wdsestart" = "waydroid session start";
-    "wdalaunch" = "waydroid app launch";
-    "wdstatus" = "waydroid status";
+    "waydsestop" = "waydroid session stop";
+    "waydsestart" = "waydroid session start";
+    "waydalaunch" = "waydroid app launch";
+    "waydstatus" = "waydroid status";
   };
 }
