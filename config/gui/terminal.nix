@@ -50,7 +50,13 @@ in
             regex = ''(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>"\\s{-}\\^⟨⟩`\\\\]+'';
           }
           {
-            command = "code";
+            command = {
+              program = "alacritty";
+              args = [
+                "-e"
+                "nvim"
+              ];
+            };
             post_processing = true;
             persist = false;
             mouse = {
@@ -61,7 +67,7 @@ in
               key = "E";
               mods = "Control|Shift";
             };
-            regex = ''(\\/[\\.\\w-]+)+(.[a-zA-Z]+?)'';
+            regex = ''\\/[\\w\\.\\/-]*'';
           }
         ];
       };
