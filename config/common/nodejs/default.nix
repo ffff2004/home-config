@@ -10,6 +10,6 @@ in
 lib.mkIf enable {
   home = {
     packages = [ pkgs.nodejs ];
-    file.".npmrc".source = localLib.mkSymlinkToSource ./npmrc;
+    file.".npmrc".source = localLib.mkSymlinkToSource ./.npmrc;
   };
 }
