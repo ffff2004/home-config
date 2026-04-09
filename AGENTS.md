@@ -40,8 +40,10 @@ This workspace manages a Home Manager setup for user fym, centered on flake.nix 
 - config/common/shell.nix
 - config/common/home-manager.nix
 - config/gui/fcitx5/default.nix
+- README.md
 
 ## Agent Behavior In This Repo
 - Make minimal edits that match existing module structure.
 - Do not introduce broad refactors unless explicitly asked.
 - If a requested change may affect module loading behavior, verify import paths and lsSubmodule implications first.
+- Read README.md when a task spans multiple directories, needs module ownership context, or requires quick project orientation; skip it for clear single-file edits.
