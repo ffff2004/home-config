@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nix Eval"
+  short_description: "Evaluate Nix expressions and flake outputs"
+  default_prompt: "Use $nix-eval to inspect a Nix expression, flake output, or merged configuration value."

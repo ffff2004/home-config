@@ -1,0 +1,4 @@
+interface:
+  display_name: "Home Manager Docs"
+  short_description: "Query local Home Manager docs fast"
+  default_prompt: "Use $home-manager-docs to answer questions from the local Home Manager manual and options index."
