@@ -67,7 +67,7 @@ in
           compatibilityToolsPath = "$HOME/.local/share/Steam/compatibilitytools.d";
           gePath = "${compatibilityToolsPath}/Proton-GE Latest";
           dwPath = "${compatibilityToolsPath}/dwproton";
-          igpu_vk_icd_filenames = "/usr/share/vulkan/icd.d/intel_icd.x86_64.json";
+          igpu_vk_icd_filenames = "/usr/share/vulkan/icd.d/intel_icd.json";
         in
         rec {
           dw = {
