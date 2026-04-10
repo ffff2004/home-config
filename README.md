@@ -111,6 +111,8 @@
 
 ## 4. 其他有用信息
 
+提交信息约定见 [COMMIT_CONVENTIONS.md](COMMIT_CONVENTIONS.md)。
+
 ### 4.1 常用命令
 
 ```bash
