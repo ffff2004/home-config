@@ -113,10 +113,10 @@
 
 提交信息约定见 [COMMIT_CONVENTIONS.md](COMMIT_CONVENTIONS.md)。
 
-### 4.1 常用命令
+### 4.1 构建和求值
 
 ```bash
-# 仅改配置、未新增包时，推荐：跳过 substitute 查询以节省时间
+# 仅改配置、未新增包时，推荐：跳过 Nix binary cache 查询以节省时间
 home-manager build --option substitute false
 
 # 常规构建
@@ -137,6 +137,8 @@ hmbo  # home-manager build --option substitute false
 hms   # home-manager switch -b hmbak
 hmso  # home-manager switch -b hmbak --option substitute false
 ```
+
+求值：使用 `nix eval` 或 `nix repl` 直接查询 flake 输出 (nix-eval skill)。
 
 ### 4.2 维护约定
 
