@@ -28,7 +28,7 @@ Keep modules focused. Put generic helpers in `lib/`, Home Manager options in `mo
 
 ## Testing Guidelines
 
-There is no separate unit-test suite in this repository. Start with the `nix-eval` skill to do fast, read-only checks of syntax, affected flake attribute paths, and final option values. After that passes, run `home-manager build` as the main validation step. Use `home-manager build --option substitute false` when you only changed local configuration and want to skip binary cache substitute lookups for a faster build. If the change affects generated files, services, desktop entries, or wrappers, verify those outputs explicitly; if behavior changes, confirm on the target machine with `home-manager switch -b hmbak`.
+There is no separate unit-test suite in this repository. Start with the `nix-eval` skill to do fast, read-only checks of syntax, affected flake attribute paths, and final option values. After that passes, run `home-manager build` as the main validation step. Use `home-manager build --option substitute false` when you only changed local configuration and want to skip binary cache substitute lookups for a faster build. If the change affects generated files, services, desktop entries, or wrappers, verify those outputs in `result/` explicitly; if behavior changes, confirm on the target machine with `home-manager switch -b hmbak`.
 
 ## Commit & Pull Request Guidelines
 
