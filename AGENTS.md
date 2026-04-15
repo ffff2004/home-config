@@ -1,53 +1,37 @@
-# Project Guidelines
+# Repository Guidelines
 
-## Scope
-This workspace manages a Home Manager setup for user fym, centered on flake.nix and modular Nix files under config/, lib/, and modules/.
+## Project Structure & Module Organization
 
-## Code Style
-- Use 2-space indentation in Nix files, matching .editorconfig.
-- Keep default.nix files as module entry points that aggregate imports.
-- Prefer concise let bindings and inherit for readability when values are already in scope.
-- Keep comments short and only for non-obvious behavior.
+This repository manages a Home Manager configuration with a flake-based, modular layout. `flake.nix` defines `homeConfigurations.fym` and injects `localLib` helpers. Main configuration modules live under `config/`: `config/common` covers shell, Git, Nix, editors, and CLI tools; `config/gui` covers desktop, input, Niri, Noctalia, and UMU app wrappers. Shared helper functions live in `lib/`, and reusable Home Manager modules live in `modules/`.
 
-## Architecture
-- Entry point is flake.nix, which defines inputs, localLib, and homeConfigurations.fym.
-- Main module graph starts at config/default.nix and modules/default.nix.
-- Auto-import behavior is implemented in lib/ls.nix via lsSubmodule; this is a core repository pattern.
-- Source-linked config files are handled by localLib.mkSymlinkToSource from lib/to-source-path.nix.
-- GUI-specific modules are under config/gui/, while shared modules are under config/common/.
+Prefer adding a `default.nix` in new directories and importing submodules through `imports = localLib.lsSubmodule ./.` rather than manually enumerating files.
 
-## Build And Validation
-- Preferred quick validation before proposing changes: home-manager build.
-- When only configuration files are changed (no package additions), prefer: home-manager build --option substitute false.
-- The substitute=false option skips querying binary caches and can save validation time for config-only edits.
-- Apply changes with backup when requested: home-manager switch -b hmbak.
-- Local shell aliases may exist (hmb, hmbo, hms, hmso) in config/common/shell.nix; do not assume aliases are available in non-interactive environments.
-- Format Nix changes with nixfmt when available.
+Prefer source-link config files by localLib.mkSymlinkToSource. For large config trees (for example fcitx5 config files), follow existing patterns that map files with localLib.lsFileRecursively and localLib.mkSymlinkToSource.
 
-## Conventions
-- Preserve the recursive import convention:
-  - default.nix in module directories usually contains imports = localLib.lsSubmodule ./.
-- When adding a new module directory, include a default.nix that participates in the same import pattern.
-- Avoid changing home.stateVersion unless explicitly requested.
-- Prefer placing shared logic in lib/ and consuming it from modules, instead of duplicating expressions.
-- For large generated config trees (for example fcitx5 config files), follow existing patterns that map files with localLib.lsFileRecursively and localLib.mkSymlinkToSource.
+## Build, Test, and Development Commands
 
-## Key References
-- flake.nix
-- lib/ls.nix
-- lib/to-source-path.nix
-- config/default.nix
-- config/common/shell.nix
-- config/common/home-manager.nix
-- config/gui/fcitx5/default.nix
-- README.md
+Run commands from the repository root:
 
-## Agent Behavior In This Repo
-- Make minimal edits that match existing module structure.
-- Do not introduce broad refactors unless explicitly asked.
-- If a requested change may affect module loading behavior, verify import paths and lsSubmodule implications first.
-- When a module change affects responsibilities, structure, entry points, or user-facing behavior, update the related documentation (typically README.md) in the same change.
-- Prefer commit messages that follow the repository convention documented in COMMIT_CONVENTIONS.md.
-- Read README.md when a task spans multiple directories, needs module ownership context, or requires quick project orientation; skip it for clear single-file edits.
-- For Nix query tasks, prefer the local [nix-eval](.agents/skills/nix-eval/SKILL.md) skill's workflow over ad-hoc commands when the goal is to inspect flake outputs, merged config values, option values, package attributes, or attrset structure.
-- In those Nix query cases, prefer read-only `nix eval` / `nix repl`, choose `--json` or `--raw` deliberately, and avoid suppressing stderr unless silence is specifically useful for probing.
+```bash
+home-manager build
+home-manager build --option substitute false
+home-manager switch -b hmbak
+```
+
+Use the `nix-eval` skill for read-only evaluation of flake outputs and final option values. `home-manager build` is the main validation step, `build --option substitute false` is the faster path for local-only changes, and `switch -b hmbak` applies the result with a backup.
+
+## Coding Style & Naming Conventions
+
+Nix files follow `.editorconfig`: 2-space indentation, LF endings, UTF-8, trimmed trailing whitespace, and a final newline. Match the existing naming style: area-based paths such as `config/gui/terminal.nix`, `config/gui/niri/settings/apps/firefox.nix`, or `lib/to-source-path.nix`.
+
+Keep modules focused. Put generic helpers in `lib/`, Home Manager options in `modules/`, and user-facing configuration in `config/`.
+
+## Testing Guidelines
+
+There is no separate unit-test suite in this repository. Start with the `nix-eval` skill to do fast, read-only checks of syntax, affected flake attribute paths, and final option values. After that passes, run `home-manager build` as the main validation step. Use `home-manager build --option substitute false` when you only changed local configuration and want to skip binary cache substitute lookups for a faster build. If the change affects generated files, services, desktop entries, or wrappers, verify those outputs explicitly; if behavior changes, confirm on the target machine with `home-manager switch -b hmbak`.
+
+## Commit & Pull Request Guidelines
+
+Use commit messages in the form `<type>(<scope>): <summary>`, for example `fix(gui/umu): use the correct Intel Vulkan ICD path`. Common types are `feat`, `fix`, `refactor`, `docs`, and `chore`. Prefer stable scopes that match the tree, such as `common/nodejs`, `gui/niri`, or `lib/ls`.
+
+Pull requests should describe the user-visible config change, list the verification commands you ran, and note any files or services that require a manual `switch` to validate.
