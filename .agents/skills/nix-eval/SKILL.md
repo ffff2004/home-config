@@ -54,7 +54,7 @@ nix repl <flake-url>
 printf '%s\n' homeConfigurations | nix repl .
 ```
 
-REPL 更适合逐层探索 attrset；显示里的 `...` 只是输出省略，不是“部分求值”语义。
+REPL 更适合逐层探索 attrset；显示里的 `...` 只是输出省略。
 
 ## 常见模式
 
@@ -84,7 +84,5 @@ nix eval --expr '{foo = 1 + 1; bar = "hello";}' --json
 
 ## 注意事项
 
-- 默认不要吞掉 stderr。报错信息通常就是下一步行动所需的上下文。
-- `builtins.getFlake` 对未锁定或脏工作树可能需要 `--impure`。
 - 对大型 attrset，不要一上来求整个根；先缩小到明确路径，再逐层深入。
 - 这个 skill 只负责读取和探索结果，不负责 `nix build`、`home-manager switch` 或其他会改变系统状态的操作。
