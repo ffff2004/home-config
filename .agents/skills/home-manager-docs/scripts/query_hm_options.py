@@ -9,9 +9,9 @@ from pathlib import Path
 def find_repo_root(start: Path) -> Path:
     candidates = [start, *start.parents]
     for candidate in candidates:
-        if (candidate / "flake.nix").exists() and (candidate / "result-2").exists():
+        if (candidate / "flake.nix").exists():
             return candidate
-    fallback = Path.home() / ".config" / "home-manager"
+    fallback = Path.home() / "repos" / "home-config"
     return fallback
 
 
@@ -21,8 +21,8 @@ def run(cmd: list[str]) -> str:
 
 
 def resolve_home_manager_flake(repo_root: Path) -> str:
-    expr = f"(builtins.getFlake (toString {repo_root})).inputs.home-manager.outPath"
-    return run(["nix", "eval", "--impure", "--raw", "--expr", expr])
+    attr_path = f"{repo_root}#inputs.home-manager.outPath"
+    return run(["nix", "eval", "--impure", "--raw", attr_path])
 
 
 def build_artifact(home_manager_flake: str, cache_dir: Path, kind: str) -> Path:
