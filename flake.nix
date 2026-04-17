@@ -23,6 +23,11 @@
       url = "github:fym998/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    oh-my-tmux = {
+      url = "github:gpakosz/.tmux";
+      flake = false;
+    };
   };
 
   outputs =

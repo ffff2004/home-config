@@ -36,6 +36,7 @@
 | [config/common/home-manager.nix](config/common/home-manager.nix) | Home Manager 元配置（含 `home.stateVersion`） |
 | [config/common/nix.nix](config/common/nix.nix) | flake 输入注册到 nix registry/channels |
 | [config/common/generic-linux.nix](config/common/generic-linux.nix) | 非 NixOS 通用兼容工具（`wrapIfEnabled`/`nullIfEnable`/`getCmd`） |
+| [config/common/tmux/default.nix](config/common/tmux/default.nix) | tmux 安装与配置文件（oh-my-tmux 主配置 + 本地覆盖） |
 | [config/common/neovim.nix](config/common/neovim.nix) | Neovim + coc + Nix LSP（nil）与 nixfmt 格式化 |
 | [config/common/nano.nix](config/common/nano.nix) | Nano 开关与 EDITOR 变量联动 |
 | [config/common/nodejs/default.nix](config/common/nodejs/default.nix) | Node.js、`.npmrc` 链接、npm 全局 bin PATH |
