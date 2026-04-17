@@ -3,6 +3,9 @@
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    extraConfig = ''
+      set clipboard=unnamedplus
+    '';
     coc = {
       enable = true;
       settings = {
