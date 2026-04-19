@@ -26,6 +26,11 @@
         input_path = localLib.mkSymlinkToSource ./swaylock.conf;
         output_path = "~/.config/swaylock/config";
       };
+      pywalfox = {
+        input_path = localLib.mkSymlinkToSource ./pywalfox.json;
+        output_path = "~/.cache/wal/colors.json";
+        post_hook = "pywalfox {{mode}} && pywalfox update";
+      };
     };
   };
   home.packages = lib.mkIf config.programs.noctalia-shell.enable [ pkgs.pywalfox-native ];
