@@ -10,7 +10,7 @@
 
   programs.yazi = {
     enable = true;
-    shellWrapperName = "y";
+    # shellWrapperName = "y";
   };
 
   # programs.fzf.enable = true;
