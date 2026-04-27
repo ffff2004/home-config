@@ -26,7 +26,7 @@
         jq
         ;
 
-      inherit (pkgsFrom.fym998-nur) bitsrun-rs;
+      inherit (pkgsFrom.fym998-nur) bitsrun;
     }
   );
 }
