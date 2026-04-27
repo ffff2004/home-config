@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1763759067,
-        "narHash": "sha256-LlLt2Jo/gMNYAwOgdRQBrsRoOz7BPRkzvNaI/fzXi2Q=",
+        "lastModified": 1775087534,
+        "narHash": "sha256-91qqW8lhL7TLwgQWijoGBbiD4t7/q75KTi8NxjVmSmA=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "2cccadc7357c0ba201788ae99c4dfa90728ef5e0",
+        "rev": "3107b77cd68437b9a76194f0f7f9c55f2329ca5b",
         "type": "github"
       },
       "original": {
@@ -30,11 +30,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1764399440,
-        "narHash": "sha256-e9ze5vPxK2FHjPa15rcZopqw6lZiRr0fy7T3Ofeh6Gs=",
+        "lastModified": 1777267614,
+        "narHash": "sha256-0+aFB3QgYDZYLudSPrEqtgw7CNAxBGuRxIF88HKw4RA=",
         "owner": "fym998",
         "repo": "nur-packages",
-        "rev": "981cae2efc82ce26d32edb36f1197b53832e6e17",
+        "rev": "04a4003779deff07ee9f75f5c9387bde44425793",
         "type": "github"
       },
       "original": {
