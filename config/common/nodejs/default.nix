@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   localLib,
   pkgs,
@@ -9,7 +10,7 @@ let
 in
 lib.mkIf enable (
   let
-    pnpmHome = "$HOME/.local/share/pnpm";
+    pnpmHome = "${config.xdg.dataHome}/pnpm";
   in
   {
     home = {
