@@ -30,11 +30,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1777267614,
-        "narHash": "sha256-0+aFB3QgYDZYLudSPrEqtgw7CNAxBGuRxIF88HKw4RA=",
+        "lastModified": 1777268421,
+        "narHash": "sha256-bj5h1+VZLycBkPuB/qGsGm1TD5r4PCmnIJ8CWIXO5ro=",
         "owner": "fym998",
         "repo": "nur-packages",
-        "rev": "04a4003779deff07ee9f75f5c9387bde44425793",
+        "rev": "9536a72f9d62f7a679c723ae8c14a513d690359f",
         "type": "github"
       },
       "original": {
