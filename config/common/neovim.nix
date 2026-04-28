@@ -77,6 +77,12 @@
           vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "LSP References" })
         '';
       }
+      {
+        plugin = lualine-nvim;
+        config = ''
+          require("lualine").setup()
+        '';
+      }
       cmp-buffer
       cmp-path
       cmp-cmdline
