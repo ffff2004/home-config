@@ -38,7 +38,7 @@
         plugin = toggleterm-nvim;
         config = ''
           require("toggleterm").setup({
-            open_mapping = [[<C-`>]],
+            open_mapping = [[<leader>t]],
             start_in_insert = true,
             direction = 'horizontal'
           })
