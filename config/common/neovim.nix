@@ -3,32 +3,34 @@
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    extraConfig = ''
-      set clipboard=unnamedplus
+    initLua = ''
+      vim.opt.clipboard = 'unnamed,unnamedplus'
+      vim.g.mapleader = " "
+      vim.keymap.set('n', '<C-f>', vim.lsp.buf.format, { desc = 'Format code' })
     '';
-
     plugins = with pkgs.vimPlugins; [
       plenary-nvim
       nui-nvim
       nvim-web-devicons
       {
         plugin = bufferline-nvim;
-        type = "lua";
         config = ''
           vim.opt.termguicolors = true
-          require("bufferline").setup({})
+          require("bufferline").setup({
+            options = {
+              diagnostics = "nvim_lsp",
+            },
+          })
         '';
       }
       {
         plugin = neo-tree-nvim;
-        type = "lua";
         config = ''
           vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
         '';
       }
       {
         plugin = toggleterm-nvim;
-        type = "lua";
         config = ''
           require("toggleterm").setup({
             open_mapping = [[<C-`>]],
@@ -37,25 +39,122 @@
           })
         '';
       }
+      {
+        plugin = which-key-nvim;
+        config = ''
+          require("which-key").setup({
+            preset = "modern"
+          })
+        '';
+      }
+      {
+        plugin = telescope-nvim;
+        config = ''
+          local telescope = require("telescope")
+          local builtin = require("telescope.builtin")
+
+          telescope.setup({
+            defaults = {
+              mappings = {
+                i = {
+                  ["<C-u>"] = false,
+                  ["<C-d>"] = false,
+                },
+              },
+            },
+          })
+
+          vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
+          vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
+          vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffers" })
+          vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help Tags" })
+          vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Commands" })
+          vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "LSP References" })
+        '';
+      }
+      cmp-buffer
+      cmp-path
+      cmp_luasnip
+      cmp-nvim-lsp
+      friendly-snippets
+      luasnip
+      {
+        plugin = nvim-cmp;
+        config = ''
+          local cmp = require("cmp")
+          local luasnip = require("luasnip")
+
+          require("luasnip.loaders.from_vscode").lazy_load()
+
+          vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+          cmp.setup({
+            snippet = {
+              expand = function(args)
+                luasnip.lsp_expand(args.body)
+              end,
+            },
+            mapping = cmp.mapping.preset.insert({
+              ["<C-Space>"] = cmp.mapping.complete(),
+              ["<CR>"] = cmp.mapping.confirm({ select = true }),
+              ["<Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif luasnip.expand_or_jumpable() then
+                  luasnip.expand_or_jump()
+                else
+                  fallback()
+                end
+              end, { "i", "s" }),
+              ["<S-Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                elseif luasnip.jumpable(-1) then
+                  luasnip.jump(-1)
+                else
+                  fallback()
+                end
+              end, { "i", "s" }),
+            }),
+            sources = cmp.config.sources({
+              { name = "nvim_lsp" },
+              { name = "luasnip" },
+              { name = "path" },
+              { name = "buffer" },
+            }),
+          })
+        '';
+      }
+      {
+        plugin = nvim-lspconfig;
+        config = ''
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+          vim.lsp.config("nil_ls", {
+            cmd = { "${lib.getExe pkgs.nil}" },
+            capabilities = capabilities,
+          })
+          vim.lsp.enable("nil_ls")
+
+          vim.lsp.config('ruff', {
+            cmd = { "${lib.getExe pkgs.ruff}", "server" },
+            capabilities = capabilities,
+          })
+          vim.lsp.enable('ruff')
+
+          vim.lsp.config('bashls', {
+            cmd = { "${lib.getExe pkgs.bash-language-server}", "start" },
+            capabilities = capabilities,
+          })
+          vim.lsp.enable('bashls')
+
+          vim.lsp.config('fish_lsp', {
+            cmd = { "${lib.getExe pkgs.fish-lsp}", "start" },
+            capabilities = capabilities,
+          })
+          vim.lsp.enable('fish_lsp')
+        '';
+      }
     ];
-    coc = {
-      enable = true;
-      settings = {
-        languageserver = {
-          nix = {
-            command = lib.getExe pkgs.nil;
-            filetypes = [ "nix" ];
-            rootPatterns = [ "flake.nix" ];
-            settings = {
-              nil = {
-                formatting = {
-                  command = [ (lib.getExe pkgs.nixfmt) ];
-                };
-              };
-            };
-          };
-        };
-      };
-    };
   };
 }
