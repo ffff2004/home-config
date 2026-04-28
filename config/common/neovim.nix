@@ -27,6 +27,11 @@
         plugin = neo-tree-nvim;
         config = ''
           vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
+          require("neo-tree").setup({
+            window = {
+              width = 30
+            }
+          })
         '';
       }
       {
