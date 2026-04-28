@@ -26,6 +26,15 @@
       {
         matches = [
           {
+            app-id = "^wechat$";
+            title = "^微信$|^图片和视频$";
+          }
+        ];
+        open-focused = true;
+      }
+      {
+        matches = [
+          {
             title = "^com.alibabainc.dingtalk$";
             app-id = "^com.alibabainc.dingtalk$";
             # is-floating = true; # Does not match for some reason

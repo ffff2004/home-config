@@ -18,24 +18,24 @@
               title = "^明日方舟$";
               app-id = "^steam_app|arknights.exe";
             }
-            {
-              title = "^Form$";
-              app-id = "^platformprocess.exe$";
-              # is-floating = true;
-            }
           ];
           open-floating = false;
           open-fullscreen = true;
           open-on-workspace = workspace;
         }
-
         {
           matches = [
             {
               title = "^Form$";
-              app-id = "^steam_app";
-              # is-floating = true;
+              app-id = "^steam_app|^platformprocess.exe$";
             }
+          ];
+          open-floating = false;
+          open-on-workspace = workspace;
+          open-focused = true;
+        }
+        {
+          matches = [
             {
               title = "^Endfield$";
               app-id = "^steam_app|^Endfield.exe$";
