@@ -74,6 +74,7 @@
       }
       cmp-buffer
       cmp-path
+      cmp-cmdline
       cmp_luasnip
       cmp-nvim-lsp
       friendly-snippets
@@ -121,6 +122,24 @@
               { name = "luasnip" },
               { name = "path" },
               { name = "buffer" },
+            }),
+          })
+
+          -- command-line mode completion for search (/)
+          cmp.setup.cmdline('/', {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+              { name = 'buffer' },
+            },
+          })
+
+          -- command-line mode completion for commands (:)
+          cmp.setup.cmdline(':', {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({
+              { name = 'path' },
+            }, {
+              { name = 'cmdline' },
             }),
           })
         '';
