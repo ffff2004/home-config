@@ -50,7 +50,7 @@
       # user
       username = "fym";
       homeDirectory = "/home/${username}";
-      homeConfigRoot = "${homeDirectory}/.config/home-manager";
+      homeConfigRoot = "${homeDirectory}/repos/home-config";
     in
     rec {
       inherit
