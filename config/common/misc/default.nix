@@ -10,8 +10,9 @@
 
   programs.yazi = {
     enable = true;
-    # shellWrapperName = "y";
   };
 
-  # programs.fzf.enable = true;
+  programs.fzf.enable = true;
+
+  programs.fd.enable = true;
 }
