@@ -33,5 +33,5 @@
       };
     };
   };
-  home.packages = lib.mkIf config.programs.noctalia-shell.enable [ pkgs.pywalfox-native ];
+  home.packages = [ pkgs.pywalfox-native ];
 }

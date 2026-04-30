@@ -1,13 +1,9 @@
 { lib, config, ... }:
-
-lib.mkIf config.programs.noctalia-shell.enable {
-  systemd.user.services.noctalia-shell = {
-    Service.Environment = lib.pipe config.programs.niri.settings.environment [
-      lib.attrsToList
-      (map (a: "${a.name}=${a.value}"))
-    ];
-  };
+{
   programs.niri.settings = {
+    spawn-at-startup = [
+      { command = [ (lib.getExe config.programs.noctalia-shell.package) ]; }
+    ];
     binds =
       let
         noctalia = cmd: {
