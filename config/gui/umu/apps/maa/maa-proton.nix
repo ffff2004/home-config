@@ -5,7 +5,7 @@
   umu-launcher-wrapper,
   maaPath,
   android-tools,
-  zenity,
+  #zenity,
   writeShellScript,
   imagemagick,
   makeDesktopItem,
@@ -44,7 +44,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       builtins.concatStringsSep ":" (
         map (p: "${p}/bin") [
           android-tools
-          zenity
+          #zenity
         ]
       )
     }:$PATH"
