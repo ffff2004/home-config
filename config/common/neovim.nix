@@ -5,8 +5,20 @@
     defaultEditor = true;
     initLua = ''
       vim.opt.clipboard = 'unnamed,unnamedplus'
+      vim.opt.termguicolors = true
+
+      vim.opt.hlsearch = true    -- 高亮所有匹配项
+      vim.opt.incsearch = true   -- 输入时实时预览匹配位置
+      vim.opt.ignorecase = true  -- 搜索忽略大小写
+      vim.opt.smartcase = true   -- 若输入包含大写字母，则区分大小写
+
       vim.g.mapleader = " "
-      vim.keymap.set('n', '<C-f>', vim.lsp.buf.format, { desc = 'Format code' })
+      vim.keymap.set({ 'n', 'i' }, '<C-f>', function()
+        if vim.fn.mode() == 'i' then
+          vim.cmd.stopinsert()
+        end
+        vim.lsp.buf.format()
+      end, { desc = 'Format code' })
     '';
     plugins = with pkgs.vimPlugins; [
       plenary-nvim
@@ -15,7 +27,6 @@
       {
         plugin = bufferline-nvim;
         config = ''
-          vim.opt.termguicolors = true
           require("bufferline").setup({
             options = {
               diagnostics = "nvim_lsp",
