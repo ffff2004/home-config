@@ -40,8 +40,14 @@
           vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
           require("neo-tree").setup({
             window = {
-              width = 30
-            }
+              width = 30,
+            },
+            filesystem = {
+              use_libuv_file_watcher = true,
+              follow_current_file = {
+                enabled = true,
+              },
+            },
           })
         '';
       }
