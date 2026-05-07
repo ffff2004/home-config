@@ -17,8 +17,8 @@
   #
   home.sessionSearchVariables = {
     PATH = [
-      "$HOME/.local/bin"
       "$HOME/.local/sbin"
+      "$HOME/.local/bin"
     ];
   };
 }
