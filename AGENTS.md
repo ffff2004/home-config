@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository manages a Home Manager configuration with a flake-based, modular layout. `flake.nix` defines `homeConfigurations.fym` and injects `localLib` helpers. Main configuration modules live under `config/`: `config/common` covers shell, Git, Nix, editors, and CLI tools; `config/gui` covers desktop, input, Niri, Noctalia, and UMU app wrappers. Shared helper functions live in `lib/`, and reusable Home Manager modules live in `modules/`.
+This repository manages a Home Manager configuration with a flake-based, modular layout. `flake.nix` defines `homeConfigurations.fym` and injects `localLib` helpers. Main configuration modules live under `config/`: `config/common` covers shell, Git, Nix, editors, and CLI tools; `config/gui` covers desktop, input, Niri, Noctalia, and UMU app wrappers. Shared helper functions live in `lib/`, and reusable Home Manager modules (usually contain options) live in `modules/`.
 
 Prefer adding a `default.nix` in new directories and importing submodules through `imports = localLib.lsSubmodule ./.` rather than manually enumerating files.
 
@@ -23,8 +23,6 @@ Use the `nix-eval` skill for read-only evaluation of flake outputs and final opt
 ## Coding Style & Naming Conventions
 
 Nix files follow `.editorconfig`: 2-space indentation, LF endings, UTF-8, trimmed trailing whitespace, and a final newline. Match the existing naming style: area-based paths such as `config/gui/terminal.nix`, `config/gui/niri/settings/apps/firefox.nix`, or `lib/to-source-path.nix`.
-
-Keep modules focused. Put generic helpers in `lib/`, Home Manager options in `modules/`, and user-facing configuration in `config/`.
 
 ## Testing Guidelines
 
