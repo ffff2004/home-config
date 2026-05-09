@@ -55,10 +55,10 @@
         plugin = toggleterm-nvim;
         config = ''
           require("toggleterm").setup({
-            open_mapping = [[<leader>t]],
             start_in_insert = true,
             direction = 'horizontal'
           })
+          vim.keymap.set("n", "<leader>t", "<cmd>ToggleTerm<CR>", { desc = "Toggle Terminal" })
         '';
       }
       {
