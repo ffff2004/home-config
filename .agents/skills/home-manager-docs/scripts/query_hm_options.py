@@ -6,6 +6,9 @@ import sys
 from pathlib import Path
 
 
+DOC_KINDS = ["json", "html", "manpages"]
+
+
 def find_repo_root(start: Path) -> Path:
     candidates = [start, *start.parents]
     for candidate in candidates:
@@ -41,12 +44,15 @@ def build_artifact(home_manager_flake: str, cache_dir: Path, kind: str) -> Path:
 
 def built_docs_paths(home_manager_flake: str, cache_dir: Path, kinds: list[str]) -> dict[str, Path]:
     roots = {kind: build_artifact(home_manager_flake, cache_dir, kind) for kind in kinds}
-    return {
-        "manpage": roots.get("manpages", Path()) / "share/man/man5/home-configuration.nix.5",
-        "html_index": roots.get("html", Path()) / "share/doc/home-manager/index.xhtml",
-        "html_options": roots.get("html", Path()) / "share/doc/home-manager/options.xhtml",
-        "json_options": roots.get("json", Path()) / "share/doc/home-manager/options.json",
-    }
+    paths = {}
+    if "manpages" in roots:
+        paths["manpage"] = roots["manpages"] / "share/man/man5/home-configuration.nix.5"
+    if "html" in roots:
+        paths["html_index"] = roots["html"] / "share/doc/home-manager/index.xhtml"
+        paths["html_options"] = roots["html"] / "share/doc/home-manager/options.xhtml"
+    if "json" in roots:
+        paths["json_options"] = roots["json"] / "share/doc/home-manager/options.json"
+    return paths
 
 
 def load_options(path: Path) -> dict:
@@ -161,6 +167,9 @@ def main() -> int:
 
     subparsers.add_parser("paths")
 
+    build_parser = subparsers.add_parser("build")
+    build_parser.add_argument("kind", choices=[*DOC_KINDS, "all"])
+
     show_parser = subparsers.add_parser("show")
     show_parser.add_argument("option")
 
@@ -171,7 +180,13 @@ def main() -> int:
     home_manager_flake = resolve_home_manager_flake(args.repo_root)
 
     if args.command == "paths":
-        paths = built_docs_paths(home_manager_flake, args.cache_dir, ["json", "html", "manpages"])
+        paths = built_docs_paths(home_manager_flake, args.cache_dir, DOC_KINDS)
+        print_paths(paths)
+        return 0
+
+    if args.command == "build":
+        kinds = DOC_KINDS if args.kind == "all" else [args.kind]
+        paths = built_docs_paths(home_manager_flake, args.cache_dir, kinds)
         print_paths(paths)
         return 0
 
