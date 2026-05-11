@@ -18,7 +18,7 @@ home-manager build --option substitute false
 home-manager switch -b hmbak
 ```
 
-Use the `nix-eval` skill for read-only evaluation of flake outputs and final option values. `home-manager build` is the main validation step, `build --option substitute false` is the faster path for local-only changes, and `switch -b hmbak` applies the result with a backup.
+Use the `home-manager-docs` skill before adding or changing unfamiliar Home Manager options, so option names, types, defaults, and declarations match the pinned input. Use the `nix-eval` skill for read-only evaluation of flake outputs and final option values. `home-manager build` is the main validation step, `build --option substitute false` is the faster path for local-only changes, and `switch -b hmbak` applies the result with a backup.
 
 ## Coding Style & Naming Conventions
 
