@@ -80,7 +80,16 @@ def print_paths(paths: dict[str, Path]) -> None:
         print(f"{key}: {value}")
 
 
-def print_option(name: str, data: dict) -> None:
+def resolve_declaration_path(text: str, home_manager_flake: str) -> str | None:
+    prefix = "<home-manager/"
+    suffix = ">"
+    if not text.startswith(prefix) or not text.endswith(suffix):
+        return None
+    relative = text[len(prefix) : -len(suffix)]
+    return str(Path(home_manager_flake) / relative)
+
+
+def print_option(name: str, data: dict, home_manager_flake: str) -> None:
     print(name)
     print(f"type: {data.get('type', '')}")
     print(f"readOnly: {data.get('readOnly', False)}")
@@ -97,7 +106,12 @@ def print_option(name: str, data: dict) -> None:
         for decl in declarations:
             text = decl.get("name", "")
             url = decl.get("url", "")
-            if url:
+            resolved = resolve_declaration_path(text, home_manager_flake)
+            if resolved:
+                print(f"- {resolved}")
+                if url:
+                    print(f"  upstream: {url}")
+            elif url:
                 print(f"- {text} {url}")
             else:
                 print(f"- {text}")
@@ -107,10 +121,10 @@ def print_option(name: str, data: dict) -> None:
         print(description)
 
 
-def cmd_show(options: dict, key: str) -> int:
+def cmd_show(options: dict, key: str, home_manager_flake: str) -> int:
     data = options.get(key)
     if data is not None:
-        print_option(key, data)
+        print_option(key, data, home_manager_flake)
         return 0
 
     lowered = key.lower()
@@ -193,7 +207,7 @@ def main() -> int:
     paths = built_docs_paths(home_manager_flake, args.cache_dir, ["json"])
     options = load_options(paths["json_options"])
     if args.command == "show":
-        return cmd_show(options, args.option)
+        return cmd_show(options, args.option, home_manager_flake)
     if args.command == "search":
         return cmd_search(options, args.term)
     return 1
