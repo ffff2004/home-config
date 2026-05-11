@@ -19,6 +19,20 @@
         end
         vim.lsp.buf.format()
       end, { desc = 'Format code' })
+
+      local function copy_current_file_path(modifier, label)
+        local path = vim.fn.expand(modifier)
+        vim.fn.setreg("+", path)
+        vim.notify("Copied " .. label .. ": " .. path, vim.log.levels.INFO)
+      end
+
+      vim.keymap.set("n", "<leader>yr", function()
+        copy_current_file_path("%:p:.", "relative path")
+      end, { desc = "Copy relative file path" })
+
+      vim.keymap.set("n", "<leader>ya", function()
+        copy_current_file_path("%:p", "absolute path")
+      end, { desc = "Copy absolute file path" })
     '';
     plugins = with pkgs.vimPlugins; [
       plenary-nvim
