@@ -8,6 +8,14 @@
   services.swayidle =
     let
       lockScreen = config.lib.genericLinux.getCmd pkgs.swaylock "swaylock -f -F";
+      lockKeyring = "${lib.getExe pkgs.libsecret} lock";
+      lockSession = lib.getExe (
+        pkgs.writeShellScriptBin "lock-session" ''
+          ${lockKeyring} || true
+          SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh" ${lib.getExe' pkgs.openssh "ssh-add"} -D || true
+          exec ${lockScreen} "$@"
+        ''
+      );
       signalNoctalia =
         signal:
         lib.getExe (
@@ -46,7 +54,7 @@
       ++ [
         {
           timeout = 1200;
-          command = lockScreen;
+          command = lockSession;
         }
         {
           timeout = 28800;
@@ -54,7 +62,7 @@
         }
       ];
       events = {
-        before-sleep = lockScreen;
+        before-sleep = lockSession;
       };
     };
 }

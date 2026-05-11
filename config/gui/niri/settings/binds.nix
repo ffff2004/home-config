@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   programs.niri.settings.binds =
@@ -8,6 +13,15 @@
       spawnSplit = cmd: {
         spawn = lib.splitString " " cmd;
       };
+      lockScreen = config.lib.genericLinux.getCmd pkgs.swaylock "swaylock -f -F";
+      lockKeyring = "${lib.getExe pkgs.libsecret} lock";
+      lockSession = lib.getExe (
+        pkgs.writeShellScriptBin "lock-session" ''
+          ${lockKeyring} || true
+          SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh" ${lib.getExe' pkgs.openssh "ssh-add"} -D || true
+          exec ${lockScreen} "$@"
+        ''
+      );
     in
     {
       # Hotkey overlay
@@ -202,9 +216,9 @@
       "Mod+Shift+P".action = mkDefault power-off-monitors;
 
       "Super+L" = mkDefault {
-        action = spawn "swaylock";
+        action = spawn lockSession;
         repeat = false;
-        hotkey-overlay.title = "Lock the Screen: swaylock";
+        hotkey-overlay.title = "Lock the Screen";
       };
 
       "XF86AudioRaiseVolume" = mkDefault {
