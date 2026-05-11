@@ -26,10 +26,10 @@ Nix files follow `.editorconfig`: 2-space indentation, LF endings, UTF-8, trimme
 
 ## Testing Guidelines
 
-There is no separate unit-test suite in this repository. Start with the `nix-eval` skill to do fast, read-only checks of syntax, affected flake attribute paths, and final option values. After that passes, run `home-manager build` as the main validation step. Use `home-manager build --option substitute false` when you only changed local configuration and want to skip binary cache substitute lookups for a faster build. If the change affects generated files, services, desktop entries, or wrappers, verify those outputs in `result/` explicitly; if behavior changes, confirm on the target machine with `home-manager switch -b hmbak`.
+There is no separate unit-test suite in this repository. Start with the `nix-eval` skill to do fast, read-only checks of syntax, affected flake attribute paths, and final option values. After that passes, run `home-manager build` as the main validation step. Use `home-manager build --option substitute false` when you only changed local configuration and want to skip binary cache substitute lookups for a faster build. If the change affects generated files, services, desktop entries, or wrappers, use the `home-manager-generated-paths` skill to map and verify the relevant outputs in `result/` explicitly; if behavior changes, confirm on the target machine with `home-manager switch -b hmbak`.
 
 ## Commit & Pull Request Guidelines
 
-Use commit messages in the form `<type>(<scope>): <summary>`, for example `fix(gui/umu): use the correct Intel Vulkan ICD path`. Common types are `feat`, `fix`, `refactor`, `docs`, and `chore`. Prefer stable scopes that match the tree, such as `common/nodejs`, `gui/niri`, or `lib/ls`.
+Use commit messages in the form `<type>(<scope>): <summary>`, for example `fix(gui/umu): use the correct Intel Vulkan ICD path`. Common types are `feat`, `fix`, `refactor`, `docs`, `chore`, and `agents`; use `agents` for agent-related files such as skills and `AGENTS.md`. Prefer stable scopes that match the tree, such as `common/nodejs`, `gui/niri`, or `lib/ls`.
 
 Pull requests should describe the user-visible config change, list the verification commands you ran, and note any files or services that require a manual `switch` to validate.
