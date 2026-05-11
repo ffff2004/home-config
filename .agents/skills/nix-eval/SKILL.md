@@ -1,88 +1,77 @@
 ---
 name: nix-eval
-description: 对 Nix 表达式、flake 输出、模块配置值和属性集进行求值与探索。用于确认实际求值结果而不是只看源码，例如查询 `homeConfigurations`、包属性、模块合并后的 `config`、某个 option 的最终值，或当文件搜索无法可靠回答问题时使用。
+description: Read-only Nix evaluation for this Home Manager flake. Use it to confirm actual flake outputs, merged Home Manager config values, attribute existence, attrset keys, package attributes, and pinned input paths instead of relying on source search alone.
 ---
+
 # nix-eval
 
-使用 `nix eval` 和 `nix repl` 获取 Nix 的真实求值结果。优先把它当作只读查询工具，而不是构建或切换工具。
+Use `nix eval` for read-only checks of actual Nix values. Do not use this skill for `nix build`, `home-manager build`, `home-manager switch`, or other state-changing operations.
 
-## 何时使用
+## When To Use
 
-- 需要确认 flake 某个输出实际是什么。
-- 需要查看 Home Manager 或 NixOS 配置合并后的值。
-- 需要确认某个属性是否存在，或查看 attrset 的顶层结构。
-- 文件搜索只能看到定义，不能可靠得出最终结果。
+- Confirm a final value under `homeConfigurations.fym.config`
+- Check whether an attribute exists
+- List attrset keys before drilling deeper
+- Resolve pinned flake input paths
+- Verify values produced by imports, option merging, overlays, or package selection
 
-## 优先顺序
+## Rules
 
-1. 精确取值时，先用 `nix eval`。
-2. 结果是字符串或路径时，根据需要加 `--raw`。
-3. 结果要继续交给其他工具处理时，优先加 `--json`。
-4. 只想快速浏览 attrset 结构时，用 `nix repl` 逐层探索。
+1. Prefer non-interactive `nix eval`.
+2. Use `--raw` only for strings and paths.
+3. Use `--json` when output must be parsed or summarized.
+4. For attrset exploration, list keys first with `--apply builtins.attrNames --json`; only evaluate a child attribute after choosing a specific key.
+5. Use `nix repl` only when `nix eval` cannot answer the question clearly.
+6. Do not evaluate `homeConfigurations.fym.config` or another broad attrset directly unless the user explicitly asks for the full value.
 
-## 精确求值
+## Commands
 
-直接求值某个 flake 输出：
-
-```bash
-nix eval <flake-url>#<attribute-path>
-```
-
-示例，查看当前目录里的 Home Manager session variables：
+Exact Home Manager value:
 
 ```bash
-nix eval .#homeConfigurations.<user>.config.home.sessionVariables --json
+nix eval .#homeConfigurations.fym.config.programs.zoxide.enable
 ```
 
-如果结果本身是字符串或路径，优先使用 `--raw`：
+String or path value:
 
 ```bash
-nix eval .#homeConfigurations.<user>.config.home.username --raw
+nix eval .#homeConfigurations.fym.config.home.username --raw
 ```
 
-任意表达式：
+List keys before drilling into an attrset:
 
 ```bash
-nix eval --expr '{foo = 1 + 1; bar = "hello";}' --json
+nix eval .#homeConfigurations.fym.config.programs --apply builtins.attrNames --json
 ```
 
-## 交互探索
-
-当表达式很大，或者你只想先看顶层结构时，使用 REPL：
+Check whether an attribute exists:
 
 ```bash
-echo <attribute-path or nix-expression> | nix repl <flake-url>
+nix eval --json --expr 'builtins.hasAttr "zoxide" (builtins.getFlake (toString ./.)).homeConfigurations.fym.config.programs'
 ```
 
-示例，查看当前 flake 暴露了哪些 `homeConfigurations`：
+Resolve the pinned Home Manager input path:
 
 ```bash
-echo homeConfigurations | nix repl .
+nix eval --impure --raw /home/fym/repos/home-config#inputs.home-manager.outPath
 ```
 
-REPL 更适合逐层探索 attrset；显示里的 `...` 只是输出省略。
-
-## 常见模式
-
-查询属性是否存在：
+Evaluate a standalone expression:
 
 ```bash
-nix eval .#homeConfigurations.<user>.config.programs.zoxide.enable
+nix eval --json --expr '{ foo = 1 + 1; bar = "hello"; }'
 ```
 
-查看顶层键名：
+Manual exploration fallback:
 
 ```bash
-echo homeConfigurations | nix repl .
+nix repl .
 ```
 
-用表达式读取 flake input 的路径：
+## Output
 
-```bash
-nix eval --raw .#inputs.home-manager.outPath
-```
+When reporting results, include:
 
-## 注意事项
-
-- 对大型 attrset，不要一上来求整个根；先缩小到明确路径，再逐层深入。
-- 这个 skill 是只读的，只负责读取和探索结果，不负责 `nix build`、`home-manager switch` 或其他会改变系统状态的操作。
+- The exact command used
+- The evaluated value or key list
+- Whether the answer is a final merged config value or only an intermediate attrset
