@@ -11,7 +11,7 @@
 3. [modules/default.nix](modules/default.nix)
 4. [lib/default.nix](lib/default.nix)
 
-`flake.nix` 构建 `homeConfigurations.fym`，并通过 `extraSpecialArgs` 注入 `localLib`。现在也包含 Home Manager 元配置和 Nix 配置。
+`flake.nix` 构建 `homeConfigurations.fym`，并通过 `extraSpecialArgs` 注入 `localLib` 与 `pkgsFrom`。现在也包含 Home Manager 元配置和 Nix 配置。
 `config` 与 `modules` 目录的 `default.nix` 统一使用 `localLib.lsSubmodule ./.` 自动导入子模块。
 
 ## 2. config 目录模块职责
@@ -35,8 +35,8 @@
 | [config/common/gnome-keyring.nix](config/common/gnome-keyring.nix)                 | libsecret 与 git-credential helper 集成                          |
 | [config/common/generic-linux.nix](config/common/generic-linux.nix)                 | 非 NixOS 通用兼容工具（`wrapIfEnabled`/`nullIfEnable`/`getCmd`） |
 | [config/common/tmux/default.nix](config/common/tmux/default.nix)                   | tmux 安装与配置文件（oh-my-tmux 主配置 + 本地覆盖）              |
-| [config/common/neovim.nix](config/common/neovim.nix)                               | Neovim + coc + Nix LSP（nil）与 nixfmt 格式化                    |
-| [config/common/nodejs/default.nix](config/common/nodejs/default.nix)               | Node.js、`.npmrc` 链接、npm 全局 bin PATH                        |
+| [config/common/neovim.nix](config/common/neovim.nix)                               | Neovim 默认编辑器配置：Lua 设置、常用插件、nvim-cmp 补全与 nil/ruff/bash/fish LSP |
+| [config/common/nodejs/default.nix](config/common/nodejs/default.nix)               | Node.js、pnpm、`.npmrc` 链接与 pnpm 全局 bin PATH                 |
 | [config/common/python/default.nix](config/common/python/default.nix)               | Python 工具链（uv、nix-py 脚本）                                 |
 | [config/common/misc/default.nix](config/common/misc/default.nix)                   | 杂项工具（direnv、nix-direnv、yazi）                             |
 | [config/common/misc/packages/default.nix](config/common/misc/packages/default.nix) | 常用包清单（含 nil、nixfmt、jq 等）                              |
@@ -49,13 +49,13 @@
 | -------------------------------------------------------------------------------- | ----------------------------------------------- |
 | [config/gui/default.nix](config/gui/default.nix)                                 | gui 目录入口，递归导入                          |
 | [config/gui/fontconfig.nix](config/gui/fontconfig.nix)                           | 字体渲染与默认字体族设置                        |
-| [config/gui/terminal.nix](config/gui/terminal.nix)                               | 终端方案（Alacritty 为主）和 xdg-terminal-exec  |
+| [config/gui/terminal.nix](config/gui/terminal.nix)                               | 终端方案（Alacritty Graphics + Noctalia 主题）和 xdg-terminal-exec |
 | [config/gui/qt6ct.nix](config/gui/qt6ct.nix)                                     | Qt6 主题变量与包配置                            |
 | [config/gui/polkit-agent.nix](config/gui/polkit-agent.nix)                       | Polkit 认证代理 systemd user service            |
 | [config/gui/swayidle.nix](config/gui/swayidle.nix)                               | 空闲策略（熄屏、锁屏、休眠）                    |
 | [config/gui/wallpaper-fetcher.nix](config/gui/wallpaper-fetcher.nix)             | 壁纸抓取服务与定时器                            |
 | [config/gui/clipboard/default.nix](config/gui/clipboard/default.nix)             | X11/Wayland 剪贴板桥接服务                      |
-| [config/gui/desktop-entries/default.nix](config/gui/desktop-entries/default.nix) | 递归映射 `.desktop` 到 `xdg.dataFile`           |
+| [config/gui/desktop-entries/default.nix](config/gui/desktop-entries/default.nix) | 将 `files/` 下的 `.desktop` 递归映射到 `xdg.dataFile` |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix)                   | Fcitx5 输入法与配置树递归链接                   |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix)                       | Niri 主入口，导入 niri-flake 与 settings 子模块 |
 | [config/gui/noctalia-shell/default.nix](config/gui/noctalia-shell/default.nix)   | Noctalia shell 集成、模板与设置文件链接         |
@@ -135,7 +135,7 @@ hms   # home-manager switch -b hmbak
 hmso  # home-manager switch -b hmbak --option substitute false
 ```
 
-求值：使用 `nix eval` 或 `nix repl` 直接查询 flake 输出 (nix-eval skill)。
+求值：维护时优先使用 `nix-eval` skill 做只读求值，必要时再用 `nix eval` 或 `nix repl` 直接查询 flake 输出。
 
 ### 4.2 维护约定
 
