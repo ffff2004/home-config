@@ -5,7 +5,7 @@ description: Read-only Nix evaluation for this Home Manager flake. Use it to con
 
 # nix-eval
 
-Use `nix eval` for read-only checks of actual Nix values. Do not use this skill for `nix build`, `home-manager build`, `home-manager switch`, or other state-changing operations.
+Use `nix eval` for read-only checks of actual Nix values.
 
 ## When To Use
 
@@ -22,7 +22,7 @@ Use `nix eval` for read-only checks of actual Nix values. Do not use this skill 
 3. Use `--json` when output must be parsed or summarized.
 4. For attrset exploration, list keys first with `--apply builtins.attrNames --json`; only evaluate a child attribute after choosing a specific key.
 5. Use `nix repl` only when `nix eval` cannot answer the question clearly.
-6. Do not evaluate `homeConfigurations.fym.config` or another broad attrset directly unless the user explicitly asks for the full value.
+6. Do not evaluate `homeConfigurations.fym.config` or another broad attrset directly.
 
 ## Commands
 
@@ -53,7 +53,7 @@ nix eval --json --expr 'builtins.hasAttr "zoxide" (builtins.getFlake (toString .
 Resolve the pinned Home Manager input path:
 
 ```bash
-nix eval --impure --raw /home/fym/repos/home-config#inputs.home-manager.outPath
+nix eval --impure --raw .#inputs.home-manager.outPath
 ```
 
 Evaluate a standalone expression:
