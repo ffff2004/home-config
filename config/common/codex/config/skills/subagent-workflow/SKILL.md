@@ -5,7 +5,7 @@ description: Use when the user explicitly asks to use subagents, parallel explor
 
 # Subagent Workflow Entry
 
-This workflow is opt-in.
+This workflow is opt-in; task size alone does not justify spawning subagents.
 
 It is an entry point for deciding whether to use the repository's subagent workflow. It does not automatically require spawning subagents.
 

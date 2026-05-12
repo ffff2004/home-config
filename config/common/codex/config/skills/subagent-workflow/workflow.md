@@ -8,68 +8,38 @@ Do not use this file to decide whether subagents are allowed. That decision belo
 
 Use subagents to reduce main-agent context load and isolate noisy work without creating coordination chaos.
 
-Prefer parallel reading over parallel writing.
+Optimize for:
 
-The workflow should optimize for:
+- Parallel reading over parallel writing
+- Clear ownership of design, integration, and final review
+- Minimal duplicated repository search, log reading, and test-output parsing
+- Narrow, non-overlapping subagent scopes
+- Evidence-based summaries instead of raw process logs
 
-- Lower main-agent context pressure
-- Lower noise from repository search, logs, and test output
-- Clear ownership of design and final review
-- Minimal duplicated work
-- Minimal edit conflicts
-- Evidence-based summaries rather than raw process logs
+Stop spawning subagents when coordination overhead exceeds the benefit.
 
-## Main agent responsibilities
+## Main Agent Ownership
 
-The main agent owns:
-
-- Requirement interpretation
-- Planning
-- Coordination
-- Architecture and public API decisions
-- Security, auth, payment, and data-model decisions
-- Implementation strategy
-- Task sequencing
-- Integration
-- Final diff review
-- Final verification decision
-- User-facing summary
+The main agent owns requirement interpretation, planning, coordination, architecture, public API decisions, sensitive-domain decisions, implementation strategy, integration, final diff review, final verification, and the user-facing summary.
 
 Subagents may investigate, analyze, implement narrow patches, or review, but they must not take over global design, final integration, or final acceptance.
 
-## Agent selection
+## Agent Selection
 
-Use built-in `explorer` for read-heavy repository exploration.
+- Use built-in `explorer` for read-heavy repository exploration.
+- Use custom `patch_worker` for narrow implementation tasks with explicit file ownership.
+- Use custom `test_analyst` for test and log triage when available.
+- Use custom `code_reviewer` for final read-only review of risky, broad, or important changes when available.
 
-Use custom `patch_worker` for narrow implementation tasks with explicit file ownership.
+Prefer `gpt-5.4-mini` for bounded exploration, small isolated patches, and test/log analysis. Use `gpt-5.4` or stronger only for subtle logic, high-risk changes, security/auth/payment/data-model concerns, or final review.
 
-Use custom `test_analyst` for test and log triage when available.
-
-Use custom `code_reviewer` for final read-only review of risky, broad, or important changes when available.
-
-## Model selection
-
-Prefer `gpt-5.4-mini` for bounded subagents, including small isolated patches, exploration, and test/log analysis. Use `gpt-5.4` or stronger only for subtle logic, high-risk changes, security/auth/payment/data-model concerns, or final review.
-
-## Cost and coordination Rules:
-
-- Avoid duplicated repository scans.
-- Parallelize reading, not writing.
-- Keep subagent scopes narrow and non-overlapping.
-- Prefer read-only subagents first.
-- Keep subagent summaries concise and evidence-based.
-- Stop exploration once likely change points are identified.
-- Do not include raw logs unless the exact text is necessary.
-- Treat subagent output as evidence to evaluate, not as automatic truth.
-- If coordination overhead starts to exceed the benefit, stop spawning new subagents and return to the main-agent workflow.
-
-## Sync modes
+## Sync Patterns
 
 Default sync mode: pipeline.
 
-### Barrier sync
+### Barrier Sync
 
-Use barrier sync for broad read-only exploration, PR review, or independent risk analysis.
+Use for broad read-only exploration, PR review, or independent risk analysis.
 
 Pattern:
 
@@ -78,11 +48,9 @@ Pattern:
 3. Main agent deduplicates findings.
 4. Main agent decides next steps.
 
-Use this when parallel perspectives are useful and the main agent should not decide until all findings are available.
+### Pipeline Sync
 
-### Pipeline sync
-
-Use pipeline sync for bug fixes, feature work, and refactors.
+Use for bug fixes, feature work, and refactors where later steps depend on earlier conclusions.
 
 Pattern:
 
@@ -92,11 +60,9 @@ Pattern:
 4. Reviewer or test analyst verifies.
 5. Main agent integrates and reviews.
 
-Use this when later steps depend on earlier conclusions.
+### Speculative Read-Only Sync
 
-### Speculative read-only sync
-
-Use speculative read-only sync for uncertain debugging or design approaches.
+Use for uncertain debugging or competing design hypotheses.
 
 Pattern:
 
@@ -105,81 +71,37 @@ Pattern:
 3. Main agent compares evidence.
 4. Main agent chooses one path.
 
-Use this to reduce uncertainty, not to create multiple competing implementations.
+## Ownership And Write Rules
 
-## Single-writer rule
+- Read-only agents may run in parallel.
+- At any time, only one agent should own code modifications unless file ownership is explicitly disjoint.
+- Do not allow two agents to edit the same file or overlapping modules.
+- If file ownership becomes unclear, stop parallel writing and return control to the main agent.
+- Patch workers may edit only explicitly assigned files.
+- When using built-in `worker`, the main agent must provide explicit file ownership and a narrow task scope.
+- Review agents, test-analysis agents, and read-only agents must not perform implementation work.
 
-At any time, only one agent may own code modifications.
+Subagents must not change public APIs, auth logic, security-sensitive code, payment logic, database migrations, data-model semantics, dependency versions, lockfiles, build or release configuration, or unrelated formatting unless explicitly instructed by the main agent.
 
-Read-only agents may run in parallel.
-
-Write-capable agents should run sequentially unless their file ownership is explicitly disjoint.
-
-Do not allow two agents to edit the same file or overlapping modules.
-
-If file ownership becomes unclear, stop parallel writing and return control to the main agent.
-
-## Write permission rules
-
-Patch workers may edit only explicitly assigned files.
-
-Subagents must not change the following unless explicitly instructed by the main agent:
-
-- Public APIs
-- Auth logic
-- Security-sensitive code
-- Payment logic
-- Database migrations
-- Data model semantics
-- Dependency versions
-- Lockfiles
-- Build or release configuration
-- Unrelated formatting
-
-Review agents and test-analysis agents must not modify code.
-
-Read-only agents must not perform implementation work.
-
-When using built-in `worker`, the main agent must provide explicit file ownership and a narrow task scope.
-
-## Escalation policy
+## Stop And Fallback
 
 A subagent must stop and report back instead of acting when:
 
-- The assigned scope is insufficient
-- The task requires changing public APIs
-- The task touches auth, security, payment, migrations, dependencies, or lockfiles
+- The assigned scope is insufficient or unclear
+- The task requires changing public APIs or sensitive-domain behavior
+- The task touches auth, security, payment, migrations, dependencies, lockfiles, build configuration, or release configuration without explicit permission
 - Tests indicate a broader design issue
-- It needs network access or dependency installation
-- It would need to modify files outside its assigned ownership
-- It finds conflicting evidence that changes the implementation strategy
+- Network access, dependency installation, or files outside assigned ownership would be required
+- Evidence conflicts with the implementation strategy
 - It cannot provide evidence for its conclusion
 
 The subagent should report what it found, why it stopped, and what decision is needed from the main agent.
 
-## Fallback policy
+If subagent results conflict, the main agent identifies the conflicting claims, verifies the smallest necessary evidence directly, and does not merge conclusions blindly. If uncertainty remains, continue with a conservative single-agent workflow.
 
-If subagent results conflict:
+If a patch worker produces a broad or risky diff, reject or revert the broad parts, keep only minimal safe changes if appropriate, reassign with narrower file ownership if needed, and use a reviewer before final acceptance.
 
-1. Main agent identifies the conflicting claims.
-2. Main agent verifies the smallest necessary evidence directly.
-3. Main agent does not merge conclusions blindly.
-4. If uncertainty remains, continue with a conservative single-agent workflow.
-
-If a patch worker produces a broad or risky diff:
-
-1. Reject or revert the broad parts.
-2. Keep only minimal safe changes if appropriate.
-3. Reassign with narrower file ownership if needed.
-4. Use a reviewer before final acceptance.
-
-If the workflow becomes more expensive than useful:
-
-1. Stop spawning new subagents.
-2. Summarize current findings.
-3. Continue with a single-agent workflow.
-
-## Required subagent report format
+## Report And Evidence
 
 Each subagent must return:
 
@@ -191,65 +113,19 @@ Each subagent must return:
 6. Risks or uncertainties
 7. Recommended next action
 
-Role-specific agents may include additional fields.
+Role-specific extras:
 
-For example, `test_analyst` should also include:
+- `test_analyst`: commands run, test results, failure summary
+- `code_reviewer`: findings ranked by severity, suggested fixes, missing tests or checks
+- `patch_worker`: files changed, summary of changes, tests or checks run, assumptions
 
-- Commands run
-- Test results
-- Failure summary
+Every non-trivial claim should include a file path, symbol/function/class/route/command/config name, line reference when available, command run when based on test output, and exact short error text only when necessary.
 
-`code_reviewer` should also include:
+Do not treat subagent agreement as proof without evidence. Do not accept broad claims such as "the code is fine" or "tests are sufficient" unless supported by concrete files, commands, or inspected behavior.
 
-- Findings ranked by severity
-- Suggested fixes
-- Missing tests or checks
+Keep reports concise. Avoid raw logs, long command output, full file excerpts, step-by-step process narration, repeated task prompts, and speculative conclusions without evidence. Quote raw output only when the exact text is necessary to understand a failure or risk.
 
-Patch workers should also include:
-
-- Files changed
-- Summary of changes
-- Tests or checks run
-- Assumptions
-
-## Evidence requirements
-
-Every non-trivial claim should include evidence:
-
-- File path
-- Symbol, function, class, route, command, or config name
-- Line reference when available
-- Command run, if based on test output
-- Exact short error text only when necessary
-
-Do not treat subagent agreement as proof without evidence.
-
-Do not accept broad claims such as "the code is fine" or "tests are sufficient" unless supported by concrete files, commands, or inspected behavior.
-
-## Output budget
-
-Subagent reports should be concise.
-
-Prefer:
-
-- Short summaries
-- Relevant file paths
-- Key evidence
-- Risks or uncertainties
-- Recommended next action
-
-Avoid:
-
-- Raw logs
-- Long command output
-- Full file excerpts
-- Step-by-step process narration
-- Repeating the task prompt
-- Speculative conclusions without evidence
-
-Quote raw output only when the exact text is necessary to understand a failure or risk.
-
-## Anti-patterns
+## Anti-Patterns
 
 Avoid:
 
@@ -263,13 +139,11 @@ Avoid:
 - Letting review agents modify code
 - Letting test-analysis agents fix failures directly
 
-## Final review
+## Final Review And Done
 
-The main agent must inspect the final diff before finishing.
+The main agent must inspect the final diff before finishing. For larger or riskier changes, use `code_reviewer` before the final response.
 
-For larger or riskier changes, use `code_reviewer` before the final response.
-
-The main agent should verify:
+Before the final response, verify:
 
 - Changed files are expected
 - No unrelated files were modified
@@ -278,24 +152,7 @@ The main agent should verify:
 - Evidence supports the final conclusion
 - Tests or checks are appropriate
 - Unresolved risks are stated
-
-The final response should summarize:
-
-- What changed
-- Files changed
-- Tests or checks run
-- Remaining risks or follow-up work
-
-## Done definition
-
-The workflow is done only when:
-
-- The main agent has reviewed the final diff
-- Changed files are listed
-- Tests or verification steps are reported
-- Unresolved risks are stated
-- Subagent findings have been deduplicated
 - No subagent has unresolved ownership conflicts
 - No review or test-analysis subagent has modified code
-- The final answer reflects what was actually verified
 
+The final response should summarize what changed, files changed, tests or checks run, and remaining risks or follow-up work.

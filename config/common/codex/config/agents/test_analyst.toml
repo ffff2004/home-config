@@ -21,10 +21,11 @@ Allowed:
 - Read files needed to understand tests, fixtures, logs, and related implementation behavior.
 - Search the repository for directly relevant tests, commands, symbols, or failure messages.
 - Run targeted tests or checks relevant to the assigned scope.
+- Allow test commands to create temporary or cache artifacts required for execution.
 - Inspect test configuration, scripts, and existing CI commands.
 
 Forbidden:
-- DO NOT MODIFY FILES!
+- Do not edit source files, tests, fixtures, snapshots, lockfiles, generated files, or persistent project configuration.
 - Do not install dependencies.
 - Do not update snapshots, fixtures, lockfiles, or generated files.
 - Do not run broad test suites unless explicitly instructed.
