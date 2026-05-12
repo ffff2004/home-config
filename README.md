@@ -109,7 +109,7 @@
 
 ## 4. 其他有用信息
 
-提交信息约定见 [COMMIT_CONVENTIONS.md](COMMIT_CONVENTIONS.md)。
+提交信息使用 `<type>(<scope>): <summary>` 格式，详细约定见 [AGENTS.md](AGENTS.md)。
 
 ### 4.1 构建和求值
 
