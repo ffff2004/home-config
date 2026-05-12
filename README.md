@@ -38,6 +38,7 @@
 | [config/common/neovim.nix](config/common/neovim.nix)                               | Neovim 默认编辑器配置：Lua 设置、常用插件、nvim-cmp 补全与 nil/ruff/bash/fish LSP |
 | [config/common/nodejs/default.nix](config/common/nodejs/default.nix)               | Node.js、pnpm、`.npmrc` 链接与 pnpm 全局 bin PATH                 |
 | [config/common/python/default.nix](config/common/python/default.nix)               | Python 工具链（uv、nix-py 脚本）                                 |
+| [config/common/codex/default.nix](config/common/codex/default.nix)                 | Codex 用户配置、skills 与自定义 agents 文件树链接                 |
 | [config/common/misc/default.nix](config/common/misc/default.nix)                   | 杂项工具（direnv、nix-direnv、yazi）                             |
 | [config/common/misc/packages/default.nix](config/common/misc/packages/default.nix) | 常用包清单（含 nil、nixfmt、jq 等）                              |
 | [config/common/fastfetch/default.nix](config/common/fastfetch/default.nix)         | fastfetch 配置与配置文件链接                                     |
@@ -143,3 +144,4 @@ hmso  # home-manager switch -b hmbak --option substitute false
 2. 尽量通过 [lib/to-source-path.nix](lib/to-source-path.nix) 的 `mkSymlinkToSource` 管理配置文件源链接。
 3. 非必要不要修改 `home.stateVersion`。
 4. Nix 文件遵循 [.editorconfig](.editorconfig) 的 2 空格缩进。
+5. Codex 配置只纳入需要声明式管理的 `AGENTS.md`、`skills/` 和 `agents/`；不要复制 `~/.codex/skills/.system`、插件缓存、会话状态等运行时文件。
