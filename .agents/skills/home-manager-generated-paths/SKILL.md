@@ -35,6 +35,26 @@ Use this when the user wants to know:
 4. Report the home path, the relative path under `result`, and the source option when it can be identified.
 5. If there are many entries, group them by area, such as top-level files, `.config`, `.local/share`, `.gnupg`, and user systemd units.
 
+## Commands
+
+List final home-file keys:
+
+```bash
+nix eval .#homeConfigurations.fym.config.home.file --apply builtins.attrNames --json
+```
+
+Inspect a source option when known, using `--expr` if the attr name contains `/`:
+
+```bash
+nix eval --impure --json --expr '(builtins.getFlake (toString ./.)).homeConfigurations.fym.config.xdg.configFile."tmux/tmux.conf"'
+```
+
+Check the built result path:
+
+```bash
+ls -l result/home-files/.config/tmux/tmux.conf result/home-path/bin/tmux
+```
+
 ## Output Format
 
 Prefer this shape:
