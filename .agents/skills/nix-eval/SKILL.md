@@ -23,6 +23,7 @@ Use `nix eval` for read-only checks of actual Nix values.
 4. For attrset exploration, list keys first with `--apply builtins.attrNames --json`; only evaluate a child attribute after choosing a specific key.
 5. Use `nix repl` only when `nix eval` cannot answer the question clearly.
 6. Do not evaluate `homeConfigurations.fym.config` or another broad attrset directly.
+7. For attr names containing `/` (common in `home.file`, `xdg.configFile`, and `xdg.dataFile`), do not use flake attr-path syntax. Use `--expr` with `builtins.getFlake`, for example: `nix eval --impure --json --expr '(builtins.getFlake (toString ./.)).homeConfigurations.fym.config.xdg.configFile."tmux/tmux.conf"'`
 
 ## Commands
 
@@ -47,7 +48,7 @@ nix eval .#homeConfigurations.fym.config.programs --apply builtins.attrNames --j
 Check whether an attribute exists:
 
 ```bash
-nix eval --json --expr 'builtins.hasAttr "zoxide" (builtins.getFlake (toString ./.)).homeConfigurations.fym.config.programs'
+nix eval --impure --json --expr 'builtins.hasAttr "zoxide" (builtins.getFlake (toString ./.)).homeConfigurations.fym.config.programs'
 ```
 
 Resolve the pinned Home Manager input path:
