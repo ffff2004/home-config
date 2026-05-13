@@ -2,7 +2,12 @@
 set -euo pipefail
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-sync_script="$script_dir/sync-codex-config.sh"
+sync_script="${1:-$script_dir/sync-codex-config.sh}"
+
+if [[ ! -x "$sync_script" ]]; then
+  printf 'sync script is not executable: %s\n' "$sync_script" >&2
+  exit 1
+fi
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
@@ -191,4 +196,4 @@ for test_name in "${tests[@]}"; do
   "$test_name"
 done
 
-printf 'All sync-codex-config tests passed.\n'
+printf 'All codex-config-sync tests passed.\n'

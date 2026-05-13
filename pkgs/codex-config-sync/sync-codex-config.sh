@@ -2,30 +2,28 @@
 set -euo pipefail
 
 usage() {
-  cat <<'EOF'
-Usage:
-  sync-codex-config.sh status [options]
-  sync-codex-config.sh pull-from-home [options]
-  sync-codex-config.sh push-to-home [options]
-  sync-codex-config.sh activate [options]
-
-Commands:
-  status          Report managed-file drift and unmanaged home-side files.
-  pull-from-home  Sync ~/.codex changes back into the repository.
-  push-to-home    Sync repository config into ~/.codex.
-  activate        Safe push mode for Home Manager activation.
-
-Options:
-  --write               Apply changes instead of reporting only.
-  --add                 For pull-from-home, add unmanaged candidate files.
-  --delete              Delete missing files on the destination side.
-  --force               For push-to-home, overwrite differing home-side files.
-  --codex-home PATH     Override the home Codex directory.
-  --repo-root PATH      Override the repository root.
-  --config-root PATH    Override the tracked Codex config root.
-  --path GLOB           Restrict work to matching relative paths. Repeatable.
-  -h, --help            Show this help.
-EOF
+  printf 'Usage:\n'
+  printf '  %s status [options]\n' "${0##*/}"
+  printf '  %s pull-from-home [options]\n' "${0##*/}"
+  printf '  %s push-to-home [options]\n' "${0##*/}"
+  printf '  %s activate [options]\n' "${0##*/}"
+  printf '\n'
+  printf 'Commands:\n'
+  printf '  status          Report managed-file drift and unmanaged home-side files.\n'
+  printf '  pull-from-home  Sync ~/.codex changes back into the repository.\n'
+  printf '  push-to-home    Sync repository config into ~/.codex.\n'
+  printf '  activate        Safe push mode for Home Manager activation.\n'
+  printf '\n'
+  printf 'Options:\n'
+  printf '  --write               Apply changes instead of reporting only.\n'
+  printf '  --add                 For pull-from-home, add unmanaged candidate files.\n'
+  printf '  --delete              Delete missing files on the destination side.\n'
+  printf '  --force               For push-to-home, overwrite differing home-side files.\n'
+  printf '  --codex-home PATH     Override the home Codex directory.\n'
+  printf '  --repo-root PATH      Override the repository root.\n'
+  printf '  --config-root PATH    Override the tracked Codex config root.\n'
+  printf '  --path GLOB           Restrict work to matching relative paths. Repeatable.\n'
+  printf '  -h, --help            Show this help.\n'
 }
 
 die() {
@@ -261,10 +259,10 @@ print_conflict_guidance() {
   fi
 
   printf '\nNext steps:\n'
-  printf '  Pull local changes back into the repo:\n'
-  printf '    %s pull-from-home --write\n' "${0##*/}"
-  printf '  Overwrite local files with the repo version:\n'
-  printf '    %s push-to-home --write --force\n' "${0##*/}"
+  printf '  From the home-config repo, pull local changes back into git:\n'
+  printf '    nix run .#codex-config-sync -- pull-from-home --write\n'
+  printf '  From the home-config repo, overwrite local files with the repo version:\n'
+  printf '    nix run .#codex-config-sync -- push-to-home --write --force\n'
 }
 
 list_repo_files() {
