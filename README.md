@@ -11,7 +11,7 @@
 3. [modules/default.nix](modules/default.nix)
 4. [lib/default.nix](lib/default.nix)
 
-`flake.nix` 构建 `homeConfigurations.fym`，并通过 `extraSpecialArgs` 注入 `localLib` 与 `pkgsFrom`。现在也包含 Home Manager 元配置和 Nix 配置。
+`flake.nix` 构建 `homeConfigurations.fym`，并通过 `extraSpecialArgs` 注入 `localLib` 与 `pkgsFrom`。现在也包含 Home Manager 元配置、Nix 配置，以及仓库内工具包输出（如 `codex-config-sync`）。
 `config` 与 `modules` 目录的 `default.nix` 统一使用 `localLib.lsSubmodule ./.` 自动导入子模块。
 
 ## 2. config 目录模块职责
@@ -38,7 +38,7 @@
 | [config/common/neovim.nix](config/common/neovim.nix)                               | Neovim 默认编辑器配置：Lua 设置、常用插件、nvim-cmp 补全与 nil/ruff/bash/fish LSP |
 | [config/common/nodejs/default.nix](config/common/nodejs/default.nix)               | Node.js、pnpm、`.npmrc` 链接与 pnpm 全局 bin PATH                 |
 | [config/common/python/default.nix](config/common/python/default.nix)               | Python 工具链（uv、nix-py 脚本）                                 |
-| [config/common/codex/default.nix](config/common/codex/default.nix)                 | Codex 用户配置、skills 与自定义 agents 文件树链接                 |
+| [config/common/codex/default.nix](config/common/codex/default.nix)                 | Codex 受管配置部署入口：通过 `codex-config-sync` 将仓库中的 `AGENTS.md`、`skills/`、`agents/` 同步到 `~/.codex`，默认不覆盖本地差异 |
 | [config/common/misc/default.nix](config/common/misc/default.nix)                   | 杂项工具（direnv、nix-direnv、yazi）                             |
 | [config/common/misc/packages/default.nix](config/common/misc/packages/default.nix) | 常用包清单（含 nil、nixfmt、jq 等）                              |
 | [config/common/fastfetch/default.nix](config/common/fastfetch/default.nix)         | fastfetch 配置与配置文件链接                                     |
@@ -107,14 +107,22 @@
 1. 自动导入模块（避免在 `default.nix` 手工枚举）。
 2. 将配置文件以 out-of-store symlink 方式链接到源码路径，便于维护与热更新。
 
-## 4. 其他有用信息
+## 4. pkgs 目录工具包
+
+| 模块                                                             | 职责                                                                 |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [pkgs/codex-config-sync/default.nix](pkgs/codex-config-sync/default.nix) | 打包 `sync-codex-config` 工具，固定运行依赖，并在构建时运行 `shellcheck` 与功能测试 |
+| [pkgs/codex-config-sync/sync-codex-config.sh](pkgs/codex-config-sync/sync-codex-config.sh) | Codex 配置双向同步脚本：`status`、`pull-from-home`、`push-to-home`、`activate` |
+| [pkgs/codex-config-sync/test-sync-codex-config.sh](pkgs/codex-config-sync/test-sync-codex-config.sh) | `sync-codex-config` 的自包含回归测试                                   |
+
+## 5. 其他有用信息
 
 提交信息使用 `<type>(<scope>): <summary>` 格式，详细约定见 [AGENTS.md](AGENTS.md)。
 
-### 4.1 构建和求值
+### 5.1 构建和求值
 
 ```bash
-# 仅改配置、未新增包时，推荐：跳过 Nix binary cache 查询以节省时间
+# 仅改本地配置、未新增包或依赖时，推荐：跳过 Nix binary cache 查询以节省时间
 home-manager build --option substitute false
 
 # 常规构建
@@ -136,12 +144,25 @@ hms   # home-manager switch -b hmbak
 hmso  # home-manager switch -b hmbak --option substitute false
 ```
 
+涉及 Codex 配置同步时，可使用：
+
+```bash
+# 查看受管文件与本地 ~/.codex 的差异
+nix run .#codex-config-sync -- status
+
+# 将 ~/.codex 中的改动回收到仓库
+nix run .#codex-config-sync -- pull-from-home --write
+
+# 将仓库中的 Codex 配置部署到 ~/.codex
+nix run .#codex-config-sync -- push-to-home --write
+```
+
 求值：维护时优先使用 `nix-eval` skill 做只读求值，必要时再用 `nix eval` 或 `nix repl` 直接查询 flake 输出。
 
-### 4.2 维护约定
+### 5.2 维护约定
 
 1. 新建模块目录时，建议提供 `default.nix` 并使用 `imports = localLib.lsSubmodule ./.`。
 2. 尽量通过 [lib/to-source-path.nix](lib/to-source-path.nix) 的 `mkSymlinkToSource` 管理配置文件源链接。
 3. 非必要不要修改 `home.stateVersion`。
 4. Nix 文件遵循 [.editorconfig](.editorconfig) 的 2 空格缩进。
-5. Codex 配置只纳入需要声明式管理的 `AGENTS.md`、`skills/` 和 `agents/`；不要复制 `~/.codex/skills/.system`、插件缓存、会话状态等运行时文件。
+5. Codex 配置只纳入需要声明式管理的 `AGENTS.md`、`skills/` 和 `agents/`；不要复制 `~/.codex/skills/.system`、插件缓存、会话状态等运行时文件。同步工具默认不会覆盖本地有差异的 `~/.codex` 文件。
