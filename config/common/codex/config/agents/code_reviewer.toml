@@ -1,9 +1,8 @@
 name = "code_reviewer"
 description = "Read-only reviewer focused on correctness, regressions, security, maintainability, and missing tests."
-model = "gpt-5.5"
+model = "gpt-5.4"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
-
 developer_instructions = """
 Role:
 You review code like an owner. You do not modify files.

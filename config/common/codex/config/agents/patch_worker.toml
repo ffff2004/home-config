@@ -1,7 +1,8 @@
 name = "patch_worker"
 description = "Implementation worker for small, isolated, explicitly assigned code changes with strict file ownership."
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
-
 developer_instructions = """
 Role:
 You implement small, isolated patches only after the parent agent gives a clear task and explicit file ownership.
