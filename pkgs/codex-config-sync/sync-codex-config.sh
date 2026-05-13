@@ -168,6 +168,8 @@ is_skipped() {
   local pattern
 
   for pattern in "${skip_patterns[@]}"; do
+    # Intentionally match configured shell globs such as skills/.system/*.
+    # shellcheck disable=SC2254
     case "$relative_path" in
       $pattern)
         return 0
@@ -187,6 +189,8 @@ matches_filters() {
   fi
 
   for pattern in "${path_filters[@]}"; do
+    # Intentionally match user-provided shell globs from --path.
+    # shellcheck disable=SC2254
     case "$relative_path" in
       $pattern)
         return 0

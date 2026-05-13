@@ -8,6 +8,7 @@
   findutils,
   gitMinimal,
   gnugrep,
+  shellcheck,
 }:
 let
   runtimeInputs = [
@@ -25,7 +26,10 @@ stdenvNoCC.mkDerivation {
 
   src = ./.;
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [
+    makeWrapper
+    shellcheck
+  ];
 
   dontBuild = true;
 
@@ -50,6 +54,7 @@ stdenvNoCC.mkDerivation {
     mkdir -p "$HOME"
     export PATH=${lib.makeBinPath runtimeInputs}:$PATH
 
+    shellcheck "$src/sync-codex-config.sh" "$src/test-sync-codex-config.sh"
     ${bash}/bin/bash "$src/test-sync-codex-config.sh" "$out/bin/sync-codex-config"
 
     runHook postInstallCheck
