@@ -23,7 +23,7 @@ Use this when the user wants to know:
 - `home.file`, `xdg.configFile`, and `xdg.dataFile` usually generate files under `result/home-files/...`
 - Installed packages, profile resources, executables, desktop files, icons, man pages, and shared resources usually come from `result/home-path/...`
 - User systemd units should be checked separately through Home Manager's systemd output
-- Inside Home Manager, config is merged: systemd.user.*.* -> xdg.*File.* -> home.file.*
+- Inside Home Manager, config is merged: `systemd.user.*.*` -> `xdg.*File.*` -> `home.file.*`
 - `result` is usually a symlink to a Home Manager generation. When answering about concrete files, prefer paths relative to `result/home-files` or `result/home-path`
 - Nix attribute names (e.g., `xdg.configFile.niri-config`) may not correspond to generated file paths under `result`, always check the actual path config `<file-attr>.target`.
 
