@@ -1,10 +1,14 @@
-LOCK_FILE="/tmp/clipboard_bridge_lock"
+#!/bin/sh
+
+set -eu
+
+LOCK_DIR="/tmp/clipboard-bridge"
+PID_FILE="$LOCK_DIR/x11-to-wl.pid"
 
 TMP_DIR=$(mktemp -d --tmpdir clipboard_sync.XXXXXX) || {
     echo "Failed to create temp dir" >&2
     exit 1
 }
-trap 'rm -rf "$TMP_DIR"; exit' INT TERM EXIT
 
 # 检测 stdout 是否为终端
 if [ -t 1 ]; then
@@ -45,6 +49,60 @@ log_warn() {
         "$COLOR_YELLOW" "$1" "$COLOR_RESET"
 }
 
+acquire_instance_lock() {
+    mkdir -p "$LOCK_DIR"
+
+    if [ -e "$PID_FILE" ]; then
+        pid=$(cat "$PID_FILE" 2>/dev/null || true)
+        if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+            exit 0
+        fi
+        rm -f "$PID_FILE"
+    fi
+
+    printf '%d\n' "$$" > "$PID_FILE"
+}
+
+cleanup() {
+    rm -f "$PID_FILE"
+    rm -rf "$TMP_DIR"
+}
+
+has_target() {
+    printf '%s' "$1" | grep -q "$2"
+}
+
+sync_binary_type() {
+    local mime_type="$1"
+    local label="$2"
+    local x11_file="$3"
+    local wl_file="$4"
+
+    xclip -selection clipboard -t "$mime_type" -o > "$x11_file" 2>/dev/null
+    wl-paste -t "$mime_type" > "$wl_file" 2>/dev/null
+
+    if ! cmp -s "$x11_file" "$wl_file"; then
+        wl-copy -t "$mime_type" < "$x11_file"
+        log_sync "x11->wl" "$label" " ($mime_type)"
+    fi
+}
+
+sync_text_type() {
+    local mime_type="$1"
+    local label="$2"
+    local x11_value
+    local wl_value
+
+    x11_value=$(xclip -selection clipboard -t "$mime_type" -o 2>/dev/null || true)
+    [ -z "$x11_value" ] && return 0
+
+    wl_value=$(wl-paste --type "$mime_type" 2>/dev/null || true)
+    if [ "$x11_value" != "$wl_value" ]; then
+        printf '%s' "$x11_value" | wl-copy --type "$mime_type"
+        log_sync "x11->wl" "$label" " ($mime_type)"
+    fi
+}
+
 for cmd in xclip wl-copy clipnotify cmp; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         printf 'Error: Missing dependency '\''%s'\''\n' "$cmd" >&2
@@ -52,23 +110,17 @@ for cmd in xclip wl-copy clipnotify cmp; do
     fi
 done
 
+trap cleanup EXIT INT TERM
+acquire_instance_lock
+
 log 'Starting X11 -> Wayland sync (Event-driven with clipnotify)...'
 
 clipboard_sync() {
     local current_x11_img="$TMP_DIR/curr_x11.img"
     local current_wl_img="$TMP_DIR/curr_wl.img"
-    local last_x11_img="$TMP_DIR/last_x11.img"
     local last_text=""
 
-    # rm -f "$LOCK_FILE"
-
     while clipnotify; do
-        # if [ -f "$LOCK_FILE" ]; then
-        #     sleep 0.2
-        #     continue
-        # fi
-
-        # echo x11 > "$LOCK_FILE"
         sleep 0.05
 
         x11_targets=$(xclip -selection clipboard -t TARGETS -o 2>/dev/null)
@@ -76,59 +128,23 @@ clipboard_sync() {
 
         handled=false
 
-        # Image types
-        if [ -z "$handled" ] && printf '%s' "$x11_targets" | grep -q 'image/png'; then
-            xclip -selection clipboard -t image/png -o > "$current_x11_img" 2>/dev/null
-            wl-paste -t image/png > "$current_wl_img" 2>/dev/null
-            if ! cmp -s "$current_x11_img" "$current_wl_img"; then
-                wl-copy -t image/png < "$current_x11_img"
-                cp "$current_x11_img" "$last_x11_img"
-                log_sync "x11->wl" "Image" " (image/png)"
-            fi
+        if [ "$handled" = false ] && has_target "$x11_targets" 'image/png'; then
+            sync_binary_type "image/png" "Image" "$current_x11_img" "$current_wl_img"
             handled=true
-        elif [ -z "$handled" ] && printf '%s' "$x11_targets" | grep -q 'image/jpeg'; then
-            xclip -selection clipboard -t image/jpeg -o > "$current_x11_img" 2>/dev/null
-            wl-paste -t image/jpeg > "$current_wl_img" 2>/dev/null
-            if ! cmp -s "$current_x11_img" "$current_wl_img"; then
-                wl-copy -t image/jpeg < "$current_x11_img"
-                cp "$current_x11_img" "$last_x11_img"
-                log_sync "x11->wl" "Image" " (image/jpeg)"
-            fi
+        elif [ "$handled" = false ] && has_target "$x11_targets" 'image/jpeg'; then
+            sync_binary_type "image/jpeg" "Image" "$current_x11_img" "$current_wl_img"
             handled=true
-        elif [ -z "$handled" ] && printf '%s' "$x11_targets" | grep -q 'image/gif'; then
-            xclip -selection clipboard -t image/gif -o > "$current_x11_img" 2>/dev/null
-            wl-paste -t image/gif > "$current_wl_img" 2>/dev/null
-            if ! cmp -s "$current_x11_img" "$current_wl_img"; then
-                wl-copy -t image/gif < "$current_x11_img"
-                cp "$current_x11_img" "$last_x11_img"
-                log_sync "x11->wl" "Image" " (image/gif)"
-            fi
+        elif [ "$handled" = false ] && has_target "$x11_targets" 'image/gif'; then
+            sync_binary_type "image/gif" "Image" "$current_x11_img" "$current_wl_img"
             handled=true
-        # Rich text
-        elif [ -z "$handled" ] && printf '%s' "$x11_targets" | grep -q 'text/html'; then
-            html=$(xclip -selection clipboard -t text/html -o 2>/dev/null || true)
-            if [ -n "$html" ]; then
-                current_html=$(wl-paste --type text/html 2>/dev/null || true)
-                if [ "$html" != "$current_html" ]; then
-                    printf '%s' "$html" | wl-copy --type text/html
-                    log_sync "x11->wl" "Rich Text" " (text/html)"
-                fi
-            fi
+        elif [ "$handled" = false ] && has_target "$x11_targets" 'text/html'; then
+            sync_text_type "text/html" "Rich Text"
             handled=true
-        # URI list
-        elif [ -z "$handled" ] && printf '%s' "$x11_targets" | grep -q 'text/uri-list'; then
-            uris=$(xclip -selection clipboard -t text/uri-list -o 2>/dev/null || true)
-            if [ -n "$uris" ]; then
-                current_uris=$(wl-paste --type text/uri-list 2>/dev/null || true)
-                if [ "$uris" != "$current_uris" ]; then
-                    printf '%s' "$uris" | wl-copy --type text/uri-list
-                    log_sync "x11->wl" "URI List" " (text/uri-list)"
-                fi
-            fi
+        elif [ "$handled" = false ] && has_target "$x11_targets" 'text/uri-list'; then
+            sync_text_type "text/uri-list" "URI List"
             handled=true
         fi
 
-        # Text fallback
         if [ "$handled" = false ]; then
             current_text=$(wl-paste --type text/plain 2>/dev/null || true)
             x11_text=$(xclip -selection clipboard -o 2>/dev/null || true)
@@ -146,12 +162,9 @@ clipboard_sync() {
             handled=true
         fi
 
-        # Warn about unhandled types (only if clipboard not empty)
         if [ "$handled" = false ] && [ -n "$x11_targets" ]; then
             log_warn "Unhandled X11 targets: $x11_targets"
         fi
-
-        # rm -f "$LOCK_FILE"
     done
 }
 

@@ -2,7 +2,8 @@
 
 set -eu
 
-LOCK_FILE="/tmp/clipboard_bridge_wl_to_x11.lock"
+LOCK_DIR="/tmp/clipboard-bridge"
+PID_FILE="$LOCK_DIR/wl-to-x11.pid"
 
 if [ -t 1 ]; then
     COLOR_RESET='\033[0m'
@@ -35,6 +36,24 @@ log_warn() {
     printf '%s[%s]%s %s Wayland → X11 | Unhandled MIME types:%s %s\n' \
         "$COLOR_CYAN" "$(date '+%H:%M:%S')" "$COLOR_RESET" \
         "$COLOR_YELLOW" "$1" "$COLOR_RESET"
+}
+
+acquire_instance_lock() {
+    mkdir -p "$LOCK_DIR"
+
+    if [ -e "$PID_FILE" ]; then
+        pid=$(cat "$PID_FILE" 2>/dev/null || true)
+        if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+            exit 0
+        fi
+        rm -f "$PID_FILE"
+    fi
+
+    printf '%d\n' "$$" > "$PID_FILE"
+}
+
+cleanup() {
+    rm -f "$PID_FILE"
 }
 
 sync_once() {
@@ -103,16 +122,8 @@ for cmd in wl-paste xclip; do
     fi
 done
 
-if [ -e "$LOCK_FILE" ]; then
-    pid=$(cat "$LOCK_FILE" 2>/dev/null || true)
-    if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
-        exit 0
-    fi
-    rm -f "$LOCK_FILE"
-fi
-
-printf '%d\n' "$$" > "$LOCK_FILE"
-trap 'rm -f "$LOCK_FILE"' EXIT INT TERM
+trap cleanup EXIT INT TERM
+acquire_instance_lock
 
 log "Clipboard watch service started"
 sync_once

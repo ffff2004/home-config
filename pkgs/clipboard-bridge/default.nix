@@ -11,7 +11,7 @@
   gnugrep,
 }:
 let
-  runtimeInputs = [
+  x11ToWlRuntimeInputs = [
     bash
     coreutils
     diffutils
@@ -19,6 +19,12 @@ let
     wl-clipboard
     clipnotify
     gnugrep
+  ];
+  wlToX11RuntimeInputs = [
+    bash
+    coreutils
+    xclip
+    wl-clipboard
   ];
 in
 stdenvNoCC.mkDerivation {
@@ -37,12 +43,12 @@ stdenvNoCC.mkDerivation {
     # Install x11-to-wl bridge
     install -Dm755 "$src/bridge-x11-to-wl.sh" "$out/libexec/clipboard-bridge/bridge-x11-to-wl"
     makeWrapper "$out/libexec/clipboard-bridge/bridge-x11-to-wl" "$out/bin/clipboard-bridge-x11-to-wl" \
-      --prefix PATH : ${lib.makeBinPath runtimeInputs}
+      --prefix PATH : ${lib.makeBinPath x11ToWlRuntimeInputs}
 
     # Install wl-to-x11 bridge
     install -Dm755 "$src/bridge-wl-to-x11.sh" "$out/libexec/clipboard-bridge/bridge-wl-to-x11"
     makeWrapper "$out/libexec/clipboard-bridge/bridge-wl-to-x11" "$out/bin/clipboard-bridge-wl-to-x11" \
-      --prefix PATH : ${lib.makeBinPath runtimeInputs}
+      --prefix PATH : ${lib.makeBinPath wlToX11RuntimeInputs}
 
     runHook postInstall
   '';
