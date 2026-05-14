@@ -1,31 +1,11 @@
 {
   lib,
-  stdenvNoCC,
-  makeWrapper,
-  bash,
+  writeShellApplication,
 }:
-let
-  runtimeInputs = [ bash ];
-in
-stdenvNoCC.mkDerivation {
-  pname = "coding-setup";
-  version = "0.1.0";
-
-  src = ./.;
-
-  nativeBuildInputs = [ makeWrapper ];
-
-  dontBuild = true;
-
-  installPhase = ''
-    runHook preInstall
-
-    install -Dm755 "$src/coding-setup.sh" "$out/libexec/coding-setup/coding-setup"
-    makeWrapper "$out/libexec/coding-setup/coding-setup" "$out/bin/coding-setup" \
-      --prefix PATH : ${lib.makeBinPath runtimeInputs}
-
-    runHook postInstall
-  '';
+writeShellApplication {
+  name = "coding-setup";
+  runtimeInputs = [ ];
+  text = builtins.readFile ./coding-setup.sh;
 
   meta = with lib; {
     description = "Set up a tmux coding workspace";

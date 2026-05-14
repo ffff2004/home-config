@@ -1,7 +1,6 @@
 {
   lib,
-  stdenvNoCC,
-  makeWrapper,
+  writeShellApplication,
   bash,
   coreutils,
   diffutils,
@@ -10,55 +9,29 @@
   gnugrep,
   shellcheck,
 }:
-let
+writeShellApplication {
+  name = "sync-codex-config";
   runtimeInputs = [
-    bash
     coreutils
     diffutils
     findutils
     gitMinimal
     gnugrep
   ];
-in
-stdenvNoCC.mkDerivation {
-  pname = "codex-config-sync";
-  version = "0.1.0";
+  text = builtins.readFile ./sync-codex-config.sh;
 
-  src = ./.;
-
-  nativeBuildInputs = [
-    makeWrapper
-    shellcheck
-  ];
-
-  dontBuild = true;
-
-  installPhase = ''
-    runHook preInstall
-
-    install -Dm755 "$src/sync-codex-config.sh" "$out/libexec/codex-config-sync/sync-codex-config"
-    makeWrapper "$out/libexec/codex-config-sync/sync-codex-config" "$out/bin/sync-codex-config" \
-      --prefix PATH : ${lib.makeBinPath runtimeInputs}
-
-    install -Dm644 "$src/test-sync-codex-config.sh" \
-      "$out/share/codex-config-sync/test-sync-codex-config.sh"
-
-    runHook postInstall
-  '';
-
-  doInstallCheck = true;
-  installCheckPhase = ''
-    runHook preInstallCheck
+  checkPhase = ''
+    runHook preCheck
 
     export HOME="$TMPDIR/home"
     mkdir -p "$HOME"
-    export PATH=${lib.makeBinPath runtimeInputs}:$PATH
 
-    shellcheck "$src/sync-codex-config.sh" "$src/test-sync-codex-config.sh"
-    ${bash}/bin/bash "$src/test-sync-codex-config.sh" "$out/bin/sync-codex-config"
+    shellcheck ${./sync-codex-config.sh} ${./test-sync-codex-config.sh}
+    ${bash}/bin/bash ${./test-sync-codex-config.sh} "$target"
 
-    runHook postInstallCheck
+    runHook postCheck
   '';
+  derivationArgs.nativeBuildInputs = [ shellcheck ];
 
   meta = {
     description = "Synchronize tracked Codex config between the repo and ~/.codex";
