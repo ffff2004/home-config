@@ -62,38 +62,6 @@
 | [config/gui/noctalia-shell/default.nix](config/gui/noctalia-shell/default.nix) | Noctalia shell 集成、模板与设置文件链接 |
 | [config/gui/umu/default.nix](config/gui/umu/default.nix) | UMU Launcher 包装器定义与 Proton 变体 |
 
-#### niri/settings 子模块
-
-| 模块 | 职责 |
-| --- | --- |
-| [config/gui/niri/settings/binds.nix](config/gui/niri/settings/binds.nix) | 键位绑定（大量 `mkDefault`，便于后续覆盖） |
-| [config/gui/niri/settings/env.nix](config/gui/niri/settings/env.nix) | Niri 运行环境变量 |
-| [config/gui/niri/settings/input.nix](config/gui/niri/settings/input.nix) | 键盘/触控板/鼠标输入行为 |
-| [config/gui/niri/settings/layout.nix](config/gui/niri/settings/layout.nix) | 布局、边框、阴影、列宽等视觉布局参数 |
-| [config/gui/niri/settings/misc.nix](config/gui/niri/settings/misc.nix) | 截图路径、CSD 偏好等杂项 |
-| [config/gui/niri/settings/window-rules.nix](config/gui/niri/settings/window-rules.nix) | 通用窗口规则 |
-| [config/gui/niri/settings/apps/default.nix](config/gui/niri/settings/apps/default.nix) | 应用规则入口，递归导入 app 规则 |
-| [config/gui/niri/settings/apps/*.nix](config/gui/niri/settings/apps) | 各应用专属规则与快捷键（如 Firefox、VS Code、IM、Steam、WPS 等） |
-
-#### noctalia-shell 子模块
-
-| 模块 | 职责 |
-| --- | --- |
-| [config/gui/noctalia-shell/niri.nix](config/gui/noctalia-shell/niri.nix) | 将 Noctalia IPC 与 Niri 快捷键/环境联动 |
-| [config/gui/noctalia-shell/user-templates/default.nix](config/gui/noctalia-shell/user-templates/default.nix) | 主题模板输入输出映射（如 alacritty/swaylock） |
-
-#### umu 子模块
-
-| 模块 | 职责 |
-| --- | --- |
-| [config/gui/umu/apps/default.nix](config/gui/umu/apps/default.nix) | umu app 子模块入口 |
-| [config/gui/umu/apps/build-proton-app.nix](config/gui/umu/apps/build-proton-app.nix) | 构建 Proton 启动器与 desktop entry 的通用函数 |
-| [config/gui/umu/umu-launcher-wrapper.nix](config/gui/umu/umu-launcher-wrapper.nix) | 生成带环境变量控制的 umu wrapper |
-| [config/gui/umu/apps/arknights.nix](config/gui/umu/apps/arknights.nix) | 明日方舟启动器包定义 |
-| [config/gui/umu/apps/endfield.nix](config/gui/umu/apps/endfield.nix) | 终末地启动器包定义 |
-| [config/gui/umu/apps/maa/default.nix](config/gui/umu/apps/maa/default.nix) | MAA 包与定时任务配置 |
-| [config/gui/umu/apps/maa/maa-proton.nix](config/gui/umu/apps/maa/maa-proton.nix) | MAA 启动脚本与图标打包逻辑 |
-
 ## 3. lib 目录模块职责
 
 | 模块 | 职责 |
@@ -111,9 +79,7 @@
 
 | 模块 | 职责 |
 | --- | --- |
-| [pkgs/codex-config-sync/default.nix](pkgs/codex-config-sync/default.nix) | 打包 `sync-codex-config` 工具，固定运行依赖，并在构建时运行 `shellcheck` 与功能测试 |
-| [pkgs/codex-config-sync/sync-codex-config.sh](pkgs/codex-config-sync/sync-codex-config.sh) | Codex 配置双向同步脚本：`status`、`pull-from-home`、`push-to-home`、`activate` |
-| [pkgs/codex-config-sync/test-sync-codex-config.sh](pkgs/codex-config-sync/test-sync-codex-config.sh) | `sync-codex-config` 的自包含回归测试 |
+| [pkgs/codex-config-sync/default.nix](pkgs/codex-config-sync/default.nix) | 打包 Codex 配置双向同步脚本：`status`、`pull-from-home`、`push-to-home`、`activate` |
 
 ## 5. 其他有用信息
 
