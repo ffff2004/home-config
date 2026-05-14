@@ -2,10 +2,12 @@
   config,
   lib,
   pkgs,
+  pkgsFrom,
   ...
 }:
 let
   target = "niri.service";
+  clipboardBridge = pkgsFrom.self.clipboard-bridge;
 in
 {
   systemd.user.services = {
@@ -53,9 +55,7 @@ in
       {
         Service = {
           Type = "exec";
-          ExecStart = pkgs.writeShellScript "clipboard-bridge-x11-to-wl" (
-            builtins.readFile ./bridge-x11-to-wl.sh
-          );
+          ExecStart = "${clipboardBridge}/bin/clipboard-bridge-x11-to-wl";
           Environment = "PATH=${lib.makeBinPath deps}";
         };
         Unit = {

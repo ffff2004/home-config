@@ -15,4 +15,5 @@
 
   codex-config-sync = pkgs.callPackage ./codex-config-sync { };
   nix-py = pkgs.callPackage ./nix-py { };
+  clipboard-bridge = pkgs.callPackage ./clipboard-bridge { };
 }
