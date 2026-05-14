@@ -37,6 +37,9 @@ of flake outputs and final option values. `home-manager build` is the
 main validation step, `build --option substitute false` is the faster path
 for local-only changes that do not introduce new packages or
 dependencies, and `switch -b hmbak` applies the result with a backup.
+When this repository is evaluated as a Git flake, untracked files are
+not included in the flake source. If you add a new `*.nix` module or
+file and Nix cannot see it, `git add` it first.
 
 ## Coding Style & Naming Conventions
 
@@ -52,11 +55,12 @@ This repository has no separate repository-wide unit-test suite, but
 some Nix derivations run self-checks during the build. When adding or
 changing packages under `pkgs/`, prefer defining package-specific
 checks in the derivation itself, using standard Nixpkgs check
-mechanisms where appropriate. Start with the `nix-eval` skill to do
+mechanisms where appropriate.
+Start with the `nix-eval` skill to do
 fast, read-only checks of syntax, affected flake attribute paths, and
 final option values. After that passes, run `home-manager build` as the
-main validation step. Use
-`home-manager build --option substitute false` when you only changed
+main validation step.
+Use `home-manager build --option substitute false` when you only changed
 local configuration and want to skip binary cache substitute lookups for
 a faster build; if the change adds packages or new build dependencies,
 prefer `home-manager build` so substitutes remain available. If the
