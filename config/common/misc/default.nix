@@ -1,5 +1,5 @@
 {
-  imports = [ ./packages ];
+  imports = [ ./packages.nix ];
 
   xdg.enable = true;
 

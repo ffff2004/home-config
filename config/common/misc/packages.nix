@@ -6,6 +6,7 @@
         gh
 
         nil
+        nixd
         nixfmt
         nix-tree
 
