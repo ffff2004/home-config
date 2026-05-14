@@ -48,10 +48,14 @@ or `lib/to-source-path.nix`.
 
 ## Testing Guidelines
 
-There is no separate unit-test suite in this repository. Start with the
-`nix-eval` skill to do fast, read-only checks of syntax, affected flake
-attribute paths, and final option values. After that passes, run
-`home-manager build` as the main validation step. Use
+This repository has no separate repository-wide unit-test suite, but
+some Nix derivations run self-checks during the build. When adding or
+changing packages under `pkgs/`, prefer defining package-specific
+checks in the derivation itself, using standard Nixpkgs check
+mechanisms where appropriate. Start with the `nix-eval` skill to do
+fast, read-only checks of syntax, affected flake attribute paths, and
+final option values. After that passes, run `home-manager build` as the
+main validation step. Use
 `home-manager build --option substitute false` when you only changed
 local configuration and want to skip binary cache substitute lookups for
 a faster build; if the change adds packages or new build dependencies,
