@@ -2,6 +2,7 @@
   lib,
   localLib,
   pkgs,
+  pkgsFrom,
   ...
 }:
 let
@@ -12,7 +13,8 @@ lib.mkIf enable {
   home = {
     packages = [
       pkgs.uv
-      (pkgs.writeShellScriptBin "nix-py" (builtins.readFile ./nix-py.sh))
+      # Use the repo-local package exported from pkgs/default.nix
+      pkgsFrom.self.nix-py
     ];
   };
 }

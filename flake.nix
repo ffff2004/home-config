@@ -80,9 +80,7 @@ rec {
         mkLib
         ;
 
-      packages.${system} = {
-        codex-config-sync = pkgs.callPackage ./pkgs/codex-config-sync { };
-      };
+      packages.${system} = import ./pkgs { inherit pkgs; };
 
       localLib = mkLib rec {
         inherit pkgs;
