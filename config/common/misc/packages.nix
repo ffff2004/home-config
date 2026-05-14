@@ -28,6 +28,7 @@
         ;
 
       inherit (pkgsFrom.fym998-nur) bitsrun wallpaper-fetcher;
+      inherit (pkgsFrom.self) coding-setup;
     }
   );
 }
