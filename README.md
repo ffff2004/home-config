@@ -82,7 +82,7 @@
 | [pkgs/codex-config-sync/default.nix](pkgs/codex-config-sync/default.nix) | Codex 配置双向同步脚本 |
 | [pkgs/coding-setup/default.nix](pkgs/coding-setup/default.nix) | tmux 编程工作区初始化脚本 `coding-setup` |
 | [pkgs/nix-py/default.nix](pkgs/nix-py/default.nix) | 使用 Nix 提供依赖启动 Python 的包装脚本 `nix-py` |
-| [pkgs/clipboard-bridge/default.nix](pkgs/clipboard-bridge/default.nix) | X11/Wayland 双向剪贴板桥接脚本：`clipboard-bridge-x11-to-wl`、`clipboard-bridge-wl-to-x11` |
+| [pkgs/clipboard-bridge/default.nix](pkgs/clipboard-bridge/default.nix) | X11/Wayland 双向剪贴板桥接脚本：`clipboard-bridge` |
 
 ## 5. 其他有用信息
 

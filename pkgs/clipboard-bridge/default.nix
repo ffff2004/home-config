@@ -1,7 +1,6 @@
 {
   lib,
-  stdenvNoCC,
-  makeWrapper,
+  writeShellApplication,
   bash,
   coreutils,
   diffutils,
@@ -9,10 +8,11 @@
   wl-clipboard,
   clipnotify,
   gnugrep,
+  shellcheck,
 }:
-let
-  x11ToWlRuntimeInputs = [
-    bash
+writeShellApplication {
+  name = "clipboard-bridge";
+  runtimeInputs = [
     coreutils
     diffutils
     xclip
@@ -20,42 +20,22 @@ let
     clipnotify
     gnugrep
   ];
-  wlToX11RuntimeInputs = [
-    bash
-    coreutils
-    xclip
-    wl-clipboard
-  ];
-in
-stdenvNoCC.mkDerivation {
-  pname = "clipboard-bridge";
-  version = "0.1.0";
+  text = builtins.readFile ./clipboard-bridge.sh;
 
-  src = ./.;
+  checkPhase = ''
+    runHook preCheck
 
-  nativeBuildInputs = [ makeWrapper ];
+    shellcheck ${./clipboard-bridge.sh}
+    ${bash}/bin/bash ${./clipboard-bridge.sh} --help >/dev/null
 
-  dontBuild = true;
-
-  installPhase = ''
-    runHook preInstall
-
-    # Install x11-to-wl bridge
-    install -Dm755 "$src/bridge-x11-to-wl.sh" "$out/libexec/clipboard-bridge/bridge-x11-to-wl"
-    makeWrapper "$out/libexec/clipboard-bridge/bridge-x11-to-wl" "$out/bin/clipboard-bridge-x11-to-wl" \
-      --prefix PATH : ${lib.makeBinPath x11ToWlRuntimeInputs}
-
-    # Install wl-to-x11 bridge
-    install -Dm755 "$src/bridge-wl-to-x11.sh" "$out/libexec/clipboard-bridge/bridge-wl-to-x11"
-    makeWrapper "$out/libexec/clipboard-bridge/bridge-wl-to-x11" "$out/bin/clipboard-bridge-wl-to-x11" \
-      --prefix PATH : ${lib.makeBinPath wlToX11RuntimeInputs}
-
-    runHook postInstall
+    runHook postCheck
   '';
+  derivationArgs.nativeBuildInputs = [ shellcheck ];
 
-  meta = with lib; {
-    description = "Bidirectional X11 ↔ Wayland clipboard bridge services";
-    license = licenses.mit;
-    platforms = platforms.linux;
+  meta = {
+    description = "Bidirectional X11 and Wayland clipboard bridge";
+    license = lib.licenses.mit;
+    mainProgram = "clipboard-bridge";
+    platforms = lib.platforms.linux;
   };
 }
