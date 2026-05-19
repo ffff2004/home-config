@@ -6,7 +6,7 @@ This repository manages a Home Manager configuration with a flake-based,
 modular layout. `flake.nix` defines `homeConfigurations.fym` and injects
 `localLib` helpers. Main configuration modules live under `config/`:
 `config/common` covers shell, Git, Nix, editors, and CLI tools;
-`config/gui` covers desktop, input, Niri, Noctalia, and UMU app wrappers.
+`config/gui` covers desktop, terminal, Niri, Noctalia, and UMU app wrappers.
 Shared helper functions live in `lib/`, reusable Home Manager modules
 (usually contain options) live in `modules/`, and repo-local packaged
 tools live in `pkgs/`.
