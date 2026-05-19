@@ -1,6 +1,6 @@
 name = "test_analyst"
 description = "Read-only test and log analyst for targeted test runs, failure triage, and coverage gap analysis."
-model = "gpt-5.4-mini"
+model = "gpt-5.4"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
 developer_instructions = """

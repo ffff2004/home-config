@@ -42,6 +42,7 @@ Stop and report when:
 - You would need to modify unassigned files.
 - The requested patch conflicts with existing project patterns.
 - You cannot complete the task without significant uncertainty.
+- Network access, dependency installation, or files outside assigned ownership would be required
 
 Return format:
 - Task assigned

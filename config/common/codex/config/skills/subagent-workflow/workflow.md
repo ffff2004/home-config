@@ -26,12 +26,10 @@ Subagents may investigate, analyze, implement narrow patches, or review, but the
 
 ## Agent Selection
 
-- Use built-in `explorer` for read-heavy repository exploration.
+- Use built-in `explorer` for read-heavy repository exploration. Spawn it with gpt-5.4 model and medium reasoning effort.
 - Use custom `patch_worker` for narrow implementation tasks with explicit file ownership.
 - Use custom `test_analyst` for test and log triage when available.
 - Use custom `code_reviewer` for final read-only review of risky, broad, or important changes when available.
-
-Prefer `gpt-5.4-mini` for bounded exploration, small isolated patches, and test/log analysis. Use `gpt-5.4` or stronger only for subtle logic, high-risk changes, security/auth/payment/data-model concerns, or final review.
 
 ## Sync Patterns
 
@@ -78,22 +76,11 @@ Pattern:
 - Do not allow two agents to edit the same file or overlapping modules.
 - If file ownership becomes unclear, stop parallel writing and return control to the main agent.
 - Patch workers may edit only explicitly assigned files.
-- When using built-in `worker`, the main agent must provide explicit file ownership and a narrow task scope.
 - Review agents, test-analysis agents, and read-only agents must not perform implementation work.
 
 Subagents must not change public APIs, auth logic, security-sensitive code, payment logic, database migrations, data-model semantics, dependency versions, lockfiles, build or release configuration, or unrelated formatting unless explicitly instructed by the main agent.
 
 ## Stop And Fallback
-
-A subagent must stop and report back instead of acting when:
-
-- The assigned scope is insufficient or unclear
-- The task requires changing public APIs or sensitive-domain behavior
-- The task touches auth, security, payment, migrations, dependencies, lockfiles, build configuration, or release configuration without explicit permission
-- Tests indicate a broader design issue
-- Network access, dependency installation, or files outside assigned ownership would be required
-- Evidence conflicts with the implementation strategy
-- It cannot provide evidence for its conclusion
 
 The subagent should report what it found, why it stopped, and what decision is needed from the main agent.
 
@@ -102,22 +89,6 @@ If subagent results conflict, the main agent identifies the conflicting claims, 
 If a patch worker produces a broad or risky diff, reject or revert the broad parts, keep only minimal safe changes if appropriate, reassign with narrower file ownership if needed, and use a reviewer before final acceptance.
 
 ## Report And Evidence
-
-Each subagent must return:
-
-1. Task assigned
-2. Scope inspected
-3. Files inspected or changed
-4. Key findings
-5. Evidence with file paths and symbols or line references when possible
-6. Risks or uncertainties
-7. Recommended next action
-
-Role-specific extras:
-
-- `test_analyst`: commands run, test results, failure summary
-- `code_reviewer`: findings ranked by severity, suggested fixes, missing tests or checks
-- `patch_worker`: files changed, summary of changes, tests or checks run, assumptions
 
 Every non-trivial claim should include a file path, symbol/function/class/route/command/config name, line reference when available, command run when based on test output, and exact short error text only when necessary.
 
