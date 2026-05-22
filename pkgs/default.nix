@@ -11,7 +11,9 @@
   # Guidelines:
   # - Export runnable, reusable programs (CLI/tools) here.
   # - Keep option-orchestration and systemd units in `config/`.
-  # - Prefer stable names and add `installCheck` for critical tools.
+  # - Prefer stable names and add nix checks for critical tools.
+  #
+  # Shell script example (checks included): codex-config-sync/default.nix
 
   codex-config-sync = pkgs.callPackage ./codex-config-sync { };
   coding-setup = pkgs.callPackage ./coding-setup { };
