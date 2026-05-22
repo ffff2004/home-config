@@ -69,6 +69,5 @@ lib.mkIf enable {
     };
   };
 
-  services.gpg-agent.pinentry.package = pkgs.pinentry-gnome3;
   programs.git.settings.credential.helper = lib.getExe pkgsFrom.fym998-nur.git-credential-libsecret;
 }
