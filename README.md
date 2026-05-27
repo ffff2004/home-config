@@ -56,7 +56,7 @@
 | [config/gui/swayidle.nix](config/gui/swayidle.nix) | 空闲策略（熄屏、锁屏、休眠） |
 | [config/gui/wallpaper-fetcher.nix](config/gui/wallpaper-fetcher.nix) | 壁纸抓取服务与定时器 |
 | [config/gui/clipboard/default.nix](config/gui/clipboard/default.nix) | X11/Wayland 剪贴板桥接服务 |
-| [config/gui/desktop-entries/default.nix](config/gui/desktop-entries/default.nix) | 将 `files/` 下的 `.desktop` 递归映射到 `xdg.dataFile` |
+| [config/gui/app-overrides/default.nix](config/gui/app-overrides/default.nix) | 为本地 GUI 应用集中管理 wrapper、desktop override 与 MIME/URL scheme 关联 |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix) | Fcitx5 输入法与配置树递归链接 |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix) | Niri 主入口，导入 niri-flake 与 settings 子模块 |
 | [config/gui/noctalia-shell/default.nix](config/gui/noctalia-shell/default.nix) | Noctalia shell 集成、模板与设置文件链接 |
