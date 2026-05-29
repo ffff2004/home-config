@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
-  wrapper = pkgs.writeShellScriptBin "steam-fym" ''
+  wrapper = pkgs.writeShellScriptBin "steam" ''
     exec /usr/bin/steam \
       -noverifyfiles \
       -nobootstrapupdate \
@@ -19,7 +19,7 @@ in
     Name=Steam
     Comment=Application for managing and playing games on Steam
     Comment[zh_CN]=管理和进行 Steam 游戏的应用程序
-    Exec=${wrapper}/bin/steam-fym %U
+    Exec=${lib.getExe wrapper} %U
     Icon=steam
     Terminal=false
     Type=Application
@@ -31,39 +31,39 @@ in
 
     [Desktop Action Store]
     Name=Store
-    Exec=${wrapper}/bin/steam-fym steam://store
+    Exec=${lib.getExe wrapper} steam://store
 
     [Desktop Action Community]
     Name=Community
-    Exec=${wrapper}/bin/steam-fym steam://url/CommunityHome/
+    Exec=${lib.getExe wrapper} steam://url/CommunityHome/
 
     [Desktop Action Library]
     Name=Library
-    Exec=${wrapper}/bin/steam-fym steam://open/games
+    Exec=${lib.getExe wrapper} steam://open/games
 
     [Desktop Action Servers]
     Name=Servers
-    Exec=${wrapper}/bin/steam-fym steam://open/servers
+    Exec=${lib.getExe wrapper} steam://open/servers
 
     [Desktop Action Screenshots]
     Name=Screenshots
-    Exec=${wrapper}/bin/steam-fym steam://open/screenshots
+    Exec=${lib.getExe wrapper} steam://open/screenshots
 
     [Desktop Action News]
     Name=News
-    Exec=${wrapper}/bin/steam-fym steam://openurl/https://store.steampowered.com/news
+    Exec=${lib.getExe wrapper} steam://openurl/https://store.steampowered.com/news
 
     [Desktop Action Settings]
     Name=Settings
-    Exec=${wrapper}/bin/steam-fym steam://open/settings
+    Exec=${lib.getExe wrapper} steam://open/settings
 
     [Desktop Action BigPicture]
     Name=Big Picture
-    Exec=${wrapper}/bin/steam-fym steam://open/bigpicture
+    Exec=${lib.getExe wrapper} steam://open/bigpicture
 
     [Desktop Action Friends]
     Name=Friends
-    Exec=${wrapper}/bin/steam-fym steam://open/friends
+    Exec=${lib.getExe wrapper} steam://open/friends
   '';
 
   xdg.mimeApps = {

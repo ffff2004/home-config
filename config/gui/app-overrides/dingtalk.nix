@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
-  wrapper = pkgs.writeShellScriptBin "dingtalk-fym" ''
+  wrapper = pkgs.writeShellScriptBin "dingtalk" ''
     exec env QT_IM_MODULE=fcitx /usr/bin/dingtalk "$@"
   '';
 in
@@ -11,7 +11,7 @@ in
     [Desktop Entry]
     Categories=Chat;Network;
     Comment=DingTalk Desktop
-    Exec=${wrapper}/bin/dingtalk-fym %u
+    Exec=${lib.getExe wrapper} %u
     GenericName=dingtalk
     Icon=dingtalk
     Keywords=dingtalk;

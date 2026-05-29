@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
-  wrapper = pkgs.writeShellScriptBin "wechat-fym" ''
+  wrapper = pkgs.writeShellScriptBin "wechat" ''
     exec env QT_IM_MODULE=fcitx /opt/wechat/wechat "$@"
   '';
 in
@@ -11,7 +11,7 @@ in
     [Desktop Entry]
     Name=wechat
     Name[zh_CN]=微信
-    Exec=${wrapper}/bin/wechat-fym %U
+    Exec=${lib.getExe wrapper} %U
     StartupNotify=true
     Terminal=false
     Icon=/usr/share/icons/hicolor/256x256/apps/wechat.png
