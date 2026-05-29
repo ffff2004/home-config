@@ -17,6 +17,20 @@ Prefer adding a `default.nix` in new directories and importing submodules
 through `imports = localLib.lsSubmodule ./.` rather than manually
 enumerating files.
 
+`README.md` contains a high-level index of the repository's main Nix
+modules, not a complete file list. Update `README.md` when a change adds,
+removes, moves, or renames one of these indexed units:
+
+- a direct `config/common/*` or `config/gui/*` feature module, including
+  either `*.nix` files or feature directories with `default.nix`;
+- a top-level reusable helper under `lib/*.nix`;
+- an exported package directory under `pkgs/*/default.nix`;
+- a reusable Home Manager module under `modules/`, if one is added later.
+
+Do not add `README.md` entries for implementation details inside an
+indexed feature, such as `settings/`, `apps/`, package scripts,
+source-linked config files, generated files, or Codex runtime/cache files.
+
 Prefer source-link config files by `localLib.mkSymlinkToSource`.
 For large config trees (for example fcitx5), follow existing patterns
 that map files with `localLib.lsFileRecursively` and
