@@ -20,8 +20,7 @@
 
 | 模块 | 职责 |
 | --- | --- |
-| [config/default.nix](config/default.nix) | config 总入口，自动导入 `common`、`gui`、`test.nix` 等子模块 |
-| [config/test.nix](config/test.nix) | 预留测试模块（当前为空） |
+| [config/default.nix](config/default.nix) | config 总入口，自动导入 `common`、`gui` 等子模块 |
 
 ### 2.2 common：通用环境与开发工具
 
@@ -42,7 +41,7 @@
 | [config/common/misc/default.nix](config/common/misc/default.nix) | 杂项工具（direnv、nix-direnv、yazi） |
 | [config/common/misc/packages.nix](config/common/misc/packages.nix) | 常用包清单（含 nil、nixfmt、jq 等） |
 | [config/common/fastfetch/default.nix](config/common/fastfetch/default.nix) | fastfetch 配置与配置文件链接 |
-| [config/common/kwallet/default.nix](config/common/kwallet/default.nix) | KWallet 相关配置（当前默认禁用） |
+
 
 ### 2.3 gui：桌面环境、输入法与图形应用
 
