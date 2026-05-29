@@ -22,7 +22,9 @@ lib.mkIf enable (
       sessionVariables = {
         PNPM_HOME = pnpmHome;
       };
-      sessionSearchVariables.PATH = [ pnpmHome ];
+      sessionSearchVariables.PATH = [
+        "${pnpmHome}/bin"
+      ];
     };
   }
 )
