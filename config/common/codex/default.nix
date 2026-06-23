@@ -10,6 +10,8 @@ let
   configRoot = ./config;
 in
 {
+  imports = [ ./logs-tmpfiles-workaround.nix ];
+
   home.activation.copyCodexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ${lib.escapeShellArg "${package}/bin/sync-codex-config"} activate \
       --repo-root ${lib.escapeShellArg (toString repoRoot)} \
