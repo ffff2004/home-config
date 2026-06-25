@@ -9,8 +9,8 @@
     enable = true;
     settings = {
       user = {
-        Name = "fym998";
-        email = "61316972+fym998@users.noreply.github.com";
+        Name = "ffff2004";
+        email = "293283756+ffff2004@users.noreply.github.com";
       };
       init.defaultBranch = "main";
       alias = {
@@ -22,6 +22,7 @@
       receive.fsckobjects = true;
     };
     signing = {
+      key = "8C6ACB933C5FEAC6";
       signByDefault = true;
     };
   };
