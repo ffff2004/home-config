@@ -213,11 +213,11 @@
       };
 
       "XF86AudioRaiseVolume" = mkDefault {
-        action = spawnSplit "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
+        action = spawnSplit "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+";
         allow-when-locked = true;
       };
       "XF86AudioLowerVolume" = mkDefault {
-        action = spawnSplit "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
+        action = spawnSplit "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-";
         allow-when-locked = true;
       };
       "XF86AudioMute" = mkDefault {
