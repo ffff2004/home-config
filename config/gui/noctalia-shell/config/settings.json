@@ -125,6 +125,16 @@
                     "useDistroLogo": false
                 },
                 {
+                    "colorizeSystemIcon": "none",
+                    "colorizeSystemText": "none",
+                    "customIconPath": "",
+                    "enableColorization": false,
+                    "icon": "rocket",
+                    "iconColor": "none",
+                    "id": "Launcher",
+                    "useDistroLogo": false
+                },
+                {
                     "iconColor": "error",
                     "id": "SessionMenu"
                 },
@@ -204,7 +214,6 @@
                     "hidePassive": false,
                     "id": "Tray",
                     "pinned": [
-                        "steam",
                         "Fcitx",
                         "Weixin",
                         "chrome_status_icon_1",
@@ -213,7 +222,9 @@
                         "fj3-PiymmW",
                         "mGy6FDIApw",
                         "com.alibabainc.dingtalk",
-                        "Keyboard - English (US)"
+                        "Keyboard - English (US)",
+                        "steam",
+                        "Pinyin"
                     ]
                 },
                 {
@@ -272,6 +283,10 @@
             {
                 "device": "/sys/class/backlight/intel_backlight",
                 "output": "eDP-1"
+            },
+            {
+                "device": "/sys/class/backlight/nvidia_0",
+                "output": "HDMI-A-1"
             }
         ],
         "brightnessStep": 2,
@@ -546,7 +561,7 @@
         "firstDayOfWeek": -1,
         "hideWeatherCityName": false,
         "hideWeatherTimezone": false,
-        "name": "海淀",
+        "name": "haikou",
         "showCalendarEvents": true,
         "showCalendarWeather": true,
         "showWeekNumberInCalendar": false,
@@ -573,7 +588,7 @@
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "nightTemp": "5547"
+        "nightTemp": "5492"
     },
     "noctaliaPerformance": {
         "disableDesktopWidgets": true,
@@ -739,6 +754,10 @@
             {
                 "enabled": true,
                 "id": "gtk"
+            },
+            {
+                "enabled": true,
+                "id": "fuzzel"
             }
         ],
         "enableUserTheming": true
@@ -752,7 +771,7 @@
         "panelBackgroundOpacity": 1,
         "panelsAttachedToBar": true,
         "scrollbarAlwaysVisible": true,
-        "settingsPanelMode": "attached",
+        "settingsPanelMode": "window",
         "settingsPanelSideBarCardStyle": false,
         "tooltipsEnabled": true,
         "translucentWidgets": false
