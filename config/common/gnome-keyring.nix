@@ -70,4 +70,9 @@ lib.mkIf enable {
   };
 
   programs.git.settings.credential.helper = lib.getExe pkgsFrom.fym998-nur.git-credential-libsecret;
+
+  local.gui.lockSession.preLockCommands = [
+    "${lib.getExe pkgs.libsecret} lock || true"
+    ''SSH_AUTH_SOCK="${sshAuthSock}" ${lib.getExe' pkgs.openssh "ssh-add"} -D || true''
+  ];
 }

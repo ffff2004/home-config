@@ -55,7 +55,7 @@
 | [config/gui/swayidle.nix](config/gui/swayidle.nix) | 空闲策略（熄屏、锁屏、休眠） |
 | [config/gui/wallpaper-fetcher.nix](config/gui/wallpaper-fetcher.nix) | 壁纸抓取服务与定时器 |
 | [config/gui/clipboard.nix](config/gui/clipboard.nix) | X11/Wayland 剪贴板桥接服务 |
-| [config/gui/lock-session.nix](config/gui/lock-session.nix) | 锁定 GNOME Keyring、清空 GCR SSH agent，并调用屏幕锁定命令 |
+| [config/gui/lock-session.nix](config/gui/lock-session.nix) | 运行预锁命令并调用屏幕锁定命令 |
 | [config/gui/app-overrides/default.nix](config/gui/app-overrides/default.nix) | 为本地 GUI 应用集中管理 wrapper、desktop override 与 MIME/URL scheme 关联 |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix) | Fcitx5 输入法与配置树递归链接 |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix) | Niri 主入口，导入 niri-flake 与 settings 子模块 |
