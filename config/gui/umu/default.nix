@@ -77,6 +77,11 @@ in
               WINE_CANONICAL_HOLE = "skip_volatile_check";
             };
           };
+          dw-igpu = recursiveUpdate dw {
+            extraEnv = {
+              VK_ICD_FILENAMES = igpu_vk_icd_filenames;
+            };
+          };
           dw-wl = recursiveUpdate dw {
             extraEnv = {
               PROTON_ENABLE_WAYLAND = 1;
