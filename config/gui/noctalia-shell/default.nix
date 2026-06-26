@@ -9,7 +9,7 @@
 {
   imports = [
     inputs.noctalia.homeModules.default
-    ./niri.nix
+    #./niri.nix
     ./user-templates
   ];
   programs.noctalia-shell = {

@@ -2,7 +2,7 @@
 {
   programs.niri.settings = {
     spawn-at-startup = [
-      { command = [ (lib.getExe config.programs.noctalia-shell.package) ]; }
+      #{ command = [ (lib.getExe config.programs.noctalia-shell.package) ]; }
     ];
     binds =
       let
