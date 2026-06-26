@@ -2,11 +2,12 @@
 
 - CPU: Intel Core i7-12700H (14 cores)
 - RAM: 32 GiB
-- GPU: NVIDIA GeForce RTX 3060 Mobile ~5.8 GiB
+- GPU: Intel Iris Xe + NVIDIA GeForce RTX 3060 Mobile ~5.8 GiB
 - OS: Arch Linux
 - Window Manager: niri (wayland)
 - use pnpm to manage global packages and tools instead of npm
-- pip unavailable, use uv instead.
+- pip unavailable, use uv instead
+- cloned repositories live in `~/repos`
 
 ## Rules
 
