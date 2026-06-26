@@ -83,6 +83,7 @@
 | [pkgs/coding-setup/default.nix](pkgs/coding-setup/default.nix) | tmux 编程工作区初始化脚本 `coding-setup` |
 | [pkgs/nix-py/default.nix](pkgs/nix-py/default.nix) | 使用 Nix 提供依赖启动 Python 的包装脚本 `nix-py` |
 | [pkgs/clipboard-bridge/default.nix](pkgs/clipboard-bridge/default.nix) | X11/Wayland 双向剪贴板桥接脚本：`clipboard-bridge` |
+| [pkgs/pinentry-auto/default.nix](pkgs/pinentry-auto/default.nix) | 按 pinentry 请求上下文选择图形或终端后端的代理 |
 
 ## 5. 其他有用信息
 
