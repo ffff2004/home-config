@@ -259,6 +259,12 @@
             capabilities = capabilities,
           })
           vim.lsp.enable('fish_lsp')
+
+          vim.lsp.config('vtsls', {
+            cmd = { "${lib.getExe pkgs.vtsls}", "--stdio" },
+            capabilities = capabilities,
+          })
+          vim.lsp.enable('vtsls')
         '';
       }
     ];
