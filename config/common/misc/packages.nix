@@ -11,11 +11,14 @@
         nix-tree
 
         tree
+        trash-cli
+        ncdu
+
         zip
         unzip
         unrar
         unar
-        trash-cli
+        qpdf
 
         htop
         btop
