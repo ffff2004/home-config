@@ -1,0 +1,43 @@
+[colors.primary]
+background = "{{ colors.background.default.hex }}"
+foreground = "{{ colors.on_background.default.hex }}"
+
+[colors.search.matches]
+foreground = "{{ colors.on_primary_container.default.hex }}"
+background = "{{ colors.primary_container.default.hex }}"
+
+[colors.search.focused_match]
+foreground = "{{ colors.on_primary.default.hex }}"
+background = "{{ colors.primary.default.hex }}"
+
+[colors.footer_bar]
+foreground = "{{ colors.on_primary.default.hex }}"
+background = "{{ colors.primary.default.hex }}"
+
+[colors.hints.start]
+foreground = "{{ colors.surface_variant.default.hex }}"
+background = "{{ colors.secondary.default.hex }}"
+
+[colors.hints.end]
+foreground = "{{ colors.surface_variant.default.hex }}"
+background = "{{ colors.secondary.default.hex }}"
+
+[colors.normal]
+black = "{{ base16.base00.default.hex }}"
+red = "{{ base16.base08.default.hex }}"
+green = "{{ base16.base0b.default.hex }}"
+yellow = "{{ base16.base0a.default.hex }}"
+blue = "{{ base16.base0d.default.hex }}"
+magenta = "{{ base16.base0e.default.hex }}"
+cyan = "{{ base16.base0c.default.hex }}"
+white = "{{ base16.base05.default.hex }}"
+
+[colors.bright]
+black = "{{ base16.base03.default.hex }}"
+red = "{{ base16.base08.default.hex | auto_lightness: 15.0 }}"
+green = "{{ base16.base0b.default.hex | auto_lightness: 15.0 }}"
+yellow = "{{ base16.base0a.default.hex | auto_lightness: 10.0 }}"
+blue = "{{ base16.base0d.default.hex | auto_lightness: 15.0 }}"
+magenta = "{{ base16.base0e.default.hex | auto_lightness: 15.0 }}"
+cyan = "{{ base16.base0c.default.hex | auto_lightness: 15.0 }}"
+white = "{{ base16.base07.default.hex }}"

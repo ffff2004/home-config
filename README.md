@@ -57,6 +57,7 @@
 | [config/gui/clipboard.nix](config/gui/clipboard.nix) | X11/Wayland 剪贴板桥接服务 |
 | [config/gui/lock-session.nix](config/gui/lock-session.nix) | 运行预锁命令并调用屏幕锁定命令 |
 | [config/gui/app-overrides/default.nix](config/gui/app-overrides/default.nix) | 为本地 GUI 应用集中管理 wrapper、desktop override 与 MIME/URL scheme 关联 |
+| [config/gui/desktop-shell/default.nix](config/gui/desktop-shell/default.nix) | 轻量桌面 shell 入口（后续集成 Waybar、swaync、cliphist、wpaperd 与 matugen） |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix) | Fcitx5 输入法与配置树递归链接 |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix) | Niri 主入口，导入 niri-flake 与 settings 子模块 |
 | [config/gui/noctalia-shell/default.nix](config/gui/noctalia-shell/default.nix) | Noctalia shell 集成、模板与设置文件链接 |
