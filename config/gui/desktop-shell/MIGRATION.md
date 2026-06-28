@@ -20,7 +20,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Pywalfox colors.
 - [x] Move template definitions into owning consumer submodules and keep
   `config/gui/desktop-shell/theme/default.nix` as the central registry.
-- [ ] Add `wpaperd` wallpaper runtime.
+- [x] Add `wpaperd` wallpaper runtime.
 - [ ] Add Waybar configuration.
 - [ ] Add swaync notification center.
 - [ ] Add cliphist + fuzzel picker.
@@ -51,6 +51,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
    wrapper use the generated config when it exists.
 9. Added `config/gui/pywalfox/`, moved the pywalfox matugen template into that
    module, and installed `pywalfox-native` independently of Noctalia.
+10. Added `config/gui/desktop-shell/wpaperd/` as the wallpaper runtime using
+    Home Manager's `services.wpaperd` module.
 
 ## Current Behavior
 
@@ -68,6 +70,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - Pywalfox generates neutral colors at `~/.cache/wal/colors-matugen.json`, then
   its post hook copies that file to pywalfox's expected
   `~/.cache/wal/colors.json` before running `pywalfox`.
+- `wpaperd` is enabled as the wallpaper runtime and reads wallpapers from
+  `/home/fym/Pictures/Wallpapers`.
 - Noctalia remains enabled.
 - No services, hooks, or runtime behavior have been changed.
 - `desktop-shell-apply-theme` is available as a manual command but is not run
