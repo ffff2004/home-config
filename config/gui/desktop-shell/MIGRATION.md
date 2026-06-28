@@ -14,9 +14,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [ ] Switch consumers to neutral generated theme paths.
   - [x] Terminal theme.
   - [x] Fuzzel theme.
-  - [ ] Qt theme.
+  - [x] Qt theme.
   - [ ] Swaylock theme/config.
-  - [ ] GTK theme CSS.
+  - [x] GTK theme CSS.
   - [ ] Pywalfox colors.
 - [ ] Move template definitions into owning consumer submodules and keep
   `config/gui/desktop-shell/theme/default.nix` as the central registry.
@@ -41,6 +41,11 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 5. Converted `config/gui/terminal.nix` to `config/gui/terminal/`, moved the
    Alacritty matugen template into that consumer module, and pointed Alacritty at
    `~/.config/alacritty/themes/matugen.toml`.
+6. Converted `config/gui/qt6ct.nix` to `config/gui/qt6ct/`, moved the qtct
+   matugen template into that consumer module, and pointed qt5ct/qt6ct settings
+   at generated `matugen.conf` color schemes.
+7. Added `config/gui/gtk/`, moved the GTK matugen templates into that consumer
+   module, and made GTK3/GTK4 CSS import the generated matugen CSS files.
 
 ## Current Behavior
 
@@ -48,6 +53,11 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   `~/.config/fuzzel/fuzzel.ini` include.
 - Alacritty now imports the neutral generated theme path
   `~/.config/alacritty/themes/matugen.toml`.
+- Qt5/Qt6 ct settings now point at generated neutral color schemes under
+  `~/.config/qt5ct/colors/matugen.conf` and
+  `~/.config/qt6ct/colors/matugen.conf`.
+- GTK3/GTK4 CSS now imports generated neutral CSS under
+  `~/.config/gtk-3.0/matugen.css` and `~/.config/gtk-4.0/matugen.css`.
 - Noctalia remains enabled.
 - No services, hooks, or runtime behavior have been changed.
 - `desktop-shell-apply-theme` is available as a manual command but is not run

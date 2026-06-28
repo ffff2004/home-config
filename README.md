@@ -50,7 +50,8 @@
 | [config/gui/default.nix](config/gui/default.nix) | gui 目录入口，递归导入 |
 | [config/gui/fontconfig.nix](config/gui/fontconfig.nix) | 字体渲染与默认字体族设置 |
 | [config/gui/terminal/default.nix](config/gui/terminal/default.nix) | 终端方案（Alacritty Graphics + matugen 主题）和 xdg-terminal-exec |
-| [config/gui/qt6ct.nix](config/gui/qt6ct.nix) | Qt6 主题变量与包配置 |
+| [config/gui/gtk/default.nix](config/gui/gtk/default.nix) | GTK3/GTK4 配置与 matugen CSS 引入 |
+| [config/gui/qt6ct/default.nix](config/gui/qt6ct/default.nix) | Qt5/Qt6 ct 主题变量、配置与 matugen 色彩方案 |
 | [config/gui/polkit-agent.nix](config/gui/polkit-agent.nix) | Polkit 认证代理 systemd user service |
 | [config/gui/swayidle.nix](config/gui/swayidle.nix) | 空闲策略（熄屏、锁屏、休眠） |
 | [config/gui/wallpaper-fetcher.nix](config/gui/wallpaper-fetcher.nix) | 壁纸抓取服务与定时器 |

@@ -119,25 +119,6 @@ in
           "pywalfox.json"
           "${cacheHome}/wal/colors-matugen.json";
 
-        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk3.css
-        gtk3 = mkTemplate
-          "gtk3.css"
-          "${configHome}/gtk-3.0/matugen.css";
-
-        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk4.css
-        gtk4 = mkTemplate
-          "gtk4.css"
-          "${configHome}/gtk-4.0/matugen.css";
-
-        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
-        qt5ct = mkTemplate
-          "qtct.conf"
-          "${configHome}/qt5ct/colors/matugen.conf";
-
-        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
-        qt6ct = mkTemplate
-          "qtct.conf"
-          "${configHome}/qt6ct/colors/matugen.conf";
       };
     };
 
