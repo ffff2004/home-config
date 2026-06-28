@@ -5,11 +5,19 @@
   ...
 }:
 let
-  lockScreen = config.lib.genericLinux.getCmd pkgs.swaylock "swaylock -f -F";
+  configHome = config.xdg.configHome;
+  swaylockConfig = "${configHome}/swaylock/themes/matugen.conf";
+  lockScreen = config.lib.genericLinux.getCmd pkgs.swaylock "swaylock";
   preLockCommands = lib.concatStringsSep "\n" config.local.gui.lockSession.preLockCommands;
   lockSession = pkgs.writeShellScriptBin "lock-session" ''
     ${preLockCommands}
-    exec ${lockScreen} "$@"
+
+    swaylock_config=${lib.escapeShellArg swaylockConfig}
+    if [ -f "$swaylock_config" ]; then
+      exec ${lockScreen} -f -F --config "$swaylock_config" "$@"
+    fi
+
+    exec ${lockScreen} -f -F "$@"
   '';
 in
 {
@@ -30,5 +38,10 @@ in
   config = {
     home.packages = [ lockSession ];
     local.gui.lockSession.command = lib.getExe lockSession;
+    local.gui.desktopShell.theme.templates.swaylock = {
+      # Source: config/gui/noctalia-shell/user-templates/swaylock.conf
+      inputPath = ./swaylock.conf;
+      outputPath = swaylockConfig;
+    };
   };
 }

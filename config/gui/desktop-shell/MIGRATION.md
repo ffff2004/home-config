@@ -11,14 +11,14 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Add standalone matugen template layout.
 - [x] Validate kept templates with standalone matugen.
 - [x] Add manual standalone matugen runner command.
-- [ ] Switch consumers to neutral generated theme paths.
+- [x] Switch consumers to neutral generated theme paths.
   - [x] Terminal theme.
   - [x] Fuzzel theme.
   - [x] Qt theme.
-  - [ ] Swaylock theme/config.
+  - [x] Swaylock theme/config.
   - [x] GTK theme CSS.
-  - [ ] Pywalfox colors.
-- [ ] Move template definitions into owning consumer submodules and keep
+- [x] Pywalfox colors.
+- [x] Move template definitions into owning consumer submodules and keep
   `config/gui/desktop-shell/theme/default.nix` as the central registry.
 - [ ] Add `wpaperd` wallpaper runtime.
 - [ ] Add Waybar configuration.
@@ -46,6 +46,11 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
    at generated `matugen.conf` color schemes.
 7. Added `config/gui/gtk/`, moved the GTK matugen templates into that consumer
    module, and made GTK3/GTK4 CSS import the generated matugen CSS files.
+8. Converted `config/gui/lock-session.nix` to `config/gui/lock-session/`,
+   moved the swaylock matugen template into that module, and made the lock
+   wrapper use the generated config when it exists.
+9. Added `config/gui/pywalfox/`, moved the pywalfox matugen template into that
+   module, and installed `pywalfox-native` independently of Noctalia.
 
 ## Current Behavior
 
@@ -58,6 +63,11 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   `~/.config/qt6ct/colors/matugen.conf`.
 - GTK3/GTK4 CSS now imports generated neutral CSS under
   `~/.config/gtk-3.0/matugen.css` and `~/.config/gtk-4.0/matugen.css`.
+- `lock-session` uses `~/.config/swaylock/themes/matugen.conf` when that file
+  exists, and falls back to default swaylock behavior otherwise.
+- Pywalfox generates neutral colors at `~/.cache/wal/colors-matugen.json`, then
+  its post hook copies that file to pywalfox's expected
+  `~/.cache/wal/colors.json` before running `pywalfox`.
 - Noctalia remains enabled.
 - No services, hooks, or runtime behavior have been changed.
 - `desktop-shell-apply-theme` is available as a manual command but is not run

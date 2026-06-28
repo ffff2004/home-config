@@ -6,16 +6,6 @@
 }:
 let
   cfg = config.local.gui.desktopShell.theme;
-  configHome = config.xdg.configHome;
-  cacheHome = config.xdg.cacheHome;
-  templateRoot = ./templates;
-
-  mkTemplate =
-    fileName: outputPath:
-    {
-      inherit outputPath;
-      inputPath = templateRoot + "/${fileName}";
-    };
 
   matugenConfigFormat = pkgs.formats.toml { };
 
@@ -108,18 +98,7 @@ in
     local.gui.desktopShell.theme = {
       inherit matugenConfig applyThemeCommand;
 
-      templates = {
-        # Source: config/gui/noctalia-shell/user-templates/swaylock.conf
-        swaylock = mkTemplate
-          "swaylock.conf"
-          "${configHome}/swaylock/themes/matugen.conf";
-
-        # Source: config/gui/noctalia-shell/user-templates/pywalfox.json
-        pywalfox = mkTemplate
-          "pywalfox.json"
-          "${cacheHome}/wal/colors-matugen.json";
-
-      };
+      templates = { };
     };
 
     home.packages = [ applyThemeCommand ];
