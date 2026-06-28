@@ -24,7 +24,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Apply matugen theme generation from wallpaper runtime.
 - [x] Add runtime-switchable matugen light/dark mode.
 - [x] Restore GTK system appearance mode sync.
-- [ ] Add Waybar configuration.
+- [x] Add Waybar configuration.
 - [ ] Add swaync notification center.
 - [ ] Add cliphist + fuzzel picker.
 - [ ] Add/restore `playerctl` media binds.
@@ -63,6 +63,10 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 13. Restored the Noctalia GTK mode sync behavior with
     `desktop-shell-gtk-sync-mode`, called once from the GTK matugen template
     hooks.
+14. Added `config/gui/desktop-shell/waybar/` with a bottom Waybar
+    configuration, source-linked style/menu files, power/session menu, system
+    monitor modules, MPRIS, Niri workspaces, `wlr/taskbar`, tray, clock,
+    battery, backlight, and WirePlumber sink/source controls.
 
 ## Current Behavior
 
@@ -91,6 +95,14 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - GTK matugen generation now syncs `org.gnome.desktop.interface color-scheme`
   through `gsettings`, falling back to `dconf`, and sets `adw-gtk3` /
   `adw-gtk3-dark` as `gtk-theme` when the theme is installed.
+- Waybar is enabled in Home Manager, configured as a bottom bar, and started by
+  Home Manager's Waybar user systemd service.
+- Waybar CSS is source-linked from
+  `config/gui/desktop-shell/waybar/style.css` and imports the future matugen
+  target `~/.config/waybar/themes/matugen.css`.
+- Waybar uses `wireplumber` for default output volume and
+  `wireplumber#source` for default input volume/mute state. Right-clicking
+  either opens `pwvucontrol`.
 - Noctalia remains enabled.
 
 ## Known Decisions
@@ -144,5 +156,7 @@ Consumer modules should register entries under
 
 ## Next Recommended Step
 
-Switch another consumer to the neutral generated theme paths without removing
-Noctalia yet.
+Add `config/gui/desktop-shell/swaync/` as the notification center without
+removing Noctalia yet. Keep the first pass focused on the package, service,
+basic config, and theme path strategy; wire Waybar notification interactions in
+a follow-up once swaync behavior is verified.

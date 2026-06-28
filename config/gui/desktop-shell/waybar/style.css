@@ -1,0 +1,62 @@
+@define-color ds_surface #1f1f1f;
+@define-color ds_surface_container #2b2b2b;
+@define-color ds_on_surface #eeeeee;
+@define-color ds_primary #8ab4f8;
+@define-color ds_error #ffb4ab;
+
+/* @import url("themes/matugen.css"); */
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "Maple Mono NF CN", "Noto Sans CJK SC", sans-serif;
+  font-size: 12px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: @ds_surface;
+  color: @ds_on_surface;
+}
+
+tooltip {
+  background: @ds_surface_container;
+  color: @ds_on_surface;
+}
+
+#custom-power,
+#cpu,
+#memory,
+#temperature,
+#mpris,
+#workspaces,
+#taskbar,
+#tray,
+#wireplumber,
+#clock,
+#battery,
+#backlight {
+  padding: 0 8px;
+}
+
+#workspaces button,
+#taskbar button {
+  color: @ds_on_surface;
+  padding: 0 6px;
+}
+
+#workspaces button.focused,
+#workspaces button.active,
+#taskbar button.active {
+  color: @ds_primary;
+}
+
+#battery.warning,
+#temperature.critical {
+  color: @ds_error;
+}
+
+#battery.critical {
+  background: @ds_error;
+  color: @ds_surface;
+}
