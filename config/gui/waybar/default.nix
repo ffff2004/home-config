@@ -174,7 +174,7 @@ in
     "waybar/power-menu.xml".source = localLib.mkSymlinkToSource ./power-menu.xml;
   };
 
-  local.gui.desktopShell.theme.templates.waybar = {
+  local.gui.theme.templates.waybar = {
     inputPath = ./matugen.css;
     outputPath = "${configHome}/waybar/themes/matugen.css";
   };

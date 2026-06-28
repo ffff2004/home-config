@@ -7,7 +7,7 @@ in
 {
   home.packages = [ pkgs.pywalfox-native ];
 
-  local.gui.desktopShell.theme.templates.pywalfox = {
+  local.gui.theme.templates.pywalfox = {
     # Source: config/gui/noctalia-shell/user-templates/pywalfox.json
     inputPath = ./colors.json;
     outputPath = pywalfoxColorsPath;

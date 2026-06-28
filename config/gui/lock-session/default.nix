@@ -38,7 +38,7 @@ in
   config = {
     home.packages = [ lockSession ];
     local.gui.lockSession.command = lib.getExe lockSession;
-    local.gui.desktopShell.theme.templates.swaylock = {
+    local.gui.theme.templates.swaylock = {
       # Source: config/gui/noctalia-shell/user-templates/swaylock.conf
       inputPath = ./swaylock.conf;
       outputPath = swaylockConfig;

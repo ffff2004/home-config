@@ -5,14 +5,14 @@
   ...
 }:
 let
-  cfg = config.local.gui.desktopShell.theme;
+  cfg = config.local.gui.theme;
   configHome = config.xdg.configHome;
   stateHome = config.xdg.stateHome;
 
   matugenConfigFormat = pkgs.formats.toml { };
 
-  modePath = "${configHome}/desktop-shell/theme/mode";
-  lastWallpaperPath = "${stateHome}/desktop-shell/theme/wallpaper";
+  modePath = "${configHome}/gui/theme/mode";
+  lastWallpaperPath = "${stateHome}/gui/theme/wallpaper";
 
   toMatugenTemplate =
     template:
@@ -23,7 +23,7 @@ let
       post_hook = template.postHook;
     };
 
-  matugenConfig = matugenConfigFormat.generate "desktop-shell-matugen.toml" {
+  matugenConfig = matugenConfigFormat.generate "gui-matugen.toml" {
     config = lib.optionalAttrs (cfg.customColors != { }) {
       custom_colors = cfg.customColors;
     };
@@ -31,20 +31,20 @@ let
   };
 
   applyThemeCommand = pkgs.writeShellApplication {
-    name = "desktop-shell-apply-theme";
+    name = "gui-apply-theme";
     runtimeInputs = [
       pkgs.coreutils
       pkgs.matugen
     ];
     text = ''
       if [ "$#" -ne 1 ]; then
-        echo "Usage: desktop-shell-apply-theme WALLPAPER" >&2
+        echo "Usage: gui-apply-theme WALLPAPER" >&2
         exit 64
       fi
 
       wallpaper=$1
       if [ ! -f "$wallpaper" ]; then
-        echo "desktop-shell-apply-theme: wallpaper not found: $wallpaper" >&2
+        echo "gui-apply-theme: wallpaper not found: $wallpaper" >&2
         exit 66
       fi
 
@@ -60,7 +60,7 @@ let
           mode=dark
           ;;
         *)
-          echo "desktop-shell-apply-theme: invalid theme mode in ${modePath}: $mode" >&2
+          echo "gui-apply-theme: invalid theme mode in ${modePath}: $mode" >&2
           echo "Expected: dark or light" >&2
           exit 65
           ;;
@@ -74,14 +74,14 @@ let
   };
 
   themeModeCommand = pkgs.writeShellApplication {
-    name = "desktop-shell-theme-mode";
+    name = "gui-theme-mode";
     runtimeInputs = [
       pkgs.coreutils
       applyThemeCommand
     ];
     text = ''
       if [ "$#" -ne 1 ]; then
-        echo "Usage: desktop-shell-theme-mode dark|light|toggle" >&2
+        echo "Usage: gui-theme-mode dark|light|toggle" >&2
         exit 64
       fi
 
@@ -94,7 +94,7 @@ let
         dark|light|"")
           ;;
         *)
-          echo "desktop-shell-theme-mode: invalid current mode in ${modePath}: $current" >&2
+          echo "gui-theme-mode: invalid current mode in ${modePath}: $current" >&2
           echo "Expected: dark or light" >&2
           exit 65
           ;;
@@ -112,7 +112,7 @@ let
           fi
           ;;
         *)
-          echo "Usage: desktop-shell-theme-mode dark|light|toggle" >&2
+          echo "Usage: gui-theme-mode dark|light|toggle" >&2
           exit 64
           ;;
       esac
@@ -123,17 +123,17 @@ let
       if [ -f "${lastWallpaperPath}" ]; then
         wallpaper=$(head -n 1 "${lastWallpaperPath}")
         if [ -n "$wallpaper" ] && [ -f "$wallpaper" ]; then
-          desktop-shell-apply-theme "$wallpaper"
+          gui-apply-theme "$wallpaper"
         fi
       fi
     '';
   };
 in
 {
-  options.local.gui.desktopShell.theme = {
+  options.local.gui.theme = {
     templates = lib.mkOption {
       description = ''
-        Standalone matugen template inventory for the lightweight desktop shell.
+        Standalone matugen template registry for GUI theme generation.
 
         This is exposed in Nix-friendly camelCase. The standalone runner turns
         it into matugen's snake_case TOML format. Consumer submodules should
@@ -182,24 +182,24 @@ in
     matugenConfig = lib.mkOption {
       readOnly = true;
       type = lib.types.path;
-      description = "Build-time generated matugen TOML config for desktop-shell theme templates.";
+      description = "Build-time generated matugen TOML config for GUI theme templates.";
     };
 
     applyThemeCommand = lib.mkOption {
       readOnly = true;
       type = lib.types.package;
-      description = "Manual desktop-shell matugen runner package.";
+      description = "Manual GUI matugen runner package.";
     };
 
     themeModeCommand = lib.mkOption {
       readOnly = true;
       type = lib.types.package;
-      description = "Runtime desktop-shell theme mode command package.";
+      description = "Runtime GUI theme mode command package.";
     };
   };
 
   config = {
-    local.gui.desktopShell.theme = {
+    local.gui.theme = {
       inherit matugenConfig applyThemeCommand themeModeCommand;
 
       customColors = {

@@ -59,7 +59,10 @@
 | [config/gui/lock-session/default.nix](config/gui/lock-session/default.nix) | 运行预锁命令并调用屏幕锁定命令 |
 | [config/gui/pywalfox/default.nix](config/gui/pywalfox/default.nix) | Pywalfox native host 与 matugen 颜色桥接 |
 | [config/gui/app-overrides/default.nix](config/gui/app-overrides/default.nix) | 为本地 GUI 应用集中管理 wrapper、desktop override 与 MIME/URL scheme 关联 |
-| [config/gui/desktop-shell/default.nix](config/gui/desktop-shell/default.nix) | 轻量桌面 shell 入口（后续集成 Waybar、swaync、cliphist、wpaperd 与 matugen） |
+| [config/gui/theme/default.nix](config/gui/theme/default.nix) | matugen 主题 registry、运行命令与 light/dark 模式状态 |
+| [config/gui/fuzzel/default.nix](config/gui/fuzzel/default.nix) | Fuzzel 启动器配置与 matugen 主题引入 |
+| [config/gui/waybar/default.nix](config/gui/waybar/default.nix) | Waybar 底栏、托盘、任务栏、系统指标与 matugen 样式 |
+| [config/gui/wpaperd.nix](config/gui/wpaperd.nix) | wpaperd 壁纸运行时与主题生成 hook |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix) | Fcitx5 输入法与配置树递归链接 |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix) | Niri 主入口，导入 niri-flake 与 settings 子模块 |
 | [config/gui/noctalia-shell/default.nix](config/gui/noctalia-shell/default.nix) | Noctalia shell 集成、模板与设置文件链接 |

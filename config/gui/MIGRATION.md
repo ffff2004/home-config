@@ -1,4 +1,4 @@
-# Desktop Shell Migration
+# GUI Shell Migration
 
 ## Goal
 
@@ -19,12 +19,14 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   - [x] GTK theme CSS.
 - [x] Pywalfox colors.
 - [x] Move template definitions into owning consumer submodules and keep
-  `config/gui/desktop-shell/theme/default.nix` as the central registry.
+  `config/gui/theme/default.nix` as the central registry.
 - [x] Add `wpaperd` wallpaper runtime.
 - [x] Apply matugen theme generation from wallpaper runtime.
 - [x] Add runtime-switchable matugen light/dark mode.
 - [x] Restore GTK system appearance mode sync.
 - [x] Add Waybar configuration.
+- [x] Move the lightweight shell modules out of `config/gui/desktop-shell`
+  into direct `config/gui` modules.
 - [ ] Add swaync notification center.
 - [ ] Add cliphist + fuzzel picker.
 - [ ] Add/restore `playerctl` media binds.
@@ -35,10 +37,10 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 ## Completed Steps
 
 1. Added the no-op `config/gui/desktop-shell/default.nix` skeleton.
-2. Added `config/gui/desktop-shell/theme/` with standalone matugen templates.
-3. Added `desktop-shell-apply-theme` as a manual standalone matugen runner,
+2. Added `config/gui/theme/` with standalone matugen templates.
+3. Added `gui-apply-theme` as a manual standalone matugen runner,
    backed by a build-time generated matugen config.
-4. Added `config/gui/desktop-shell/fuzzel/`, moved the fuzzel matugen template
+4. Added `config/gui/fuzzel/`, moved the fuzzel matugen template
    into that consumer module, and let Home Manager manage
    `~/.config/fuzzel/fuzzel.ini`.
 5. Converted `config/gui/terminal.nix` to `config/gui/terminal/`, moved the
@@ -54,19 +56,22 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
    wrapper use the generated config when it exists.
 9. Added `config/gui/pywalfox/`, moved the pywalfox matugen template into that
    module, and installed `pywalfox-native` independently of Noctalia.
-10. Added `config/gui/desktop-shell/wpaperd/` as the wallpaper runtime using
+10. Added `config/gui/wpaperd.nix` as the wallpaper runtime using
     Home Manager's `services.wpaperd` module.
 11. Wired `wpaperd`'s wallpaper-change `exec` hook to
-    `desktop-shell-apply-theme`.
+    `gui-apply-theme`.
 12. Added runtime matugen mode switching through
-    `desktop-shell-theme-mode dark|light|toggle`.
+    `gui-theme-mode dark|light|toggle`.
 13. Restored the Noctalia GTK mode sync behavior with
-    `desktop-shell-gtk-sync-mode`, called once from the GTK matugen template
+    `gui-gtk-sync-mode`, called once from the GTK matugen template
     hooks.
-14. Added `config/gui/desktop-shell/waybar/` with a bottom Waybar
+14. Added `config/gui/waybar/` with a bottom Waybar
     configuration, source-linked style/menu files, power/session menu, system
     monitor modules, MPRIS, Niri workspaces, `wlr/taskbar`, tray, clock,
     battery, backlight, and WirePlumber sink/source controls.
+15. Removed the `config/gui/desktop-shell` module boundary by moving the active
+    modules to direct `config/gui` modules and renaming the Nix option namespace
+    from `local.gui.desktopShell.theme` to `local.gui.theme`.
 
 ## Current Behavior
 
@@ -85,12 +90,12 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   post hook runs `pywalfox`.
 - `wpaperd` is enabled as the wallpaper runtime and reads wallpapers from
   `/home/fym/Pictures/Wallpapers`.
-- `wpaperd` now runs `desktop-shell-apply-theme` when the wallpaper changes.
-- `desktop-shell-apply-theme` reads the current matugen mode from
-  `~/.config/desktop-shell/theme/mode`, defaults to `dark` when the file is
+- `wpaperd` now runs `gui-apply-theme` when the wallpaper changes.
+- `gui-apply-theme` reads the current matugen mode from
+  `~/.config/gui/theme/mode`, defaults to `dark` when the file is
   absent, validates that the value is `dark` or `light`, and records the last
-  applied wallpaper under `~/.local/state/desktop-shell/theme/wallpaper`.
-- `desktop-shell-theme-mode dark|light|toggle` writes the runtime mode file and
+  applied wallpaper under `~/.local/state/gui/theme/wallpaper`.
+- `gui-theme-mode dark|light|toggle` writes the runtime mode file and
   reapplies the last wallpaper when one has already been recorded.
 - GTK matugen generation now syncs `org.gnome.desktop.interface color-scheme`
   through `gsettings`, falling back to `dconf`, and sets `adw-gtk3` /
@@ -98,7 +103,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - Waybar is enabled in Home Manager, configured as a bottom bar, and started by
   Home Manager's Waybar user systemd service.
 - Waybar CSS is source-linked from
-  `config/gui/desktop-shell/waybar/style.css` and imports the future matugen
+  `config/gui/waybar/style.css` and imports the future matugen
   target `~/.config/waybar/themes/matugen.css`.
 - Waybar uses `wireplumber` for default output volume and
   `wireplumber#source` for default input volume/mute state. Right-clicking
@@ -127,21 +132,21 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   `config.xdg.cacheHome`, instead of relying on matugen to expand `~/...`.
 - Generate the matugen config at build time and expose both it and the manual
   runner through readonly theme options for later modules such as `wpaperd`:
-  `local.gui.desktopShell.theme.matugenConfig` and
-  `local.gui.desktopShell.theme.applyThemeCommand`.
+  `local.gui.theme.matugenConfig` and
+  `local.gui.theme.applyThemeCommand`.
 - Keep the current matugen `dark`/`light` mode as runtime state, not Nix state.
-  The mode file lives at `~/.config/desktop-shell/theme/mode`, so switching mode
+  The mode file lives at `~/.config/gui/theme/mode`, so switching mode
   does not require `home-manager switch`.
+- Runtime command names and state paths have moved to the `gui` namespace:
+  `gui-apply-theme`, `gui-theme-mode`, and `~/.config/gui/theme/mode`. Old
+  `desktop-shell` runtime state is intentionally not migrated.
 
 ## Module Structure Direction
 
-After the desktop-shell submodules are implemented, move each template
-definition next to its owning consumer module. Keep
-`config/gui/desktop-shell/theme/default.nix` as the central registry that
-collects and exposes template entries, rather than as the long-term owner of
-all template definitions.
-Consumer modules should register entries under
-`local.gui.desktopShell.theme.templates`.
+Keep each template definition next to its owning consumer module. Keep
+`config/gui/theme/default.nix` as the central registry that collects and exposes
+template entries, rather than as the owner of all template definitions.
+Consumer modules should register entries under `local.gui.theme.templates`.
 
 ## Validation Already Done
 
@@ -149,14 +154,14 @@ Consumer modules should register entries under
 - Generated pywalfox JSON passed `jq empty`.
 - Generated alacritty TOML passed `builtins.fromTOML`.
 - Home Manager activation package build passed with `--option substitute false`.
-- `desktop-shell-apply-theme` rendered all theme targets into a temporary HOME
+- `gui-apply-theme` rendered all theme targets into a temporary HOME
   using `/home/fym/Pictures/Wallpapers/20260528_.jpg`.
 - After switching template `outputPath` values to absolute paths, the generated
   matugen config passed `matugen image --dry-run` with the same wallpaper.
 
 ## Next Recommended Step
 
-Add `config/gui/desktop-shell/swaync/` as the notification center without
-removing Noctalia yet. Keep the first pass focused on the package, service,
-basic config, and theme path strategy; wire Waybar notification interactions in
-a follow-up once swaync behavior is verified.
+Add `config/gui/swaync/` as the notification center without removing Noctalia
+yet. Keep the first pass focused on the package, service, basic config, and
+theme path strategy; wire Waybar notification interactions in a follow-up once
+swaync behavior is verified.

@@ -9,7 +9,7 @@ let
   };
 in
 {
-  local.gui.desktopShell.theme.templates.alacritty = {
+  local.gui.theme.templates.alacritty = {
     # Source: config/gui/noctalia-shell/user-templates/alacritty.toml
     inputPath = ./alacritty.toml;
     outputPath = "${configHome}/alacritty/themes/matugen.toml";

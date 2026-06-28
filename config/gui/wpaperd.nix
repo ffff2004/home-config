@@ -5,18 +5,18 @@
   ...
 }:
 let
-  applyThemeCommand = lib.getExe config.local.gui.desktopShell.theme.applyThemeCommand;
+  applyThemeCommand = lib.getExe config.local.gui.theme.applyThemeCommand;
   themeHook = pkgs.writeShellApplication {
-    name = "desktop-shell-wpaperd-theme-hook";
+    name = "gui-wpaperd-theme-hook";
     text = ''
       if [ "$#" -lt 2 ]; then
-        echo "Usage: desktop-shell-wpaperd-theme-hook DISPLAY WALLPAPER" >&2
+        echo "Usage: gui-wpaperd-theme-hook DISPLAY WALLPAPER" >&2
         exit 64
       fi
 
       wallpaper=$2
       if [ ! -f "$wallpaper" ]; then
-        echo "desktop-shell-wpaperd-theme-hook: wallpaper not found: $wallpaper" >&2
+        echo "gui-wpaperd-theme-hook: wallpaper not found: $wallpaper" >&2
         exit 0
       fi
 

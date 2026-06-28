@@ -50,7 +50,7 @@ in
     qt6ctSettings = mkQtctSettings "qt6ct";
   };
 
-  local.gui.desktopShell.theme.templates = {
+  local.gui.theme.templates = {
     # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
     qt5ct = {
       inputPath = ./qtct.conf;

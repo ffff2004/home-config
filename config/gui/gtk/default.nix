@@ -6,7 +6,7 @@
 let
   configHome = config.xdg.configHome;
   gtkSyncMode = pkgs.writeShellApplication {
-    name = "desktop-shell-gtk-sync-mode";
+    name = "gui-gtk-sync-mode";
     runtimeInputs = [
       pkgs.dconf
       pkgs.glib
@@ -14,7 +14,7 @@ let
     ];
     text = ''
       if [ "$#" -ne 1 ]; then
-        echo "Usage: desktop-shell-gtk-sync-mode dark|light" >&2
+        echo "Usage: gui-gtk-sync-mode dark|light" >&2
         exit 64
       fi
 
@@ -23,7 +23,7 @@ let
         dark|light)
           ;;
         *)
-          echo "desktop-shell-gtk-sync-mode: invalid mode: $mode" >&2
+          echo "gui-gtk-sync-mode: invalid mode: $mode" >&2
           echo "Expected: dark or light" >&2
           exit 64
           ;;
@@ -84,7 +84,7 @@ in
     '';
   };
 
-  local.gui.desktopShell.theme.templates = {
+  local.gui.theme.templates = {
     # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk3.css
     gtk3 = {
       inputPath = ./gtk3.css;
@@ -95,7 +95,7 @@ in
     gtk4 = {
       inputPath = ./gtk4.css;
       outputPath = "${configHome}/gtk-4.0/matugen.css";
-      postHook = "${gtkSyncMode}/bin/desktop-shell-gtk-sync-mode {{mode}}";
+      postHook = "${gtkSyncMode}/bin/gui-gtk-sync-mode {{mode}}";
     };
   };
 }
