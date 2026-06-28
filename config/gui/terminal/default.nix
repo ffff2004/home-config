@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 let
+  configHome = config.xdg.configHome;
   opacity = 0.83;
   padding = 8;
   font = {
@@ -8,6 +9,12 @@ let
   };
 in
 {
+  local.gui.desktopShell.theme.templates.alacritty = {
+    # Source: config/gui/noctalia-shell/user-templates/alacritty.toml
+    inputPath = ./alacritty.toml;
+    outputPath = "${configHome}/alacritty/themes/matugen.toml";
+  };
+
   xdg.terminal-exec = {
     enable = true;
     settings = {
@@ -18,7 +25,7 @@ in
     enable = true;
     package = pkgs.alacritty-graphics;
     settings = {
-      general.import = [ "themes/noctalia.toml" ];
+      general.import = [ "themes/matugen.toml" ];
       font = {
         normal = {
           family = font.family;

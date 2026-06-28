@@ -12,7 +12,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Validate kept templates with standalone matugen.
 - [x] Add manual standalone matugen runner command.
 - [ ] Switch consumers to neutral generated theme paths.
-  - [ ] Terminal theme.
+  - [x] Terminal theme.
   - [x] Fuzzel theme.
   - [ ] Qt theme.
   - [ ] Swaylock theme/config.
@@ -38,11 +38,16 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 4. Added `config/gui/desktop-shell/fuzzel/`, moved the fuzzel matugen template
    into that consumer module, and let Home Manager manage
    `~/.config/fuzzel/fuzzel.ini`.
+5. Converted `config/gui/terminal.nix` to `config/gui/terminal/`, moved the
+   Alacritty matugen template into that consumer module, and pointed Alacritty at
+   `~/.config/alacritty/themes/matugen.toml`.
 
 ## Current Behavior
 
 - Fuzzel now consumes the neutral generated theme path through a managed
   `~/.config/fuzzel/fuzzel.ini` include.
+- Alacritty now imports the neutral generated theme path
+  `~/.config/alacritty/themes/matugen.toml`.
 - Noctalia remains enabled.
 - No services, hooks, or runtime behavior have been changed.
 - `desktop-shell-apply-theme` is available as a manual command but is not run

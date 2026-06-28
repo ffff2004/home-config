@@ -109,11 +109,6 @@ in
       inherit matugenConfig applyThemeCommand;
 
       templates = {
-        # Source: config/gui/noctalia-shell/user-templates/alacritty.toml
-        alacritty = mkTemplate
-          "alacritty.toml"
-          "${configHome}/alacritty/themes/matugen.toml";
-
         # Source: config/gui/noctalia-shell/user-templates/swaylock.conf
         swaylock = mkTemplate
           "swaylock.conf"

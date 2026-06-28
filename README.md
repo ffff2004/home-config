@@ -49,7 +49,7 @@
 | --- | --- |
 | [config/gui/default.nix](config/gui/default.nix) | gui 目录入口，递归导入 |
 | [config/gui/fontconfig.nix](config/gui/fontconfig.nix) | 字体渲染与默认字体族设置 |
-| [config/gui/terminal.nix](config/gui/terminal.nix) | 终端方案（Alacritty Graphics + Noctalia 主题）和 xdg-terminal-exec |
+| [config/gui/terminal/default.nix](config/gui/terminal/default.nix) | 终端方案（Alacritty Graphics + matugen 主题）和 xdg-terminal-exec |
 | [config/gui/qt6ct.nix](config/gui/qt6ct.nix) | Qt6 主题变量与包配置 |
 | [config/gui/polkit-agent.nix](config/gui/polkit-agent.nix) | Polkit 认证代理 systemd user service |
 | [config/gui/swayidle.nix](config/gui/swayidle.nix) | 空闲策略（熄屏、锁屏、休眠） |
