@@ -18,6 +18,5 @@
   codex-config-sync = pkgs.callPackage ./codex-config-sync { };
   coding-setup = pkgs.callPackage ./coding-setup { };
   nix-py = pkgs.callPackage ./nix-py { };
-  clipboard-bridge = pkgs.callPackage ./clipboard-bridge { };
   pinentry-auto = pkgs.callPackage ./pinentry-auto { };
 }

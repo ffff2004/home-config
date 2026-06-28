@@ -55,7 +55,6 @@
 | [config/gui/polkit-agent.nix](config/gui/polkit-agent.nix) | Polkit 认证代理 systemd user service |
 | [config/gui/swayidle.nix](config/gui/swayidle.nix) | 空闲策略（熄屏、锁屏、休眠） |
 | [config/gui/wallpaper-fetcher.nix](config/gui/wallpaper-fetcher.nix) | 壁纸抓取服务与定时器 |
-| [config/gui/clipboard.nix](config/gui/clipboard.nix) | X11/Wayland 剪贴板桥接服务 |
 | [config/gui/media.nix](config/gui/media.nix) | MPRIS 播放器跟踪与媒体键绑定 |
 | [config/gui/lock-session/default.nix](config/gui/lock-session/default.nix) | 运行预锁命令并调用屏幕锁定命令 |
 | [config/gui/pywalfox/default.nix](config/gui/pywalfox/default.nix) | Pywalfox native host 与 matugen 颜色桥接 |
@@ -90,7 +89,6 @@
 | [pkgs/codex-config-sync/default.nix](pkgs/codex-config-sync/default.nix) | Codex 配置双向同步脚本 |
 | [pkgs/coding-setup/default.nix](pkgs/coding-setup/default.nix) | tmux 编程工作区初始化脚本 `coding-setup` |
 | [pkgs/nix-py/default.nix](pkgs/nix-py/default.nix) | 使用 Nix 提供依赖启动 Python 的包装脚本 `nix-py` |
-| [pkgs/clipboard-bridge/default.nix](pkgs/clipboard-bridge/default.nix) | X11/Wayland 双向剪贴板桥接脚本：`clipboard-bridge` |
 | [pkgs/pinentry-auto/default.nix](pkgs/pinentry-auto/default.nix) | 按 pinentry 请求上下文选择图形或终端后端的代理 |
 
 ## 5. 其他有用信息
