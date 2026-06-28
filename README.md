@@ -55,6 +55,7 @@
 | [config/gui/polkit-agent.nix](config/gui/polkit-agent.nix) | Polkit 认证代理 systemd user service |
 | [config/gui/swayidle.nix](config/gui/swayidle.nix) | 空闲策略（熄屏、锁屏、休眠） |
 | [config/gui/wallpaper-fetcher.nix](config/gui/wallpaper-fetcher.nix) | 壁纸抓取服务与定时器 |
+| [config/gui/cliphist.nix](config/gui/cliphist.nix) | Cliphist 剪贴板历史服务与 Fuzzel picker |
 | [config/gui/media.nix](config/gui/media.nix) | MPRIS 播放器跟踪与媒体键绑定 |
 | [config/gui/lock-session/default.nix](config/gui/lock-session/default.nix) | 运行预锁命令并调用屏幕锁定命令 |
 | [config/gui/pywalfox/default.nix](config/gui/pywalfox/default.nix) | Pywalfox native host 与 matugen 颜色桥接 |

@@ -30,7 +30,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Add swaync notification center.
 - [x] Reapply matugen themes from the last wallpaper during Home Manager
   activation.
-- [ ] Add cliphist + fuzzel picker.
+- [x] Add cliphist + fuzzel picker.
 - [x] Add/restore `playerctl` media binds.
 - [ ] Disable/remove Noctalia runtime/config.
 - [ ] Remove Noctalia-specific swayidle integration.
@@ -82,6 +82,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
     reapplies matugen themes from that last wallpaper after files are linked.
 18. Added `config/gui/media.nix` for MPRIS active-player tracking through
     `playerctld` and restored media key bindings with `playerctl`.
+19. Added `config/gui/cliphist.nix` for clipboard history storage through
+    Home Manager's `services.cliphist`, plus a `gui-cliphist-picker` command
+    bound to `Mod+V` through Fuzzel.
 
 ## Current Behavior
 
@@ -127,6 +130,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - SwayNC is enabled as the notification daemon through Home Manager, uses
   source-linked CSS from `config/gui/swaync/style.css`, and imports the
   generated matugen target `~/.config/swaync/themes/matugen.css`.
+- Cliphist is enabled through Home Manager, storing text and image clipboard
+  history with `wl-paste --watch`. `Mod+V` opens `gui-cliphist-picker`, which
+  selects a history entry with Fuzzel and restores it through `wl-copy`.
 - Noctalia remains enabled.
 
 ## Known Decisions
@@ -182,4 +188,5 @@ Consumer modules should register entries under `local.gui.theme.templates`.
 
 ## Next Recommended Step
 
-Add cliphist and a fuzzel clipboard picker without removing Noctalia yet.
+Disable or remove Noctalia runtime/config after confirming the lightweight
+shell modules cover the remaining runtime behavior.
