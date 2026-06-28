@@ -23,6 +23,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Add `wpaperd` wallpaper runtime.
 - [x] Apply matugen theme generation from wallpaper runtime.
 - [x] Add runtime-switchable matugen light/dark mode.
+- [x] Restore GTK system appearance mode sync.
 - [ ] Add Waybar configuration.
 - [ ] Add swaync notification center.
 - [ ] Add cliphist + fuzzel picker.
@@ -59,6 +60,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
     `desktop-shell-apply-theme`.
 12. Added runtime matugen mode switching through
     `desktop-shell-theme-mode dark|light|toggle`.
+13. Restored the Noctalia GTK mode sync behavior with
+    `desktop-shell-gtk-sync-mode`, called once from the GTK matugen template
+    hooks.
 
 ## Current Behavior
 
@@ -85,6 +89,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   applied wallpaper under `~/.local/state/desktop-shell/theme/wallpaper`.
 - `desktop-shell-theme-mode dark|light|toggle` writes the runtime mode file and
   reapplies the last wallpaper when one has already been recorded.
+- GTK matugen generation now syncs `org.gnome.desktop.interface color-scheme`
+  through `gsettings`, falling back to `dconf`, and sets `adw-gtk3` /
+  `adw-gtk3-dark` as `gtk-theme` when the theme is installed.
 - Noctalia remains enabled.
 
 ## Known Decisions
