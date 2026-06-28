@@ -37,12 +37,28 @@ let
       pkgs.matugen
     ];
     text = ''
-      if [ "$#" -ne 1 ]; then
-        echo "Usage: gui-apply-theme WALLPAPER" >&2
-        exit 64
+      case "$#" in
+        0)
+          if [ ! -f "${lastWallpaperPath}" ]; then
+            echo "gui-apply-theme: no wallpaper specified and no last wallpaper at ${lastWallpaperPath}" >&2
+            exit 66
+          fi
+          read -r wallpaper < "${lastWallpaperPath}" || wallpaper=
+          ;;
+        1)
+          wallpaper=$1
+          ;;
+        *)
+          echo "Usage: gui-apply-theme [WALLPAPER]" >&2
+          exit 64
+          ;;
+      esac
+
+      if [ -z "$wallpaper" ]; then
+        echo "gui-apply-theme: last wallpaper is empty: ${lastWallpaperPath}" >&2
+        exit 66
       fi
 
-      wallpaper=$1
       if [ ! -f "$wallpaper" ]; then
         echo "gui-apply-theme: wallpaper not found: $wallpaper" >&2
         exit 66
@@ -218,5 +234,19 @@ in
       applyThemeCommand
       themeModeCommand
     ];
+
+    home.activation.guiApplyTheme = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      if [ -f "${lastWallpaperPath}" ]; then
+        read -r wallpaper < "${lastWallpaperPath}" || wallpaper=
+        if [ -n "$wallpaper" ] && [ -f "$wallpaper" ]; then
+          verboseEcho "Reapplying GUI theme from last wallpaper"
+          run --quiet ${applyThemeCommand}/bin/gui-apply-theme
+        else
+          verboseEcho "Skipping GUI theme reapply: last wallpaper is missing or invalid"
+        fi
+      else
+        verboseEcho "Skipping GUI theme reapply: no last wallpaper recorded"
+      fi
+    '';
   };
 }

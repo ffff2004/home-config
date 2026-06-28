@@ -28,6 +28,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Move the lightweight shell modules out of `config/gui/desktop-shell`
   into direct `config/gui` modules.
 - [x] Add swaync notification center.
+- [x] Reapply matugen themes from the last wallpaper during Home Manager
+  activation.
 - [ ] Add cliphist + fuzzel picker.
 - [ ] Add/restore `playerctl` media binds.
 - [ ] Disable/remove Noctalia runtime/config.
@@ -75,6 +77,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 16. Added `config/gui/swaync/` with Home Manager's SwayNC service, a basic
     notification center configuration, source-linked CSS, and a matugen color
     template.
+17. Extended `gui-apply-theme` so it can reuse the last recorded wallpaper when
+    called without arguments, and added a Home Manager activation hook that
+    reapplies matugen themes from that last wallpaper after files are linked.
 
 ## Current Behavior
 
@@ -94,10 +99,13 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - `wpaperd` is enabled as the wallpaper runtime and reads wallpapers from
   `/home/fym/Pictures/Wallpapers`.
 - `wpaperd` now runs `gui-apply-theme` when the wallpaper changes.
-- `gui-apply-theme` reads the current matugen mode from
-  `~/.config/gui/theme/mode`, defaults to `dark` when the file is
-  absent, validates that the value is `dark` or `light`, and records the last
-  applied wallpaper under `~/.local/state/gui/theme/wallpaper`.
+- `gui-apply-theme [WALLPAPER]` reads the current matugen mode from
+  `~/.config/gui/theme/mode`, defaults to `dark` when the file is absent,
+  validates that the value is `dark` or `light`, and records the last applied
+  wallpaper under `~/.local/state/gui/theme/wallpaper`. When called without a
+  wallpaper, it reuses that recorded wallpaper.
+- Home Manager activation reapplies `gui-apply-theme` after `linkGeneration`
+  when the recorded last wallpaper exists and still points to a valid file.
 - `gui-theme-mode dark|light|toggle` writes the runtime mode file and
   reapplies the last wallpaper when one has already been recorded.
 - GTK matugen generation now syncs `org.gnome.desktop.interface color-scheme`
@@ -169,7 +177,4 @@ Consumer modules should register entries under `local.gui.theme.templates`.
 
 ## Next Recommended Step
 
-Add `config/gui/swaync/` as the notification center without removing Noctalia
-yet. Keep the first pass focused on the package, service, basic config, and
-theme path strategy; wire Waybar notification interactions in a follow-up once
-swaync behavior is verified.
+Add cliphist and a fuzzel clipboard picker without removing Noctalia yet.
