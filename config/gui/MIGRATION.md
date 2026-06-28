@@ -27,7 +27,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Add Waybar configuration.
 - [x] Move the lightweight shell modules out of `config/gui/desktop-shell`
   into direct `config/gui` modules.
-- [ ] Add swaync notification center.
+- [x] Add swaync notification center.
 - [ ] Add cliphist + fuzzel picker.
 - [ ] Add/restore `playerctl` media binds.
 - [ ] Disable/remove Noctalia runtime/config.
@@ -72,6 +72,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 15. Removed the `config/gui/desktop-shell` module boundary by moving the active
     modules to direct `config/gui` modules and renaming the Nix option namespace
     from `local.gui.desktopShell.theme` to `local.gui.theme`.
+16. Added `config/gui/swaync/` with Home Manager's SwayNC service, a basic
+    notification center configuration, source-linked CSS, and a matugen color
+    template.
 
 ## Current Behavior
 
@@ -108,6 +111,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - Waybar uses `wireplumber` for default output volume and
   `wireplumber#source` for default input volume/mute state. Right-clicking
   either opens `pwvucontrol`.
+- SwayNC is enabled as the notification daemon through Home Manager, uses
+  source-linked CSS from `config/gui/swaync/style.css`, and imports the
+  generated matugen target `~/.config/swaync/themes/matugen.css`.
 - Noctalia remains enabled.
 
 ## Known Decisions
@@ -122,6 +128,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   - qt5ct
   - qt6ct
   - fuzzel
+  - waybar
+  - swaync
 - Restore media key behavior later using `playerctl`.
 - Keep `config/gui/wallpaper-fetcher.nix` separate; it only downloads wallpapers.
 - Generate the fuzzel matugen theme at

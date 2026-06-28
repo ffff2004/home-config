@@ -37,7 +37,8 @@ tooltip {
 #wireplumber,
 #clock,
 #battery,
-#backlight {
+#backlight,
+#custom-notification {
   padding: 0 8px;
 }
 

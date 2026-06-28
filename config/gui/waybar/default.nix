@@ -11,6 +11,7 @@ let
   niri = lib.getExe config.programs.niri.package;
   audioControl = lib.getExe pkgs.pwvucontrol;
   wpctl = lib.getExe' pkgs.wireplumber "wpctl";
+  swayncClient = lib.getExe' config.services.swaync.package "swaync-client";
 in
 {
   home.packages = [
@@ -50,6 +51,7 @@ in
         "clock"
         "battery"
         "backlight"
+        "custom/notification"
       ];
 
       "custom/power" = {
@@ -165,6 +167,27 @@ in
       backlight = {
         format = "BRI {percent}%";
         scroll-step = 2;
+      };
+
+      "custom/notification" = {
+        tooltip = true;
+        format = "{icon} {0}";
+        format-icons = {
+          notification = "󱅫";
+          none = "󰂜";
+          dnd-notification = "󰂠";
+          dnd-none = "󰪓";
+          inhibited-notification = "󰂛";
+          inhibited-none = "󰪑";
+          dnd-inhibited-notification = "󰂛";
+          dnd-inhibited-none = "󰪑";
+        };
+        return-type = "json";
+        exec-if = "test -x ${swayncClient}";
+        exec = "${swayncClient} --subscribe-waybar";
+        on-click = "${swayncClient} --toggle-panel --skip-wait";
+        on-click-right = "${swayncClient} --toggle-dnd --skip-wait";
+        escape = true;
       };
     };
   };

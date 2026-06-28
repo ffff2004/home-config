@@ -1,0 +1,282 @@
+@define-color sw_surface #1f1f1f;
+@define-color sw_surface_container #2b2b2b;
+@define-color sw_surface_container_high #363636;
+@define-color sw_on_surface #eeeeee;
+@define-color sw_on_surface_variant #c8c8c8;
+@define-color sw_primary #8ab4f8;
+@define-color sw_on_primary #202124;
+@define-color sw_primary_container #30475f;
+@define-color sw_on_primary_container #d6e3ff;
+@define-color sw_error #ffb4ab;
+@define-color sw_on_error #690005;
+@define-color sw_outline rgba(255, 255, 255, 0.12);
+
+@import url("themes/matugen.css");
+
+:root {
+  --cc-bg: alpha(@sw_surface, 0.96);
+  --noti-bg-darker: @sw_surface;
+  --noti-bg-hover: alpha(@sw_primary, 0.12);
+  --noti-bg-focus: alpha(@sw_primary, 0.16);
+  --noti-close-bg: alpha(@sw_surface_container_high, 0.9);
+  --noti-close-bg-hover: alpha(@sw_primary, 0.18);
+  --text-color: @sw_on_surface;
+  --text-color-disabled: @sw_on_surface_variant;
+  --bg-selected: @sw_primary;
+  --border-radius: 8px;
+  --border: 1px solid @sw_outline;
+  --notification-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  --hover-transition: background 0.12s ease-in-out, border-color 0.12s ease-in-out;
+  --hover-tranistion: var(--hover-transition);
+  --group-collapse-transition: opacity 200ms ease-in-out;
+  --group-collapse-tranistion: var(--group-collapse-transition);
+}
+
+* {
+  font-family: sans-serif;
+  font-size: 13px;
+  color: @sw_on_surface;
+}
+
+notificationwindow,
+blankwindow,
+.blank-window,
+.floating-notifications {
+  background: transparent;
+}
+
+.control-center {
+  background: alpha(@sw_surface, 0.96);
+  color: @sw_on_surface;
+  border: 1px solid @sw_outline;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.control-center-list,
+.control-center-list row,
+.control-center-list row:hover,
+.control-center-list row:focus,
+.control-center-list viewport {
+  background: transparent;
+}
+
+.control-center-list-placeholder {
+  color: @sw_on_surface_variant;
+  opacity: 0.82;
+}
+
+.notification-row,
+.notification-row:hover,
+.notification-row:focus {
+  background: transparent;
+  outline: none;
+}
+
+.notification-background {
+  background: transparent;
+  padding: 6px 10px;
+}
+
+.notification {
+  background: alpha(@sw_surface_container, 0.96);
+  color: @sw_on_surface;
+  border: 1px solid @sw_outline;
+  border-radius: 8px;
+  padding: 0;
+  margin: 0;
+  box-shadow: var(--notification-shadow);
+  transition: var(--hover-transition);
+}
+
+.floating-notifications .notification {
+  box-shadow: none;
+}
+
+.notification.low {
+  border-color: alpha(@sw_outline, 0.72);
+}
+
+.notification.normal {
+  border-color: @sw_outline;
+}
+
+.notification.critical {
+  border-color: @sw_error;
+}
+
+.notification-row:hover .notification,
+.notification-row:focus .notification {
+  background: @sw_surface_container_high;
+  border-color: @sw_primary;
+}
+
+.notification-default-action,
+.notification-action {
+  background: transparent;
+  color: @sw_on_surface;
+  border: none;
+  box-shadow: none;
+  transition: var(--hover-transition);
+}
+
+.notification-default-action:hover,
+.notification-default-action:focus,
+.notification-action:hover,
+.notification-action:focus,
+.control-center .notification-default-action:hover,
+.control-center .notification-default-action:focus,
+.control-center .notification-action:hover,
+.control-center .notification-action:focus {
+  background: alpha(@sw_primary, 0.12);
+  color: @sw_on_surface;
+}
+
+.notification-content {
+  background: transparent;
+  padding: 10px;
+}
+
+.image,
+.app-icon,
+.body-image {
+  -gtk-icon-filter: none;
+}
+
+.summary,
+.time {
+  color: @sw_on_surface;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.app-name,
+.body {
+  color: @sw_on_surface_variant;
+  text-shadow: none;
+}
+
+.inline-reply-entry {
+  background: @sw_surface;
+  color: @sw_on_surface;
+  border: 1px solid @sw_outline;
+  border-radius: 8px;
+}
+
+.inline-reply-button,
+.notification-action > button {
+  background: @sw_surface_container_high;
+  color: @sw_on_surface;
+  border: 1px solid @sw_outline;
+  border-radius: 8px;
+}
+
+.inline-reply-button:hover,
+.notification-action > button:hover {
+  background: alpha(@sw_primary, 0.14);
+  border-color: @sw_primary;
+}
+
+.close-button {
+  background: @sw_surface_container_high;
+  color: @sw_on_surface;
+  border: none;
+  border-radius: 999px;
+  box-shadow: none;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.close-button:hover {
+  background: alpha(@sw_primary, 0.16);
+  color: @sw_on_surface;
+  box-shadow: none;
+}
+
+.notification-group,
+.notification-group:hover,
+.notification-group:focus {
+  background: transparent;
+  color: @sw_on_surface;
+}
+
+.notification-group-headers,
+.notification-group-header,
+.notification-group-icon,
+.notification-group-buttons {
+  background: transparent;
+  color: @sw_on_surface;
+}
+
+.notification-group.collapsed .notification-row .notification {
+  background: alpha(@sw_surface_container, 0.96);
+}
+
+.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
+  background: @sw_surface_container_high;
+}
+
+.notification-group.collapsed.not-expanded {
+  opacity: 0.72;
+}
+
+.widget {
+  background: alpha(@sw_surface_container, 0.72);
+  color: @sw_on_surface;
+  border: 1px solid alpha(@sw_outline, 0.72);
+  border-radius: 8px;
+  margin: 8px;
+  padding: 8px;
+}
+
+.widget-title {
+  background: transparent;
+  border: none;
+  margin: 4px 6px 8px;
+  padding: 0;
+}
+
+.widget-title > label {
+  color: @sw_on_surface;
+  font-weight: 700;
+}
+
+.widget-title > button {
+  background: @sw_primary_container;
+  color: @sw_on_primary_container;
+  border: 1px solid alpha(@sw_primary, 0.28);
+  border-radius: 6px;
+}
+
+.widget-title > button:hover {
+  background: @sw_primary;
+  color: @sw_on_primary;
+}
+
+.widget-dnd {
+  background: alpha(@sw_surface_container, 0.72);
+}
+
+.widget-dnd label {
+  color: @sw_on_surface;
+}
+
+.widget-dnd switch {
+  background: @sw_surface_container_high;
+  border: 1px solid @sw_outline;
+  border-radius: 999px;
+}
+
+.widget-dnd switch slider {
+  background: @sw_on_surface_variant;
+  border-radius: 999px;
+}
+
+.widget-dnd switch:checked {
+  background: @sw_primary;
+  border-color: @sw_primary;
+}
+
+.widget-dnd switch:checked slider {
+  background: @sw_on_primary;
+}
