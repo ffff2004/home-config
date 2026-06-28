@@ -61,6 +61,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - Generate the fuzzel matugen theme at
   `~/.config/fuzzel/themes/matugen.ini`; a future fuzzel config should include
   it with `include=~/.config/fuzzel/themes/matugen.ini`.
+- Store matugen `outputPath` values as absolute paths based on Home Manager's
+  XDG base directories, such as `config.xdg.configHome` and
+  `config.xdg.cacheHome`, instead of relying on matugen to expand `~/...`.
 - Generate the matugen config at build time and expose both it and the manual
   runner through readonly theme options for later modules such as `wpaperd`:
   `local.gui.desktopShell.theme.matugenConfig` and
@@ -73,6 +76,8 @@ definition next to its owning consumer module. Keep
 `config/gui/desktop-shell/theme/default.nix` as the central registry that
 collects and exposes template entries, rather than as the long-term owner of
 all template definitions.
+Consumer modules should register entries under
+`local.gui.desktopShell.theme.templates`.
 
 ## Validation Already Done
 
@@ -82,6 +87,8 @@ all template definitions.
 - Home Manager activation package build passed with `--option substitute false`.
 - `desktop-shell-apply-theme` rendered all theme targets into a temporary HOME
   using `/home/fym/Pictures/Wallpapers/20260528_.jpg`.
+- After switching template `outputPath` values to absolute paths, the generated
+  matugen config passed `matugen image --dry-run` with the same wallpaper.
 
 ## Next Recommended Step
 

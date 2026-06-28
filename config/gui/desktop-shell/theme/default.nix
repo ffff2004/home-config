@@ -6,6 +6,8 @@
 }:
 let
   cfg = config.local.gui.desktopShell.theme;
+  configHome = config.xdg.configHome;
+  cacheHome = config.xdg.cacheHome;
   templateRoot = ./templates;
 
   mkTemplate =
@@ -53,12 +55,12 @@ in
 {
   options.local.gui.desktopShell.theme = {
     templates = lib.mkOption {
-      readOnly = true;
       description = ''
         Standalone matugen template inventory for the lightweight desktop shell.
 
         This is exposed in Nix-friendly camelCase. The standalone runner turns
-        it into matugen's snake_case TOML format.
+        it into matugen's snake_case TOML format. Consumer submodules should
+        register their own templates here.
       '';
       type = lib.types.attrsOf (
         lib.types.submodule {
@@ -110,42 +112,42 @@ in
         # Source: config/gui/noctalia-shell/user-templates/alacritty.toml
         alacritty = mkTemplate
           "alacritty.toml"
-          "~/.config/alacritty/themes/matugen.toml";
+          "${configHome}/alacritty/themes/matugen.toml";
 
         # Source: config/gui/noctalia-shell/user-templates/swaylock.conf
         swaylock = mkTemplate
           "swaylock.conf"
-          "~/.config/swaylock/themes/matugen.conf";
+          "${configHome}/swaylock/themes/matugen.conf";
 
         # Source: config/gui/noctalia-shell/user-templates/pywalfox.json
         pywalfox = mkTemplate
           "pywalfox.json"
-          "~/.cache/wal/colors-matugen.json";
+          "${cacheHome}/wal/colors-matugen.json";
 
         # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk3.css
         gtk3 = mkTemplate
           "gtk3.css"
-          "~/.config/gtk-3.0/matugen.css";
+          "${configHome}/gtk-3.0/matugen.css";
 
         # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk4.css
         gtk4 = mkTemplate
           "gtk4.css"
-          "~/.config/gtk-4.0/matugen.css";
+          "${configHome}/gtk-4.0/matugen.css";
 
         # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
         qt5ct = mkTemplate
           "qtct.conf"
-          "~/.config/qt5ct/colors/matugen.conf";
+          "${configHome}/qt5ct/colors/matugen.conf";
 
         # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
         qt6ct = mkTemplate
           "qtct.conf"
-          "~/.config/qt6ct/colors/matugen.conf";
+          "${configHome}/qt6ct/colors/matugen.conf";
 
         # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/fuzzel.conf
         fuzzel = mkTemplate
           "fuzzel.ini"
-          "~/.config/fuzzel/themes/matugen.ini";
+          "${configHome}/fuzzel/themes/matugen.ini";
       };
     };
 
