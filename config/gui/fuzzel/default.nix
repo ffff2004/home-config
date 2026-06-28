@@ -5,7 +5,11 @@ in
 {
   programs.fuzzel = {
     enable = true;
-    settings.main.include = "${configHome}/fuzzel/themes/matugen.ini";
+    settings.main = {
+      include = "${configHome}/fuzzel/themes/matugen.ini";
+      lines = 20;
+      width = 40;
+    };
   };
 
   local.gui.theme.templates.fuzzel = {
