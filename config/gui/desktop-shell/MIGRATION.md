@@ -22,6 +22,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   `config/gui/desktop-shell/theme/default.nix` as the central registry.
 - [x] Add `wpaperd` wallpaper runtime.
 - [x] Apply matugen theme generation from wallpaper runtime.
+- [x] Add runtime-switchable matugen light/dark mode.
 - [ ] Add Waybar configuration.
 - [ ] Add swaync notification center.
 - [ ] Add cliphist + fuzzel picker.
@@ -56,6 +57,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
     Home Manager's `services.wpaperd` module.
 11. Wired `wpaperd`'s wallpaper-change `exec` hook to
     `desktop-shell-apply-theme`.
+12. Added runtime matugen mode switching through
+    `desktop-shell-theme-mode dark|light|toggle`.
 
 ## Current Behavior
 
@@ -76,10 +79,13 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - `wpaperd` is enabled as the wallpaper runtime and reads wallpapers from
   `/home/fym/Pictures/Wallpapers`.
 - `wpaperd` now runs `desktop-shell-apply-theme` when the wallpaper changes.
+- `desktop-shell-apply-theme` reads the current matugen mode from
+  `~/.config/desktop-shell/theme/mode`, defaults to `dark` when the file is
+  absent, validates that the value is `dark` or `light`, and records the last
+  applied wallpaper under `~/.local/state/desktop-shell/theme/wallpaper`.
+- `desktop-shell-theme-mode dark|light|toggle` writes the runtime mode file and
+  reapplies the last wallpaper when one has already been recorded.
 - Noctalia remains enabled.
-- No services, hooks, or runtime behavior have been changed.
-- `desktop-shell-apply-theme` is available as a manual command but is not run
-  automatically.
 
 ## Known Decisions
 
@@ -105,6 +111,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   runner through readonly theme options for later modules such as `wpaperd`:
   `local.gui.desktopShell.theme.matugenConfig` and
   `local.gui.desktopShell.theme.applyThemeCommand`.
+- Keep the current matugen `dark`/`light` mode as runtime state, not Nix state.
+  The mode file lives at `~/.config/desktop-shell/theme/mode`, so switching mode
+  does not require `home-manager switch`.
 
 ## Module Structure Direction
 

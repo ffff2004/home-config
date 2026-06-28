@@ -6,8 +6,13 @@
 }:
 let
   cfg = config.local.gui.desktopShell.theme;
+  configHome = config.xdg.configHome;
+  stateHome = config.xdg.stateHome;
 
   matugenConfigFormat = pkgs.formats.toml { };
+
+  modePath = "${configHome}/desktop-shell/theme/mode";
+  lastWallpaperPath = "${stateHome}/desktop-shell/theme/wallpaper";
 
   toMatugenTemplate =
     template:
@@ -25,7 +30,10 @@ let
 
   applyThemeCommand = pkgs.writeShellApplication {
     name = "desktop-shell-apply-theme";
-    runtimeInputs = [ pkgs.matugen ];
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.matugen
+    ];
     text = ''
       if [ "$#" -ne 1 ]; then
         echo "Usage: desktop-shell-apply-theme WALLPAPER" >&2
@@ -38,7 +46,84 @@ let
         exit 66
       fi
 
-      exec matugen image "$wallpaper" -c "${matugenConfig}" --source-color-index 0
+      mode=dark
+      if [ -f "${modePath}" ]; then
+        mode=$(tr -d '[:space:]' < "${modePath}")
+      fi
+
+      case "$mode" in
+        dark|light)
+          ;;
+        "")
+          mode=dark
+          ;;
+        *)
+          echo "desktop-shell-apply-theme: invalid theme mode in ${modePath}: $mode" >&2
+          echo "Expected: dark or light" >&2
+          exit 65
+          ;;
+      esac
+
+      matugen image "$wallpaper" -c "${matugenConfig}" --source-color-index 0 --mode "$mode"
+
+      mkdir -p "$(dirname "${lastWallpaperPath}")"
+      printf '%s\n' "$wallpaper" > "${lastWallpaperPath}"
+    '';
+  };
+
+  themeModeCommand = pkgs.writeShellApplication {
+    name = "desktop-shell-theme-mode";
+    runtimeInputs = [
+      pkgs.coreutils
+      applyThemeCommand
+    ];
+    text = ''
+      if [ "$#" -ne 1 ]; then
+        echo "Usage: desktop-shell-theme-mode dark|light|toggle" >&2
+        exit 64
+      fi
+
+      current=dark
+      if [ -f "${modePath}" ]; then
+        current=$(tr -d '[:space:]' < "${modePath}")
+      fi
+
+      case "$current" in
+        dark|light|"")
+          ;;
+        *)
+          echo "desktop-shell-theme-mode: invalid current mode in ${modePath}: $current" >&2
+          echo "Expected: dark or light" >&2
+          exit 65
+          ;;
+      esac
+
+      case "$1" in
+        dark|light)
+          mode=$1
+          ;;
+        toggle)
+          if [ "$current" = light ]; then
+            mode=dark
+          else
+            mode=light
+          fi
+          ;;
+        *)
+          echo "Usage: desktop-shell-theme-mode dark|light|toggle" >&2
+          exit 64
+          ;;
+      esac
+
+      mkdir -p "$(dirname "${modePath}")"
+      printf '%s\n' "$mode" > "${modePath}"
+
+      if [ -f "${lastWallpaperPath}" ]; then
+        wallpaper=$(head -n 1 "${lastWallpaperPath}")
+        if [ -n "$wallpaper" ] && [ -f "$wallpaper" ]; then
+          desktop-shell-apply-theme "$wallpaper"
+        fi
+      fi
     '';
   };
 in
@@ -92,15 +177,24 @@ in
       type = lib.types.package;
       description = "Manual desktop-shell matugen runner package.";
     };
+
+    themeModeCommand = lib.mkOption {
+      readOnly = true;
+      type = lib.types.package;
+      description = "Runtime desktop-shell theme mode command package.";
+    };
   };
 
   config = {
     local.gui.desktopShell.theme = {
-      inherit matugenConfig applyThemeCommand;
+      inherit matugenConfig applyThemeCommand themeModeCommand;
 
       templates = { };
     };
 
-    home.packages = [ applyThemeCommand ];
+    home.packages = [
+      applyThemeCommand
+      themeModeCommand
+    ];
   };
 }
