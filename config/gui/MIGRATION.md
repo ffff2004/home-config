@@ -31,7 +31,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Reapply matugen themes from the last wallpaper during Home Manager
   activation.
 - [ ] Add cliphist + fuzzel picker.
-- [ ] Add/restore `playerctl` media binds.
+- [x] Add/restore `playerctl` media binds.
 - [ ] Disable/remove Noctalia runtime/config.
 - [ ] Remove Noctalia-specific swayidle integration.
 - [ ] Remove Noctalia flake input/cache after no references remain.
@@ -80,6 +80,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 17. Extended `gui-apply-theme` so it can reuse the last recorded wallpaper when
     called without arguments, and added a Home Manager activation hook that
     reapplies matugen themes from that last wallpaper after files are linked.
+18. Added `config/gui/media.nix` for MPRIS active-player tracking through
+    `playerctld` and restored media key bindings with `playerctl`.
 
 ## Current Behavior
 
@@ -113,6 +115,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   `adw-gtk3-dark` as `gtk-theme` when the theme is installed.
 - Waybar is enabled in Home Manager, configured as a bottom bar, and started by
   Home Manager's Waybar user systemd service.
+- `playerctld` is enabled by `config/gui/media.nix`; Waybar's MPRIS module and
+  media key bindings both use the active MPRIS player instead of binding to a
+  specific player instance.
 - Waybar CSS is source-linked from
   `config/gui/waybar/style.css` and imports the future matugen
   target `~/.config/waybar/themes/matugen.css`.

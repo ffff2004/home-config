@@ -18,8 +18,6 @@ in
     pkgs.pwvucontrol
   ];
 
-  services.playerctld.enable = true;
-
   programs.waybar = {
     enable = true;
     systemd.enable = true;

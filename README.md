@@ -56,6 +56,7 @@
 | [config/gui/swayidle.nix](config/gui/swayidle.nix) | 空闲策略（熄屏、锁屏、休眠） |
 | [config/gui/wallpaper-fetcher.nix](config/gui/wallpaper-fetcher.nix) | 壁纸抓取服务与定时器 |
 | [config/gui/clipboard.nix](config/gui/clipboard.nix) | X11/Wayland 剪贴板桥接服务 |
+| [config/gui/media.nix](config/gui/media.nix) | MPRIS 播放器跟踪与媒体键绑定 |
 | [config/gui/lock-session/default.nix](config/gui/lock-session/default.nix) | 运行预锁命令并调用屏幕锁定命令 |
 | [config/gui/pywalfox/default.nix](config/gui/pywalfox/default.nix) | Pywalfox native host 与 matugen 颜色桥接 |
 | [config/gui/app-overrides/default.nix](config/gui/app-overrides/default.nix) | 为本地 GUI 应用集中管理 wrapper、desktop override 与 MIME/URL scheme 关联 |
