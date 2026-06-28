@@ -143,11 +143,6 @@ in
         qt6ct = mkTemplate
           "qtct.conf"
           "${configHome}/qt6ct/colors/matugen.conf";
-
-        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/fuzzel.conf
-        fuzzel = mkTemplate
-          "fuzzel.ini"
-          "${configHome}/fuzzel/themes/matugen.ini";
       };
     };
 

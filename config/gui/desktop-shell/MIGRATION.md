@@ -13,7 +13,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Add manual standalone matugen runner command.
 - [ ] Switch consumers to neutral generated theme paths.
   - [ ] Terminal theme.
-  - [ ] Fuzzel theme.
+  - [x] Fuzzel theme.
   - [ ] Qt theme.
   - [ ] Swaylock theme/config.
   - [ ] GTK theme CSS.
@@ -35,10 +35,14 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 2. Added `config/gui/desktop-shell/theme/` with standalone matugen templates.
 3. Added `desktop-shell-apply-theme` as a manual standalone matugen runner,
    backed by a build-time generated matugen config.
+4. Added `config/gui/desktop-shell/fuzzel/`, moved the fuzzel matugen template
+   into that consumer module, and let Home Manager manage
+   `~/.config/fuzzel/fuzzel.ini`.
 
 ## Current Behavior
 
-- No existing consumers are switched.
+- Fuzzel now consumes the neutral generated theme path through a managed
+  `~/.config/fuzzel/fuzzel.ini` include.
 - Noctalia remains enabled.
 - No services, hooks, or runtime behavior have been changed.
 - `desktop-shell-apply-theme` is available as a manual command but is not run
@@ -59,8 +63,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - Restore media key behavior later using `playerctl`.
 - Keep `config/gui/wallpaper-fetcher.nix` separate; it only downloads wallpapers.
 - Generate the fuzzel matugen theme at
-  `~/.config/fuzzel/themes/matugen.ini`; a future fuzzel config should include
-  it with `include=~/.config/fuzzel/themes/matugen.ini`.
+  `~/.config/fuzzel/themes/matugen.ini`; the managed fuzzel config includes it
+  with an absolute path derived from `config.xdg.configHome`.
 - Store matugen `outputPath` values as absolute paths based on Home Manager's
   XDG base directories, such as `config.xdg.configHome` and
   `config.xdg.cacheHome`, instead of relying on matugen to expand `~/...`.
@@ -92,5 +96,5 @@ Consumer modules should register entries under
 
 ## Next Recommended Step
 
-Switch consumers to the neutral generated theme paths without removing
+Switch another consumer to the neutral generated theme paths without removing
 Noctalia yet.
