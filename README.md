@@ -67,7 +67,6 @@
 | [config/gui/wpaperd.nix](config/gui/wpaperd.nix) | wpaperd 壁纸运行时与主题生成 hook |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix) | Fcitx5 输入法与配置树递归链接 |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix) | Niri 主入口，导入 niri-flake 与 settings 子模块 |
-| [config/gui/noctalia-shell/default.nix](config/gui/noctalia-shell/default.nix) | Noctalia shell 集成、模板与设置文件链接 |
 | [config/gui/umu/default.nix](config/gui/umu/default.nix) | UMU Launcher 包装器定义与 Proton 变体 |
 
 ## 3. lib 目录模块职责

@@ -10,7 +10,7 @@ let
 in
 {
   local.gui.theme.templates.alacritty = {
-    # Source: config/gui/noctalia-shell/user-templates/alacritty.toml
+    # Migrated from the former Noctalia Alacritty user template.
     inputPath = ./alacritty.toml;
     outputPath = "${configHome}/alacritty/themes/matugen.toml";
   };
@@ -89,7 +89,6 @@ in
     settings = {
       window_padding_width = padding / 2.0;
       background_opacity = opacity;
-      include = "~/.config/kitty/themes/noctalia.conf";
     };
   };
   programs.foot = {
@@ -97,7 +96,6 @@ in
     settings = {
       main = {
         font = "${font.family}:size=${toString font.size}";
-        include = "~/.config/foot/themes/noctalia";
         pad = "${toString padding}x${toString padding}";
       };
       colors.alpha = opacity;

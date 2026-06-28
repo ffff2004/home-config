@@ -32,9 +32,9 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   activation.
 - [x] Add cliphist + fuzzel picker.
 - [x] Add/restore `playerctl` media binds.
-- [ ] Disable/remove Noctalia runtime/config.
-- [ ] Remove Noctalia-specific swayidle integration.
-- [ ] Remove Noctalia flake input/cache after no references remain.
+- [x] Disable/remove Noctalia runtime/config.
+- [x] Remove Noctalia-specific swayidle integration.
+- [x] Remove Noctalia flake input/cache after no references remain.
 
 ## Completed Steps
 
@@ -85,6 +85,11 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 19. Added `config/gui/cliphist.nix` for clipboard history storage through
     Home Manager's `services.cliphist`, plus a `gui-cliphist-picker` command
     bound to `Mod+V` through Fuzzel.
+20. Disabled the Noctalia Home Manager runtime/config module while keeping the
+    old source directory available as migration reference.
+21. Removed the Noctalia-specific STOP/CONT integration from swayidle.
+22. Removed the Noctalia flake input, Cachix cache settings, and old
+    `config/gui/noctalia-shell` source directory.
 
 ## Current Behavior
 
@@ -133,7 +138,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - Cliphist is enabled through Home Manager, storing text and image clipboard
   history with `wl-paste --watch`. `Mod+V` opens `gui-cliphist-picker`, which
   selects a history entry with Fuzzel and restores it through `wl-copy`.
-- Noctalia remains enabled.
+- Noctalia is no longer enabled by Home Manager.
 
 ## Known Decisions
 
@@ -185,8 +190,10 @@ Consumer modules should register entries under `local.gui.theme.templates`.
   using `/home/fym/Pictures/Wallpapers/20260528_.jpg`.
 - After switching template `outputPath` values to absolute paths, the generated
   matugen config passed `matugen image --dry-run` with the same wallpaper.
+- `home-manager switch` completed successfully in the live session after
+  removing Noctalia.
 
-## Next Recommended Step
+## Status
 
-Disable or remove Noctalia runtime/config after confirming the lightweight
-shell modules cover the remaining runtime behavior.
+The migration is complete. Continue normal follow-up work as focused changes to
+the new `config/gui` modules.
