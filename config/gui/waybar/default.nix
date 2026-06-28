@@ -18,6 +18,8 @@ in
     pkgs.pwvucontrol
   ];
 
+  services.playerctld.enable = true;
+
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -99,10 +101,15 @@ in
       };
 
       mpris = {
-        format = "{status} {dynamic}";
-        format-paused = "Paused {dynamic}";
+        format = "{status_icon} {dynamic}";
+        format-paused = "{status_icon} {dynamic}";
         format-stopped = "";
-        dynamic-len = 48;
+        status-icons = {
+          playing = "";
+          paused = "";
+          stopped = "";
+        };
+        dynamic-len = 16;
         tooltip-format = "{player}: {artist} - {title}";
       };
 
