@@ -24,7 +24,9 @@ let
     };
 
   matugenConfig = matugenConfigFormat.generate "desktop-shell-matugen.toml" {
-    config = { };
+    config = lib.optionalAttrs (cfg.customColors != { }) {
+      custom_colors = cfg.customColors;
+    };
     templates = lib.mapAttrs (_: toMatugenTemplate) cfg.templates;
   };
 
@@ -166,6 +168,17 @@ in
       );
     };
 
+    customColors = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      default = { };
+      description = ''
+        Custom colors passed to matugen as config.custom_colors.
+
+        These colors are available to templates under the colors namespace and
+        are harmonized with the wallpaper source color by matugen.
+      '';
+    };
+
     matugenConfig = lib.mkOption {
       readOnly = true;
       type = lib.types.path;
@@ -188,6 +201,15 @@ in
   config = {
     local.gui.desktopShell.theme = {
       inherit matugenConfig applyThemeCommand themeModeCommand;
+
+      customColors = {
+        red = "#ff0000";
+        green = "#00ff00";
+        blue = "#0000ff";
+        yellow = "#ffff00";
+        magenta = "#ff00ff";
+        cyan = "#00ffff";
+      };
 
       templates = { };
     };
