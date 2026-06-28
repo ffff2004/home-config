@@ -10,7 +10,7 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - [x] Add `config/gui/desktop-shell` no-op skeleton.
 - [x] Add standalone matugen template layout.
 - [x] Validate kept templates with standalone matugen.
-- [ ] Add manual standalone matugen runner command.
+- [x] Add manual standalone matugen runner command.
 - [ ] Switch consumers to neutral generated theme paths.
   - [ ] Terminal theme.
   - [ ] Fuzzel theme.
@@ -33,12 +33,16 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 
 1. Added the no-op `config/gui/desktop-shell/default.nix` skeleton.
 2. Added `config/gui/desktop-shell/theme/` with standalone matugen templates.
+3. Added `desktop-shell-apply-theme` as a manual standalone matugen runner,
+   backed by a build-time generated matugen config.
 
 ## Current Behavior
 
 - No existing consumers are switched.
 - Noctalia remains enabled.
 - No services, hooks, or runtime behavior have been changed.
+- `desktop-shell-apply-theme` is available as a manual command but is not run
+  automatically.
 
 ## Known Decisions
 
@@ -57,6 +61,10 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
 - Generate the fuzzel matugen theme at
   `~/.config/fuzzel/themes/matugen.ini`; a future fuzzel config should include
   it with `include=~/.config/fuzzel/themes/matugen.ini`.
+- Generate the matugen config at build time and expose both it and the manual
+  runner through readonly theme options for later modules such as `wpaperd`:
+  `local.gui.desktopShell.theme.matugenConfig` and
+  `local.gui.desktopShell.theme.applyThemeCommand`.
 
 ## Module Structure Direction
 
@@ -72,9 +80,10 @@ all template definitions.
 - Generated pywalfox JSON passed `jq empty`.
 - Generated alacritty TOML passed `builtins.fromTOML`.
 - Home Manager activation package build passed with `--option substitute false`.
+- `desktop-shell-apply-theme` rendered all theme targets into a temporary HOME
+  using `/home/fym/Pictures/Wallpapers/20260528_.jpg`.
 
 ## Next Recommended Step
 
-Add a manual standalone matugen runner command, such as
-`desktop-shell-apply-theme`, that writes neutral target paths but does not run
-automatically and does not switch consumers yet.
+Switch consumers to the neutral generated theme paths without removing
+Noctalia yet.

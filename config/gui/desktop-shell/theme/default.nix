@@ -1,5 +1,11 @@
-{ lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
+  cfg = config.local.gui.desktopShell.theme;
   templateRoot = ./templates;
 
   mkTemplate =
@@ -8,84 +14,141 @@ let
       inherit outputPath;
       inputPath = templateRoot + "/${fileName}";
     };
-in
-{
-  options.local.gui.desktopShell.theme.templates = lib.mkOption {
-    readOnly = true;
-    description = ''
-      Standalone matugen template inventory for the lightweight desktop shell.
 
-      This is metadata only for now. A later migration step will add the
-      matugen runner that writes these templates to their output paths.
-    '';
-    type = lib.types.attrsOf (
-      lib.types.submodule {
-        options = {
-          inputPath = lib.mkOption {
-            type = lib.types.path;
-            description = "Local matugen template path.";
-          };
+  matugenConfigFormat = pkgs.formats.toml { };
 
-          outputPath = lib.mkOption {
-            type = lib.types.str;
-            description = "Future neutral output path for the generated theme.";
-          };
+  toMatugenTemplate =
+    template:
+    lib.filterAttrs (_: value: value != null) {
+      input_path = toString template.inputPath;
+      output_path = template.outputPath;
+      pre_hook = template.preHook;
+      post_hook = template.postHook;
+    };
 
-          preHook = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Optional matugen pre hook command.";
-          };
-
-          postHook = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Optional matugen post hook command.";
-          };
-        };
-      }
-    );
+  matugenConfig = matugenConfigFormat.generate "desktop-shell-matugen.toml" {
+    config = { };
+    templates = lib.mapAttrs (_: toMatugenTemplate) cfg.templates;
   };
 
-  config.local.gui.desktopShell.theme.templates = {
-    # Source: config/gui/noctalia-shell/user-templates/alacritty.toml
-    alacritty = mkTemplate
-      "alacritty.toml"
-      "~/.config/alacritty/themes/matugen.toml";
+  applyThemeCommand = pkgs.writeShellApplication {
+    name = "desktop-shell-apply-theme";
+    runtimeInputs = [ pkgs.matugen ];
+    text = ''
+      if [ "$#" -ne 1 ]; then
+        echo "Usage: desktop-shell-apply-theme WALLPAPER" >&2
+        exit 64
+      fi
 
-    # Source: config/gui/noctalia-shell/user-templates/swaylock.conf
-    swaylock = mkTemplate
-      "swaylock.conf"
-      "~/.config/swaylock/themes/matugen.conf";
+      wallpaper=$1
+      if [ ! -f "$wallpaper" ]; then
+        echo "desktop-shell-apply-theme: wallpaper not found: $wallpaper" >&2
+        exit 66
+      fi
 
-    # Source: config/gui/noctalia-shell/user-templates/pywalfox.json
-    pywalfox = mkTemplate
-      "pywalfox.json"
-      "~/.cache/wal/colors-matugen.json";
+      exec matugen image "$wallpaper" -c "${matugenConfig}" --source-color-index 0
+    '';
+  };
+in
+{
+  options.local.gui.desktopShell.theme = {
+    templates = lib.mkOption {
+      readOnly = true;
+      description = ''
+        Standalone matugen template inventory for the lightweight desktop shell.
 
-    # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk3.css
-    gtk3 = mkTemplate
-      "gtk3.css"
-      "~/.config/gtk-3.0/matugen.css";
+        This is exposed in Nix-friendly camelCase. The standalone runner turns
+        it into matugen's snake_case TOML format.
+      '';
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options = {
+            inputPath = lib.mkOption {
+              type = lib.types.path;
+              description = "Local matugen template path.";
+            };
 
-    # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk4.css
-    gtk4 = mkTemplate
-      "gtk4.css"
-      "~/.config/gtk-4.0/matugen.css";
+            outputPath = lib.mkOption {
+              type = lib.types.str;
+              description = "Future neutral output path for the generated theme.";
+            };
 
-    # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
-    qt5ct = mkTemplate
-      "qtct.conf"
-      "~/.config/qt5ct/colors/matugen.conf";
+            preHook = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "Optional matugen pre hook command.";
+            };
 
-    # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
-    qt6ct = mkTemplate
-      "qtct.conf"
-      "~/.config/qt6ct/colors/matugen.conf";
+            postHook = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "Optional matugen post hook command.";
+            };
+          };
+        }
+      );
+    };
 
-    # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/fuzzel.conf
-    fuzzel = mkTemplate
-      "fuzzel.ini"
-      "~/.config/fuzzel/themes/matugen.ini";
+    matugenConfig = lib.mkOption {
+      readOnly = true;
+      type = lib.types.path;
+      description = "Build-time generated matugen TOML config for desktop-shell theme templates.";
+    };
+
+    applyThemeCommand = lib.mkOption {
+      readOnly = true;
+      type = lib.types.package;
+      description = "Manual desktop-shell matugen runner package.";
+    };
+  };
+
+  config = {
+    local.gui.desktopShell.theme = {
+      inherit matugenConfig applyThemeCommand;
+
+      templates = {
+        # Source: config/gui/noctalia-shell/user-templates/alacritty.toml
+        alacritty = mkTemplate
+          "alacritty.toml"
+          "~/.config/alacritty/themes/matugen.toml";
+
+        # Source: config/gui/noctalia-shell/user-templates/swaylock.conf
+        swaylock = mkTemplate
+          "swaylock.conf"
+          "~/.config/swaylock/themes/matugen.conf";
+
+        # Source: config/gui/noctalia-shell/user-templates/pywalfox.json
+        pywalfox = mkTemplate
+          "pywalfox.json"
+          "~/.cache/wal/colors-matugen.json";
+
+        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk3.css
+        gtk3 = mkTemplate
+          "gtk3.css"
+          "~/.config/gtk-3.0/matugen.css";
+
+        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/gtk4.css
+        gtk4 = mkTemplate
+          "gtk4.css"
+          "~/.config/gtk-4.0/matugen.css";
+
+        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
+        qt5ct = mkTemplate
+          "qtct.conf"
+          "~/.config/qt5ct/colors/matugen.conf";
+
+        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/qtct.conf
+        qt6ct = mkTemplate
+          "qtct.conf"
+          "~/.config/qt6ct/colors/matugen.conf";
+
+        # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/fuzzel.conf
+        fuzzel = mkTemplate
+          "fuzzel.ini"
+          "~/.config/fuzzel/themes/matugen.ini";
+      };
+    };
+
+    home.packages = [ applyThemeCommand ];
   };
 }
