@@ -25,7 +25,7 @@ in
     settings.mainBar = {
       layer = "top";
       position = "bottom";
-      height = 32;
+      height = 28;
       spacing = 8;
       fixed-center = true;
       reload_style_on_change = true;
@@ -55,8 +55,9 @@ in
       ];
 
       "custom/power" = {
-        format = "Power";
-        tooltip = false;
+        format = "󰐥";
+        tooltip = true;
+        tooltip-format = "Power / Session";
         menu = "on-click";
         menu-file = "${configHome}/waybar/power-menu.xml";
         menu-actions = {
@@ -84,8 +85,17 @@ in
 
       temperature = {
         interval = 5;
-        format = "TEMP {temperatureC}C";
+        format = "{icon} {temperatureC}°";
+        format-critical = " {temperatureC}°";
+        format-icons = [
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
         critical-threshold = 85;
+        tooltip-format = "Temperature: {temperatureC}°C";
       };
 
       mpris = {
@@ -115,7 +125,7 @@ in
         format = "{title}";
         icon = true;
         icon-size = 18;
-        max-length = 64;
+        max-length = 40;
         separate-outputs = true;
       };
 
@@ -125,8 +135,13 @@ in
       };
 
       wireplumber = {
-        format = "VOL {volume}%";
-        format-muted = "VOL muted";
+        format = "{icon} {volume}%";
+        format-muted = "󰖁 muted";
+        format-icons = [
+          ""
+          ""
+          ""
+        ];
         tooltip-format = "{node_name}";
         scroll-step = 2;
         on-click = "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -135,8 +150,8 @@ in
 
       "wireplumber#source" = {
         node-type = "Audio/Source";
-        format = "MIC {volume}%";
-        format-muted = "MIC muted";
+        format = " {volume}%";
+        format-muted = " muted";
         tooltip-format = "{node_name}";
         scroll-step = 2;
         on-click = "${wpctl} set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
@@ -155,9 +170,16 @@ in
 
       battery = {
         interval = 30;
-        format = "BAT {capacity}%";
-        format-charging = "BAT {capacity}% charging";
-        format-plugged = "BAT {capacity}% plugged";
+        format = "{icon} {capacity}%";
+        format-charging = "󰂄 {capacity}%";
+        format-plugged = "󰂄 {capacity}%";
+        format-icons = [
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
         states = {
           warning = 30;
           critical = 15;
@@ -165,7 +187,12 @@ in
       };
 
       backlight = {
-        format = "BRI {percent}%";
+        format = "{icon} {percent}%";
+        format-icons = [
+          "󰃞"
+          "󰃟"
+          "󰃠"
+        ];
         scroll-step = 2;
       };
 

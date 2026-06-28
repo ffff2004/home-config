@@ -1,10 +1,21 @@
 @define-color ds_surface #1f1f1f;
 @define-color ds_surface_container #2b2b2b;
+@define-color ds_surface_container_high #363636;
+@define-color ds_surface_container_highest #424242;
 @define-color ds_on_surface #eeeeee;
+@define-color ds_on_surface_variant #c8c8c8;
 @define-color ds_primary #8ab4f8;
 @define-color ds_on_primary #202124;
+@define-color ds_primary_container #30475f;
+@define-color ds_on_primary_container #d6e3ff;
+@define-color ds_tertiary #d6bee4;
+@define-color ds_tertiary_container #4c3a58;
+@define-color ds_on_tertiary_container #f2daff;
 @define-color ds_error #ffb4ab;
 @define-color ds_on_error #690005;
+@define-color ds_error_container #93000a;
+@define-color ds_on_error_container #ffdad6;
+@define-color ds_outline_variant #4b4548;
 
 @import url("themes/matugen.css");
 
@@ -22,8 +33,34 @@ window#waybar {
 }
 
 tooltip {
-  background: @ds_surface_container;
+  background-color: @ds_surface_container_high;
   color: @ds_on_surface;
+  border: 1px solid @ds_outline_variant;
+}
+
+tooltip label {
+  color: @ds_on_surface;
+  text-shadow: none;
+}
+
+menu {
+  background: @ds_surface_container_high;
+  color: @ds_on_surface;
+  border: 1px solid @ds_outline_variant;
+}
+
+menuitem {
+  color: @ds_on_surface;
+  padding: 6px 12px;
+}
+
+menuitem:hover {
+  background: @ds_primary_container;
+  color: @ds_on_primary_container;
+}
+
+menuitem label {
+  color: inherit;
 }
 
 #custom-power,
@@ -42,24 +79,65 @@ tooltip {
   padding: 0 8px;
 }
 
+#custom-power,
+#temperature,
+#wireplumber,
+#battery,
+#backlight {
+  padding: 0 6px;
+  min-width: 0;
+}
+
+#custom-power {
+  padding: 0 12px;
+}
+
+#custom-notification {
+  padding: 0 12px;
+}
+
 #workspaces button,
 #taskbar button {
   color: @ds_on_surface;
   padding: 0 6px;
 }
 
+#custom-power:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#mpris:hover,
+#workspaces button:hover,
+#taskbar button:hover,
+#tray:hover,
+#wireplumber:hover,
+#clock:hover,
+#battery:hover,
+#backlight:hover,
+#custom-notification:hover {
+  background: @ds_surface_container_high;
+}
+
 #workspaces button.focused,
 #workspaces button.active,
 #taskbar button.active {
-  color: @ds_primary;
+  background: @ds_primary_container;
+  color: @ds_on_primary_container;
 }
 
-#battery.warning,
+#mpris {
+  color: @ds_on_surface_variant;
+}
+
+#battery.warning {
+  color: @ds_tertiary;
+}
+
 #temperature.critical {
   color: @ds_error;
 }
 
 #battery.critical {
-  background: @ds_error;
-  color: @ds_on_error;
+  background: @ds_error_container;
+  color: @ds_on_error_container;
 }
