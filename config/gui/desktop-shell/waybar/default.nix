@@ -27,6 +27,7 @@ in
       height = 32;
       spacing = 8;
       fixed-center = true;
+      reload_style_on_change = true;
 
       modules-left = [
         "custom/power"
@@ -171,5 +172,10 @@ in
   xdg.configFile = {
     "waybar/style.css".source = localLib.mkSymlinkToSource ./style.css;
     "waybar/power-menu.xml".source = localLib.mkSymlinkToSource ./power-menu.xml;
+  };
+
+  local.gui.desktopShell.theme.templates.waybar = {
+    inputPath = ./matugen.css;
+    outputPath = "${configHome}/waybar/themes/matugen.css";
   };
 }
