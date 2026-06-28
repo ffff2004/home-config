@@ -77,9 +77,8 @@ Waybar, swaync, cliphist, wpaperd, and standalone matugen.
   `~/.config/gtk-3.0/matugen.css` and `~/.config/gtk-4.0/matugen.css`.
 - `lock-session` uses `~/.config/swaylock/themes/matugen.conf` when that file
   exists, and falls back to default swaylock behavior otherwise.
-- Pywalfox generates neutral colors at `~/.cache/wal/colors-matugen.json`, then
-  its post hook copies that file to pywalfox's expected
-  `~/.cache/wal/colors.json` before running `pywalfox`.
+- Pywalfox generates colors directly at `~/.cache/wal/colors.json`, then its
+  post hook runs `pywalfox`.
 - `wpaperd` is enabled as the wallpaper runtime and reads wallpapers from
   `/home/fym/Pictures/Wallpapers`.
 - `wpaperd` now runs `desktop-shell-apply-theme` when the wallpaper changes.
