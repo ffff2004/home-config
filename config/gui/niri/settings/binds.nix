@@ -18,18 +18,6 @@
       # Hotkey overlay
       "Mod+Shift+Slash".action = mkDefault show-hotkey-overlay;
 
-      # Program launchers
-      "Mod+T" = mkDefault {
-        action = spawn "xdg-terminal-exec";
-        repeat = false;
-        hotkey-overlay.title = "Open a Terminal";
-      };
-
-      "XF86Calculator" = {
-        action = mkDefault (spawnSplit "xdg-terminal-exec python");
-        repeat = false;
-      };
-
       # Screen reader toggle
       # "Super+Alt+S" = mkDefault {
       #   action = spawn-sh "pkill orca || exec orca";

@@ -1,6 +1,12 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   configHome = config.xdg.configHome;
+  terminalExec = "xdg-terminal-exec";
   opacity = 0.83;
   padding = 8;
   font = {
@@ -80,6 +86,20 @@ in
       };
     };
   };
+
+  programs.niri.settings.binds = with config.lib.niri.actions; {
+    "Mod+T" = lib.mkDefault {
+      action = spawn terminalExec;
+      repeat = false;
+      hotkey-overlay.title = "Open a Terminal";
+    };
+
+    "XF86Calculator" = {
+      action = lib.mkDefault { spawn = [ terminalExec "python" ]; };
+      repeat = false;
+    };
+  };
+
   programs.kitty = {
     enable = false;
     font = {
