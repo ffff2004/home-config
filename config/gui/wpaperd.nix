@@ -31,7 +31,7 @@ in
       default = {
         duration = "1h";
         exec = lib.getExe themeHook;
-        mode = "fit-border-color";
+        mode = "center";
         sorting = "random";
         recursive = false;
         "queue-size" = 100;
