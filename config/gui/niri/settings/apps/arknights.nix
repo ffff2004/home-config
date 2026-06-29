@@ -6,12 +6,16 @@
     {
       window-rules = [
         {
+          # 自动 MAA & Waydroid 组
           matches = [
+            { title = "^MAA "; }
             { app-id = "^maa.exe$"; }
             { app-id = "^waydroid.com.hypergryph.arknights$"; }
           ];
           open-on-workspace = workspace;
         }
+
+        # 以下为 proton 启动的
         {
           matches = [
             {
