@@ -5,18 +5,20 @@
   ...
 }:
 let
+  cliphistFuzzelImg = lib.getExe' config.services.cliphist.package "cliphist-fuzzel-img";
   cliphistPicker = pkgs.writeShellApplication {
     name = "gui-cliphist-picker";
     runtimeInputs = [
       config.services.cliphist.package
       config.services.cliphist.clipboardPackage
       config.programs.fuzzel.package
+      pkgs.coreutils
+      pkgs.findutils
+      pkgs.gawk
+      pkgs.gnugrep
     ];
     text = ''
-      selection="$(cliphist list | fuzzel --dmenu --prompt='Clipboard> ')" || exit 0
-      [[ -n "$selection" ]] || exit 0
-
-      printf '%s' "$selection" | cliphist decode | wl-copy
+      exec ${cliphistFuzzelImg}
     '';
   };
 in
