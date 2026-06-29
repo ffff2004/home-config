@@ -24,11 +24,6 @@
         repeat = false;
         hotkey-overlay.title = "Open a Terminal";
       };
-      "Mod+Space" = mkDefault {
-        action = spawn "fuzzel";
-        repeat = false;
-        hotkey-overlay.title = "Run an Application: fuzzel";
-      };
 
       "XF86Calculator" = {
         action = mkDefault (spawnSplit "xdg-terminal-exec python");

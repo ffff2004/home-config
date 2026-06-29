@@ -1,4 +1,8 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 let
   configHome = config.xdg.configHome;
 in
@@ -16,5 +20,13 @@ in
     # Source: /nix/store/png2iiaqb4cxc7928rpfl1ahv6sxppzn-source/Assets/Templates/fuzzel.conf
     inputPath = ./matugen.ini;
     outputPath = "${configHome}/fuzzel/themes/matugen.ini";
+  };
+
+  programs.niri.settings.binds = with config.lib.niri.actions; {
+    "Mod+Space" = lib.mkDefault {
+      action = spawn (lib.getExe config.programs.fuzzel.package);
+      repeat = false;
+      hotkey-overlay.title = "Run an Application: fuzzel";
+    };
   };
 }
