@@ -15,7 +15,7 @@ in
     settings = {
       ignore-gtk-theme = true;
       positionX = "right";
-      positionY = "top";
+      positionY = "bottom";
       control-center-positionX = "right";
       control-center-positionY = "bottom";
       layer = "overlay";
@@ -25,7 +25,7 @@ in
       cssPriority = "user";
 
       control-center-margin-top = 8;
-      control-center-margin-bottom = 40;
+      control-center-margin-bottom = 8;
       control-center-margin-right = 8;
       control-center-margin-left = 8;
       control-center-width = 420;
@@ -33,7 +33,7 @@ in
       notification-window-width = 420;
 
       notification-2fa-action = true;
-      notification-inline-replies = false;
+      notification-inline-replies = true;
       notification-body-image-height = 100;
       notification-body-image-width = 200;
       timeout = 8;
