@@ -79,6 +79,12 @@
       "Mod+Shift+Ctrl+Up".action = mkDefault move-column-to-monitor-up;
       "Mod+Shift+Ctrl+Right".action = mkDefault move-column-to-monitor-right;
 
+      # Move workspace to monitor
+      "Mod+Alt+Shift+Left".action = mkDefault move-workspace-to-monitor-left;
+      "Mod+Alt+Shift+Down".action = mkDefault move-workspace-to-monitor-down;
+      "Mod+Alt+Shift+Up".action = mkDefault move-workspace-to-monitor-up;
+      "Mod+Alt+Shift+Right".action = mkDefault move-workspace-to-monitor-right;
+
       # Workspace navigation
       "Mod+Page_Down".action = mkDefault focus-workspace-down;
       "Mod+Page_Up".action = mkDefault focus-workspace-up;
