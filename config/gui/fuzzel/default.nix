@@ -5,6 +5,7 @@
 }:
 let
   configHome = config.xdg.configHome;
+  terminalExec = lib.getExe config.xdg.terminal-exec.package;
 in
 {
   programs.fuzzel = {
@@ -12,6 +13,7 @@ in
     settings.main = {
       include = "${configHome}/fuzzel/themes/matugen.ini";
       lines = 20;
+      terminal = terminalExec;
       width = 40;
     };
   };

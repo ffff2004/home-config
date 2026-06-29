@@ -6,7 +6,7 @@
 }:
 let
   configHome = config.xdg.configHome;
-  terminalExec = "xdg-terminal-exec";
+  terminalExec = lib.getExe config.xdg.terminal-exec.package;
   opacity = 0.83;
   padding = 8;
   font = {
