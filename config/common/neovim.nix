@@ -57,11 +57,6 @@
               width = 30,
             },
             filesystem = {
-              window = {
-                mappings = {
-                  ["<leader>f"] = "fuzzy_finder",
-                },
-              },
               use_libuv_file_watcher = true,
               follow_current_file = {
                 enabled = true,
