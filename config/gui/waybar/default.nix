@@ -120,8 +120,7 @@ in
 
       "niri/window" = {
         format = "{title}";
-        icon = true;
-        icon-size = 18;
+        icon = false;
         max-length = 40;
         separate-outputs = true;
       };
