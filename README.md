@@ -90,6 +90,7 @@
 | [pkgs/coding-setup/default.nix](pkgs/coding-setup/default.nix) | tmux 编程工作区初始化脚本 `coding-setup` |
 | [pkgs/nix-py/default.nix](pkgs/nix-py/default.nix) | 使用 Nix 提供依赖启动 Python 的包装脚本 `nix-py` |
 | [pkgs/pinentry-auto/default.nix](pkgs/pinentry-auto/default.nix) | 按 pinentry 请求上下文选择图形或终端后端的代理 |
+| [pkgs/waybar-niri-taskbar-focused/default.nix](pkgs/waybar-niri-taskbar-focused/default.nix) | 当前 workspace 过滤的 Waybar Niri CFFI 任务栏模块 |
 
 ## 5. 其他有用信息
 

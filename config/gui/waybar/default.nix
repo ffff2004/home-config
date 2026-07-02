@@ -3,6 +3,7 @@
   lib,
   localLib,
   pkgs,
+  pkgsFrom,
   ...
 }:
 let
@@ -10,6 +11,8 @@ let
   lockSession = config.local.gui.lockSession.command;
   niri = lib.getExe config.programs.niri.package;
   audioControl = lib.getExe pkgs.pwvucontrol;
+  niriTaskbar = pkgsFrom.self.waybar-niri-taskbar-focused;
+  niriTaskbarModule = "${niriTaskbar}/lib/waybar/libniri_taskbar.so";
   wpctl = lib.getExe' pkgs.wireplumber "wpctl";
   swayncClient = lib.getExe' config.services.swaync.package "swaync-client";
 in
@@ -40,7 +43,7 @@ in
 
       modules-center = [
         "niri/workspaces"
-        "wlr/taskbar"
+        "cffi/niri-taskbar"
         "niri/window"
       ];
 
@@ -117,13 +120,9 @@ in
         hide-empty = false;
       };
 
-      "wlr/taskbar" = {
-        format = "{icon}";
-        icon-size = 18;
-        tooltip-format = "{title}";
-        on-click = "activate";
-        on-click-middle = "close";
-        all-outputs = false;
+      "cffi/niri-taskbar" = {
+        module_path = niriTaskbarModule;
+        show_all_outputs = false;
       };
 
       "niri/window" = {

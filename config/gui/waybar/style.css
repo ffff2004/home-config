@@ -70,6 +70,7 @@ menuitem label {
 #mpris,
 #workspaces,
 #taskbar,
+.niri-taskbar,
 #tray,
 #wireplumber,
 #clock,
@@ -102,6 +103,11 @@ menuitem label {
   padding: 0 6px;
 }
 
+.niri-taskbar button {
+  color: @ds_on_surface;
+  padding: 5px 6px;
+}
+
 #custom-power:hover,
 #cpu:hover,
 #memory:hover,
@@ -109,6 +115,7 @@ menuitem label {
 #mpris:hover,
 #workspaces button:hover,
 #taskbar button:hover,
+.niri-taskbar button:hover,
 #tray:hover,
 #wireplumber:hover,
 #clock:hover,
@@ -120,7 +127,8 @@ menuitem label {
 
 #workspaces button.focused,
 #workspaces button.active,
-#taskbar button.active {
+#taskbar button.active,
+.niri-taskbar button.focused {
   background: @ds_primary_container;
   color: @ds_on_primary_container;
 }

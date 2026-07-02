@@ -19,4 +19,5 @@
   coding-setup = pkgs.callPackage ./coding-setup { };
   nix-py = pkgs.callPackage ./nix-py { };
   pinentry-auto = pkgs.callPackage ./pinentry-auto { };
+  waybar-niri-taskbar-focused = pkgs.callPackage ./waybar-niri-taskbar-focused { };
 }
