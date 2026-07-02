@@ -95,6 +95,11 @@ menuitem label {
   padding: 0 12px;
 }
 
+#window {
+  border-left: 1px solid @ds_outline_variant;
+  padding-left: 8px;
+}
+
 .niri-taskbar button {
   color: @ds_on_surface;
   padding: 5px 6px;
