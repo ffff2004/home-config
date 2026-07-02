@@ -42,7 +42,6 @@ in
       ];
 
       modules-center = [
-        "niri/workspaces"
         "cffi/niri-taskbar"
         "niri/window"
       ];
@@ -112,12 +111,6 @@ in
         };
         dynamic-len = 16;
         tooltip-format = "{player}: {artist} - {title}";
-      };
-
-      "niri/workspaces" = {
-        format = "{value}";
-        all-outputs = false;
-        hide-empty = false;
       };
 
       "cffi/niri-taskbar" = {
