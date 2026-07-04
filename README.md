@@ -7,22 +7,17 @@
 核心入口与模块加载链路：
 
 1. [flake.nix](flake.nix)
-2. [config/default.nix](config/default.nix)
-3. [modules/default.nix](modules/default.nix)
-4. [lib/default.nix](lib/default.nix)
+2. [config/common/default.nix](config/common/default.nix)
+3. [config/gui/default.nix](config/gui/default.nix)
+4. [modules/default.nix](modules/default.nix)
+5. [lib/default.nix](lib/default.nix)
 
-`flake.nix` 构建 `homeConfigurations.fym`，并通过 `extraSpecialArgs` 注入 `localLib` 与 `pkgsFrom`。现在也包含 Home Manager 元配置、Nix 配置，以及仓库内工具包输出（如 `codex-config-sync`）。
-`config` 与 `modules` 目录的 `default.nix` 统一使用 `localLib.lsSubmodule ./.` 自动导入子模块。
+`flake.nix` 构建 `homeConfigurations.fym` 与 `homeConfigurations.fym-tty`，并通过 `extraSpecialArgs` 注入 `localLib` 与 `pkgsFrom`。现在也包含 Home Manager 元配置、Nix 配置，以及仓库内工具包输出（如 `codex-config-sync`）。
+`flake.nix` 显式组合配置：共享配置导入 `config/common` 与 `modules`，默认 GUI 配置 `fym` 额外导入 `config/gui`，TTY/WSL 配置 `fym-tty` 不导入 `config/gui`。`common`、`gui` 与 `modules` 目录的 `default.nix` 统一使用 `localLib.lsSubmodule ./.` 自动导入子模块。
 
 ## 2. config 目录模块职责
 
-### 2.1 入口模块
-
-| 模块 | 职责 |
-| --- | --- |
-| [config/default.nix](config/default.nix) | config 总入口，自动导入 `common`、`gui` 等子模块 |
-
-### 2.2 common：通用环境与开发工具
+### 2.1 common：通用环境与开发工具
 
 | 模块 | 职责 |
 | --- | --- |
@@ -43,7 +38,7 @@
 | [config/common/fastfetch/default.nix](config/common/fastfetch/default.nix) | fastfetch 配置与配置文件链接 |
 
 
-### 2.3 gui：桌面环境、输入法与图形应用
+### 2.2 gui：桌面环境、输入法与图形应用
 
 | 模块 | 职责 |
 | --- | --- |
@@ -100,16 +95,22 @@
 
 ```bash
 # 仅改本地配置、未新增包或依赖时，推荐：跳过 Nix binary cache 查询以节省时间
-home-manager build --option substitute false
+home-manager build --flake ".#fym" --option substitute false
 
 # 常规构建
-home-manager build
+home-manager build --flake ".#fym"
+
+# TTY/WSL 配置
+home-manager build --flake ".#fym-tty"
 
 # 应用配置并备份
-home-manager switch -b hmbak
+home-manager switch --flake ".#fym" -b hmbak
+
+# 应用 TTY/WSL 配置
+home-manager switch --flake ".#fym-tty" -b hmbak
 
 # 同时跳过 substitute 查询
-home-manager switch -b hmbak --option substitute false
+home-manager switch --flake ".#fym" -b hmbak --option substitute false
 ```
 
 如果当前 shell 已加载别名，可使用：

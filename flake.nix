@@ -64,17 +64,6 @@ rec {
       username = "fym";
       homeDirectory = "/home/${username}";
       homeConfigRoot = "${homeDirectory}/repos/home-config";
-    in
-    rec {
-      inherit
-        pkgs
-        self
-        inputs
-        mkLib
-        ;
-
-      packages.${system} = import ./pkgs { inherit pkgs; };
-
       localLib = mkLib rec {
         inherit pkgs;
 
@@ -88,46 +77,67 @@ rec {
         };
       };
 
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      sharedModules = [
+        ./config/common
+        ./modules
 
-        extraSpecialArgs = {
-          inherit self inputs localLib;
-          pkgsFrom = builtins.mapAttrs (_: f: (f.packages or { }).${system} or { }) inputs;
-        };
+        {
+          home = { inherit username homeDirectory; };
+          home.stateVersion = "26.05"; # Do not change!
 
-        modules = [
-          ./config
-          ./modules
+          programs.home-manager.enable = true;
+          manual = {
+            html.enable = true;
+            json.enable = true;
+            manpages.enable = true;
+          };
+        }
 
-          {
-            home = { inherit username homeDirectory; };
-            home.stateVersion = "26.05"; # Do not change!
-
-            programs.home-manager.enable = true;
-            manual = {
-              html.enable = true;
-              json.enable = true;
-              manpages.enable = true;
+        {
+          nix =
+            let
+              flakes = {
+                home-config = self;
+              }
+              // builtins.removeAttrs inputs [ "self" ];
+            in
+            {
+              registry = builtins.mapAttrs (_: flake: { inherit flake; }) flakes;
+              channels = flakes;
+              package = pkgs.nix;
+              settings = nixConfig;
             };
-          }
+        }
+      ];
 
-          {
-            nix =
-              let
-                flakes = {
-                  home-config = self;
-                }
-                // builtins.removeAttrs inputs [ "self" ];
-              in
-              {
-                registry = builtins.mapAttrs (_: flake: { inherit flake; }) flakes;
-                channels = flakes;
-                package = pkgs.nix;
-                settings = nixConfig;
-              };
-          }
-        ];
+      mkHome =
+        modules:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          extraSpecialArgs = {
+            inherit self inputs localLib;
+            pkgsFrom = builtins.mapAttrs (_: f: (f.packages or { }).${system} or { }) inputs;
+          };
+
+          modules = sharedModules ++ modules;
+        };
+    in
+    rec {
+      inherit
+        pkgs
+        self
+        inputs
+        mkLib
+        localLib
+        ;
+
+      packages.${system} = import ./pkgs { inherit pkgs; };
+
+      homeConfigurations = {
+        ${username} = mkHome [ ./config/gui ];
+
+        "${username}-tty" = mkHome [ ];
       };
     };
 }
