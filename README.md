@@ -23,7 +23,8 @@
 | --- | --- |
 | [config/common/default.nix](config/common/default.nix) | common 目录入口，递归导入 |
 | [config/common/env.nix](config/common/env.nix) | 维护 `PATH` 等搜索路径变量 |
-| [config/common/shell.nix](config/common/shell.nix) | Bash/Fish 配置与常用别名（`hmb`/`hmbo`/`hms`/`hmso`） |
+| [config/common/shell.nix](config/common/shell.nix) | Bash/Fish 配置与普通 shell 别名 |
+| [config/common/home-manager-wrapper.nix](config/common/home-manager-wrapper.nix) | 自动按当前会话选择 `fym` 或 `fym-tty` 的 `hmb`/`hmbo`/`hms`/`hmso` 命令 |
 | [config/common/git.nix](config/common/git.nix) | Git 与 GitHub CLI 配置（签名、fsck、安全设置） |
 | [config/common/gpg.nix](config/common/gpg.nix) | GPG 与 gpg-agent 启用 |
 | [config/common/gnome-keyring.nix](config/common/gnome-keyring.nix) | libsecret 与 git-credential helper 集成 |
@@ -113,13 +114,13 @@ home-manager switch --flake ".#fym-tty" -b hmbak
 home-manager switch --flake ".#fym" -b hmbak --option substitute false
 ```
 
-如果当前 shell 已加载别名，可使用：
+如果当前 shell 已加载配置，可使用自动选择 GUI 或 TTY/WSL 配置的包装命令：
 
 ```bash
-hmb   # home-manager build
-hmbo  # home-manager build --option substitute false
-hms   # home-manager switch -b hmbak
-hmso  # home-manager switch -b hmbak --option substitute false
+hmb   # home-manager build --flake ".#fym" 或 ".#fym-tty"
+hmbo  # hmb + --option substitute false
+hms   # home-manager switch --flake ".#fym" 或 ".#fym-tty" -b hmbak
+hmso  # hms + --option substitute false
 ```
 
 涉及 Codex 配置同步时，可使用：
