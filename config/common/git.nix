@@ -21,10 +21,11 @@
       fetch.fsckobjects = true;
       receive.fsckobjects = true;
     };
-    signing = {
-      key = "8C6ACB933C5FEAC6";
-      signByDefault = true;
-    };
+    # Signing config is machine-local so this flake can be deployed on
+    # machines with different signing keys or no signing key.
+    includes = [
+      { path = "~/.config/git/signing.gitconfig"; }
+    ];
   };
 
   programs.gh = {
