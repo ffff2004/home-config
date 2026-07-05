@@ -16,5 +16,6 @@
     "waydsestart" = "waydroid session start";
     "waydalaunch" = "waydroid app launch";
     "waydstatus" = "waydroid status";
+    "hm" = "home-manager";
   };
 }
