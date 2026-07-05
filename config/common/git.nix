@@ -14,7 +14,8 @@
       };
       init.defaultBranch = "main";
       alias = {
-        cl = "clone --filter=blob:none --recurse-submodules --also-filter-submodules";
+        cl = "clone --filter=blob:none";
+        clrs = "clone --filter=blob:none --recurse-submodules --also-filter-submodules";
       };
       # https://forums.whonix.org/t/git-users-enable-fsck-by-default-for-better-security/2066
       transfer.fsckobjects = true;
