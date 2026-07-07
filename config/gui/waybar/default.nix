@@ -98,6 +98,7 @@ in
         ];
         critical-threshold = 85;
         tooltip-format = "Temperature: {temperatureC}°C";
+        thermal-zone = 10;
       };
 
       mpris = {
