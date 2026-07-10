@@ -1,9 +1,10 @@
 {
   programs.niri.settings =
     let
-      workspace = "arknights";
+      workspace = "maa";
     in
     {
+      workspaces.${workspace} = { };
       window-rules = [
         {
           # 自动 MAA & Waydroid 组
@@ -25,7 +26,7 @@
           ];
           open-floating = false;
           open-fullscreen = true;
-          open-on-workspace = workspace;
+          open-on-workspace = "gaming";
         }
         {
           matches = [
@@ -35,7 +36,7 @@
             }
           ];
           open-floating = false;
-          open-on-workspace = workspace;
+          open-on-workspace = "gaming";
           open-focused = true;
         }
         {
@@ -46,7 +47,7 @@
             }
           ];
           open-floating = false;
-          open-on-workspace = workspace;
+          open-on-workspace = "gaming";
         }
 
         {
@@ -58,7 +59,7 @@
             }
           ];
           open-floating = false;
-          open-on-workspace = workspace;
+          open-on-workspace = "gaming";
         }
         {
           matches = [
@@ -69,9 +70,8 @@
             }
           ];
           open-floating = false;
-          open-on-workspace = workspace;
+          open-on-workspace = "gaming";
         }
       ];
-      workspaces.${workspace} = { };
     };
 }

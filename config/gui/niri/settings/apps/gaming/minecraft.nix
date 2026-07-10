@@ -7,7 +7,7 @@
           { app-id = "^org.jackhuang.hmcl.Launcher$"; }
           { app-id = "^org.prismlauncher.PrismLauncher$"; }
         ];
-        open-on-workspace = "mc";
+        open-on-workspace = "gaming";
       }
       {
         matches = [
@@ -16,6 +16,5 @@
         open-floating = false;
       }
     ];
-    workspaces.mc = { };
   };
 }
