@@ -9,6 +9,10 @@
         width = 3840;
         height = 2160;
       };
+      position = {
+        x = -2560;
+        y = -374;
+      };
       variable-refresh-rate = true;
     };
   };
