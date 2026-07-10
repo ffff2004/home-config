@@ -5,6 +5,11 @@
       app-id = "^firefox$";
     in
     [
+      {
+        matches = [ { inherit app-id; } ];
+        open-on-workspace = "browser";
+      }
+
       # {
       #   matches = [
       #     {
