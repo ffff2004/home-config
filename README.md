@@ -15,6 +15,13 @@
 `flake.nix` 构建 `homeConfigurations.fym` 与 `homeConfigurations.fym-tty`，并通过 `extraSpecialArgs` 注入 `localLib` 与 `pkgsFrom`。现在也包含 Home Manager 元配置、Nix 配置，以及仓库内工具包输出（如 `codex-config-sync`）。
 `flake.nix` 显式组合配置：共享配置导入 `config/common` 与 `modules`，默认 GUI 配置 `fym` 额外导入 `config/gui`，TTY/WSL 配置 `fym-tty` 不导入 `config/gui`。`common`、`gui` 与 `modules` 目录的 `default.nix` 统一使用 `localLib.lsSubmodule ./.` 自动导入子模块。
 
+### 1.1 modules：可复用 Home Manager 模块
+
+| 模块 | 职责 |
+| --- | --- |
+| [modules/default.nix](modules/default.nix) | modules 目录入口，自动导入子模块 |
+| [modules/agents.nix](modules/agents.nix) | 通过 `local.agents.skills` 将共享 agent skills 部署到 `~/.agents/skills` |
+
 ## 2. config 目录模块职责
 
 ### 2.1 common：通用环境与开发工具
