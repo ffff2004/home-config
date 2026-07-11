@@ -95,7 +95,12 @@ in
     };
 
     "XF86Calculator" = {
-      action = lib.mkDefault { spawn = [ terminalExec "python" ]; };
+      action = lib.mkDefault {
+        spawn = [
+          terminalExec
+          "python"
+        ];
+      };
       repeat = false;
     };
   };

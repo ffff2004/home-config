@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cacheHome = config.xdg.cacheHome;
   pywalfoxColorsPath = "${cacheHome}/wal/colors.json";

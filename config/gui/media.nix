@@ -3,16 +3,18 @@ let
   inherit (lib) mkDefault;
   playerctl = lib.getExe config.services.playerctld.package;
 
-  mediaBind = command: mkDefault {
-    action = {
-      spawn = [
-        playerctl
-        command
-      ];
+  mediaBind =
+    command:
+    mkDefault {
+      action = {
+        spawn = [
+          playerctl
+          command
+        ];
+      };
+      allow-when-locked = true;
+      repeat = false;
     };
-    allow-when-locked = true;
-    repeat = false;
-  };
 in
 {
   services.playerctld.enable = true;
