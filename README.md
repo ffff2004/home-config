@@ -29,6 +29,7 @@
 | 模块 | 职责 |
 | --- | --- |
 | [config/common/default.nix](config/common/default.nix) | common 目录入口，递归导入 |
+| [config/common/agents.nix](config/common/agents.nix) | 共享 agent 配置，例如 skills |
 | [config/common/env.nix](config/common/env.nix) | 维护 `PATH` 等搜索路径变量 |
 | [config/common/shell.nix](config/common/shell.nix) | Bash/Fish 配置与普通 shell 别名 |
 | [config/common/home-manager-wrapper.nix](config/common/home-manager-wrapper.nix) | 自动按当前会话选择 `fym` 或 `fym-tty` 的 `hmb`/`hmbo`/`hms`/`hmso` 命令 |
@@ -44,7 +45,6 @@
 | [config/common/misc/default.nix](config/common/misc/default.nix) | 杂项工具（direnv、nix-direnv、yazi） |
 | [config/common/misc/packages.nix](config/common/misc/packages.nix) | 常用包清单（含 nil、nixfmt、jq 等） |
 | [config/common/fastfetch/default.nix](config/common/fastfetch/default.nix) | fastfetch 配置与配置文件链接 |
-
 
 ### 2.2 gui：桌面环境、输入法与图形应用
 

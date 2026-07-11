@@ -23,6 +23,16 @@ rec {
       url = "github:gpakosz/.tmux";
       flake = false;
     };
+
+    andrej-karpathy-skills = {
+      url = "github:multica-ai/andrej-karpathy-skills";
+      flake = false;
+    };
+
+    mattpocock-skills = {
+      url = "github:mattpocock/skills";
+      flake = false;
+    };
   };
 
   nixConfig = {

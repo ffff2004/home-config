@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "andrej-karpathy-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776679504,
+        "narHash": "sha256-4z/wRdYH7UXRzF8RJU0sw8xbpx0BW/7CBv5sVEC2knY=",
+        "owner": "multica-ai",
+        "repo": "andrej-karpathy-skills",
+        "rev": "2c606141936f1eeef17fa3043a72095b4765b9c2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "multica-ai",
+        "repo": "andrej-karpathy-skills",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -60,6 +76,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "mattpocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783689299,
+        "narHash": "sha256-gFPkjrujFAoNXYa0ariPKTj/xBoiCTLUo3X20qrTzRE=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "repo": "skills",
         "type": "github"
       }
     },
@@ -157,8 +189,10 @@
     },
     "root": {
       "inputs": {
+        "andrej-karpathy-skills": "andrej-karpathy-skills",
         "fym998-nur": "fym998-nur",
         "home-manager": "home-manager",
+        "mattpocock-skills": "mattpocock-skills",
         "niri-flake": "niri-flake",
         "nixpkgs": "nixpkgs",
         "oh-my-tmux": "oh-my-tmux"
