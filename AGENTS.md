@@ -53,6 +53,8 @@ existing naming style: area-based paths such as
 `config/common/git.nix`, `config/gui/niri/settings/apps/firefox.nix`,
 or `lib/to-source-path.nix`.
 
+Run `nixfmt EDITED_FILES...` after editing files.
+
 ## Testing Guidelines
 
 ```bash
