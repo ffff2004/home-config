@@ -33,8 +33,7 @@ source-linked config files, generated files, or Codex runtime/cache files.
 
 Prefer source-link config files by `localLib.mkSymlinkToSource`.
 For large config trees (for example fcitx5), follow existing patterns
-that map files with `localLib.lsFileRecursively` and
-`localLib.mkSymlinkToSource`.
+that map files with `localLib.mkSymlinkToSourceRecursively target path`.
 
 Use the `home-manager-docs` skill before adding or changing unfamiliar
 Home Manager options, so option names, types, defaults, and declarations

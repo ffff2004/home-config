@@ -5,6 +5,9 @@
   sourceRoot,
   ...
 }:
+let
+  inherit (import ./ls.nix { lib = lib; }) lsFileRecursively;
+in
 rec {
   toSourcePath =
     path:
@@ -20,7 +23,16 @@ rec {
           pathStr = toString path;
           name = hmLib.strings.storeFileName (baseNameOf pathStr);
         in
-        pkgs.runCommandLocal name { } ''ln -s ${lib.escapeShellArg pathStr} $out'';
+        pkgs.runCommandLocal name { } "ln -s ${lib.escapeShellArg pathStr} $out";
     in
     path: mkOutOfStoreSymlink (toSourcePath path);
+
+  mkSymlinkToSourceRecursively =
+    target: path:
+    lib.genAttrs' (lsFileRecursively path) (
+      file:
+      lib.nameValuePair "${target}/${lib.removePrefix ((toString path) + "/") (toString file)}" {
+        source = mkSymlinkToSource file;
+      }
+    );
 }

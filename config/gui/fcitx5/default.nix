@@ -1,7 +1,6 @@
 {
   pkgs,
   localLib,
-  lib,
   ...
 }:
 {
@@ -19,11 +18,7 @@
       ];
     };
   };
-  xdg.configFile = lib.genAttrs' (localLib.lsFileRecursively ./config) (
-    file:
-    lib.nameValuePair "fcitx5/${lib.removePrefix ((toString ./config) + "/") (toString file)}" {
-      source = localLib.mkSymlinkToSource file;
-    }
-  );
+  xdg.configFile = localLib.mkSymlinkToSourceRecursively "fcitx5" ./config;
+
   # home.sessionVariables = lib.mkIf enable { QT_IM_MODULES = "wayland;fcitx"; };
 }

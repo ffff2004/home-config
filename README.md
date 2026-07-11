@@ -78,9 +78,9 @@
 | --- | --- |
 | [lib/default.nix](lib/default.nix) | lib 聚合入口：遍历并导入本目录子模块，最终合并为 `localLib` |
 | [lib/ls.nix](lib/ls.nix) | 文件与模块发现工具：`lsFile`、`lsDir`、`lsFileRecursively`、`lsSubmodule` |
-| [lib/to-source-path.nix](lib/to-source-path.nix) | 源路径映射与软链接：`toSourcePath`、`mkSymlinkToSource` |
+| [lib/symlink-to-source.nix](lib/symlink-to-source.nix) | 源路径映射与软链接：`toSourcePath`、`mkSymlinkToSource`、`mkSymlinkToSourceRecursively` |
 
-`lib/ls.nix` 和 `lib/to-source-path.nix` 是本仓库最核心的两类基础能力：
+`lib/ls.nix` 和 `lib/symlink-to-source.nix` 是本仓库最核心的两类基础能力：
 
 1. 自动导入模块（避免在 `default.nix` 手工枚举）。
 2. 将配置文件以 out-of-store symlink 方式链接到源码路径，便于维护与热更新。
@@ -128,26 +128,3 @@ hmbo  # hmb + --option substitute false
 hms   # home-manager switch --flake ".#fym" 或 ".#fym-tty" -b hmbak
 hmso  # hms + --option substitute false
 ```
-
-涉及 Codex 配置同步时，可使用：
-
-```bash
-# 查看受管文件与本地 ~/.codex 的差异
-nix run .#codex-config-sync -- status
-
-# 将 ~/.codex 中的改动回收到仓库
-nix run .#codex-config-sync -- pull-from-home --write
-
-# 将仓库中的 Codex 配置部署到 ~/.codex
-nix run .#codex-config-sync -- push-to-home --write
-```
-
-求值：维护时优先使用 `nix-eval` skill 做只读求值，必要时再用 `nix eval` 或 `nix repl` 直接查询 flake 输出。
-
-### 5.2 维护约定
-
-1. 新建模块目录时，建议提供 `default.nix` 并使用 `imports = localLib.lsSubmodule ./.`。
-2. 尽量通过 [lib/to-source-path.nix](lib/to-source-path.nix) 的 `mkSymlinkToSource` 管理配置文件源链接。
-3. 非必要不要修改 `home.stateVersion`。
-4. Nix 文件遵循 [.editorconfig](.editorconfig) 的 2 空格缩进。
-5. Codex 配置只纳入需要声明式管理的 `AGENTS.md`、`skills/` 和 `agents/`；不要复制 `~/.codex/skills/.system`、插件缓存、会话状态等运行时文件。同步工具默认不会覆盖本地有差异的 `~/.codex` 文件。
