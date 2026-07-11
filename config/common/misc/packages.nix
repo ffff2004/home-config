@@ -8,6 +8,7 @@
         nil
         nixd
         nixfmt
+        nixfmt-tree
         nix-tree
 
         tree
