@@ -159,10 +159,13 @@ in
       clock = {
         interval = 60;
         format = "{:%Y-%m-%d %H:%M}";
-        tooltip-format = "<tt><small>{calendar}</small></tt>";
+        tooltip-format = "{calendar}";
         calendar = {
           mode = "month";
           weeks-pos = "right";
+          format = {
+            today = "<b><u>{}</u></b>";
+          };
         };
       };
 
