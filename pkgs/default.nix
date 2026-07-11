@@ -13,9 +13,8 @@
   # - Keep option-orchestration and systemd units in `config/`.
   # - Prefer stable names and add nix checks for critical tools.
   #
-  # Shell script example (checks included): codex-config-sync/default.nix
+  # Python script example (checks included): pinentry-auto
 
-  codex-config-sync = pkgs.callPackage ./codex-config-sync { };
   coding-setup = pkgs.callPackage ./coding-setup { };
   nix-py = pkgs.callPackage ./nix-py { };
   pinentry-auto = pkgs.callPackage ./pinentry-auto { };

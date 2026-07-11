@@ -41,7 +41,7 @@
 | [config/common/neovim.nix](config/common/neovim.nix) | Neovim 默认编辑器配置：Lua 设置、常用插件、nvim-cmp 补全与 nil/ruff/bash/fish LSP |
 | [config/common/nodejs/default.nix](config/common/nodejs/default.nix) | Node.js、pnpm、`.npmrc` 链接与 pnpm 全局 bin PATH |
 | [config/common/python/default.nix](config/common/python/default.nix) | Python 工具链（uv、nix-py 脚本） |
-| [config/common/codex/default.nix](config/common/codex/default.nix) | Codex 受管配置部署入口：通过 `codex-config-sync` 将仓库中的 `AGENTS.md`、`skills/`、`agents/` 同步到 `~/.codex`，默认不覆盖本地差异 |
+| [config/common/codex/default.nix](config/common/codex/default.nix) | Codex 配置 |
 | [config/common/misc/default.nix](config/common/misc/default.nix) | 杂项工具（direnv、nix-direnv、yazi） |
 | [config/common/misc/packages.nix](config/common/misc/packages.nix) | 常用包清单（含 nil、nixfmt、jq 等） |
 | [config/common/fastfetch/default.nix](config/common/fastfetch/default.nix) | fastfetch 配置与配置文件链接 |
@@ -89,7 +89,6 @@
 
 | 模块 | 职责 |
 | --- | --- |
-| [pkgs/codex-config-sync/default.nix](pkgs/codex-config-sync/default.nix) | Codex 配置双向同步脚本 |
 | [pkgs/coding-setup/default.nix](pkgs/coding-setup/default.nix) | tmux 编程工作区初始化脚本 `coding-setup` |
 | [pkgs/nix-py/default.nix](pkgs/nix-py/default.nix) | 使用 Nix 提供依赖启动 Python 的包装脚本 `nix-py` |
 | [pkgs/pinentry-auto/default.nix](pkgs/pinentry-auto/default.nix) | 按 pinentry 请求上下文选择图形或终端后端的代理 |
