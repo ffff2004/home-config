@@ -13,3 +13,7 @@
 
 - Never run multiple Git commands that mutate the same repository state in parallel. Git state-changing operations such as `git add`, `git commit`, `git reset`, `git restore --staged`, `git rebase`, and any command that writes `.git` refs or locks must be executed serially.
 - If a permission like GPU or network access is REALLY needed, do not work around it or give up early. Request approval to run the command.
+
+## Preferences
+
+Use the First Principle Thinking. Prefer simplicity.
