@@ -9,17 +9,26 @@ from pathlib import Path
 DOC_KINDS = ["json", "html", "manpages"]
 
 
+class CommandError(RuntimeError):
+    def __init__(self, cmd: list[str], returncode: int, stdout: str, stderr: str):
+        self.cmd = cmd
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = stderr
+        super().__init__(f"command failed with exit code {returncode}: {' '.join(cmd)}")
+
+
 def find_repo_root(start: Path) -> Path:
-    candidates = [start, *start.parents]
-    for candidate in candidates:
+    for candidate in [start, *start.parents]:
         if (candidate / "flake.nix").exists():
             return candidate
-    fallback = Path.home() / "repos" / "home-config"
-    return fallback
+    raise FileNotFoundError(f"no flake.nix found from {start} or its parents")
 
 
 def run(cmd: list[str]) -> str:
-    result = subprocess.run(cmd, check=True, text=True, capture_output=True)
+    result = subprocess.run(cmd, text=True, capture_output=True)
+    if result.returncode != 0:
+        raise CommandError(cmd, result.returncode, result.stdout, result.stderr)
     return result.stdout.strip()
 
 
@@ -53,6 +62,15 @@ def built_docs_paths(home_manager_flake: str, cache_dir: Path, kinds: list[str])
     if "json" in roots:
         paths["json_options"] = roots["json"] / "share/doc/home-manager/options.json"
     return paths
+
+
+def docs_paths(cache_dir: Path) -> dict[str, Path]:
+    return {
+        "manpage": cache_dir / "manpages/share/man/man5/home-configuration.nix.5",
+        "html_index": cache_dir / "html/share/doc/home-manager/index.xhtml",
+        "html_options": cache_dir / "html/share/doc/home-manager/options.xhtml",
+        "json_options": cache_dir / "json/share/doc/home-manager/options.json",
+    }
 
 
 def load_options(path: Path) -> dict:
@@ -140,6 +158,15 @@ def cmd_show(options: dict, key: str, home_manager_flake: str) -> int:
     return 1
 
 
+def cmd_show_many(options: dict, keys: list[str], home_manager_flake: str) -> int:
+    status = 0
+    for index, key in enumerate(keys):
+        if index:
+            print()
+        status = max(status, cmd_show(options, key, home_manager_flake))
+    return status
+
+
 def cmd_search(options: dict, term: str) -> int:
     lowered = term.lower()
     matches = []
@@ -168,7 +195,7 @@ def main() -> int:
     parser.add_argument(
         "--repo-root",
         type=Path,
-        default=find_repo_root(Path.cwd()),
+        default=None,
         help="Home Manager repo root used to resolve the pinned home-manager input",
     )
     parser.add_argument(
@@ -185,18 +212,20 @@ def main() -> int:
     build_parser.add_argument("kind", choices=[*DOC_KINDS, "all"])
 
     show_parser = subparsers.add_parser("show")
-    show_parser.add_argument("option")
+    show_parser.add_argument("options", nargs="+")
 
     search_parser = subparsers.add_parser("search")
     search_parser.add_argument("term")
 
     args = parser.parse_args()
-    home_manager_flake = resolve_home_manager_flake(args.repo_root)
 
     if args.command == "paths":
-        paths = built_docs_paths(home_manager_flake, args.cache_dir, DOC_KINDS)
-        print_paths(paths)
+        print_paths(docs_paths(args.cache_dir))
         return 0
+
+
+    repo_root = args.repo_root or find_repo_root(Path.cwd())
+    home_manager_flake = resolve_home_manager_flake(repo_root)
 
     if args.command == "build":
         kinds = DOC_KINDS if args.kind == "all" else [args.kind]
@@ -207,11 +236,21 @@ def main() -> int:
     paths = built_docs_paths(home_manager_flake, args.cache_dir, ["json"])
     options = load_options(paths["json_options"])
     if args.command == "show":
-        return cmd_show(options, args.option, home_manager_flake)
+        return cmd_show_many(options, args.options, home_manager_flake)
     if args.command == "search":
         return cmd_search(options, args.term)
     return 1
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except (CommandError, FileNotFoundError) as error:
+        print(error, file=sys.stderr)
+        if isinstance(error, CommandError):
+            if error.stdout:
+                print(error.stdout.rstrip(), file=sys.stderr)
+            if error.stderr:
+                print(error.stderr.rstrip(), file=sys.stderr)
+            raise SystemExit(error.returncode) from None
+        raise SystemExit(2) from None

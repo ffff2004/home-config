@@ -1,4 +1,4 @@
 interface:
-  display_name: "Nix Eval"
-  short_description: "Evaluate Nix expressions and flake outputs"
-  default_prompt: "Use $nix-eval to inspect a Nix expression, flake output, or merged configuration value."
+  display_name: "Narrow Nix Eval"
+  short_description: "Evaluate Nix values and option definition sources"
+  default_prompt: "Use $nix-eval to verify a narrow merged value, option definition source, or flake attribute."

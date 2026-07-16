@@ -1,42 +1,34 @@
 ---
 name: nix-eval
-description: Read-only Nix evaluation for this Home Manager flake. Use it to confirm actual flake outputs, merged Home Manager config values, attribute existence, attrset keys, package attributes, and pinned input paths instead of relying on source search alone.
+description: Evaluate narrow Nix values from this flake. Use when Codex needs merged Home Manager values, option definition sources or override priorities, flake or package attributes, attribute existence, attrset keys, pinned input paths, or comparisons between profiles.
 ---
 
-# nix-eval
+# Narrow Nix Evaluation
 
-Use `nix eval` for read-only checks of actual Nix values.
+Establish the option contract with `$home-manager-docs`, the effective value here, and the built artifact with `$home-manager-generated-paths`.
 
-## When To Use
+## Steps
 
-- Confirm a final value under `homeConfigurations.fym.config`
-- Check whether an attribute exists
-- List attrset keys before drilling deeper
-- Resolve pinned flake input paths
-- Verify values produced by imports, option merging, overlays, or package selection
+1. Narrow the target to the smallest expression that answers the question. For an unfamiliar attrset, list its keys before selecting a child. For profile comparisons, evaluate only the compared fields in one expression.
 
-## Rules
+   Complete when every selected field is relevant and no broad Home Manager config attrset is forced.
 
-1. Prefer non-interactive `nix eval`.
-2. Use `--raw` only for strings and paths.
-3. Use `--json` when output must be parsed or summarized.
-4. For attrset exploration, list keys first with `--apply builtins.attrNames --json`; only evaluate a child attribute after choosing a specific key.
-5. Use `nix repl` only when `nix eval` cannot answer the question clearly.
-6. Do not evaluate `homeConfigurations.fym.config` or another broad attrset directly.
-7. For attr names containing `/` (common in `home.file`, `xdg.configFile`, and `xdg.dataFile`), do not use flake attr-path syntax. Use `--expr` with `builtins.getFlake`, for example: `nix eval --impure --json --expr '(builtins.getFlake (toString ./.)).homeConfigurations.fym.config.xdg.configFile."tmux/tmux.conf"'`
+2. Evaluate non-interactively with `nix eval`. Use `--raw` for a string or path consumed as text, and `--json` for structured output or machine-readable comparison. Use `nix repl` only when a static expression cannot answer the question clearly.
 
-## Commands
+   Attribute names containing `/` require `--expr` with `builtins.getFlake`; flake attr-path syntax cannot address them reliably.
 
-Exact Home Manager value:
+   Complete when the command exits successfully and its output has the intended representation.
+
+3. Report the exact command, the value or key list, and whether it is a final merged config value or an intermediate value.
+
+   Complete when the provenance of every reported value is explicit.
+
+## Patterns
+
+Evaluate one final Home Manager value:
 
 ```bash
 nix eval .#homeConfigurations.fym.config.programs.zoxide.enable
-```
-
-String or path value:
-
-```bash
-nix eval .#homeConfigurations.fym.config.home.username --raw
 ```
 
 List keys before drilling into an attrset:
@@ -45,34 +37,49 @@ List keys before drilling into an attrset:
 nix eval .#homeConfigurations.fym.config.programs --apply builtins.attrNames --json
 ```
 
-Check whether an attribute exists:
+Evaluate an attribute name containing `/`:
 
 ```bash
-nix eval --impure --json --expr 'builtins.hasAttr "zoxide" (builtins.getFlake (toString ./.)).homeConfigurations.fym.config.programs'
+nix eval --impure --json --expr '(builtins.getFlake (toString ./.)).homeConfigurations.fym.config.xdg.configFile."tmux/tmux.conf"'
 ```
 
-Resolve the pinned Home Manager input path:
+Compare narrow final values across profiles:
+
+```bash
+nix eval --impure --json --expr '
+  let
+    flake = builtins.getFlake (toString ./.);
+    gui = flake.homeConfigurations.fym.config;
+    tty = flake.homeConfigurations."fym-tty".config;
+  in {
+    gui = gui.services.ssh-agent.enable;
+    tty = tty.services.ssh-agent.enable;
+  }
+'
+```
+
+Inspect the winning definitions of an option:
+
+```bash
+nix eval --impure --json --expr '
+  let
+    profile = (builtins.getFlake (toString ./.)).homeConfigurations.fym;
+    option = profile.options.services.ssh-agent.enable;
+  in {
+    finalValue = option.value;
+    priority = option.highestPrio;
+    definitions = map (definition: {
+      file = definition.file;
+      valueType = builtins.typeOf definition.value;
+    }) option.definitionsWithLocations;
+  }
+'
+```
+
+`definitionsWithLocations` contains definitions that remain after override priority filtering. Inspect dependent final values and artifacts separately.
+
+Resolve a pinned input path:
 
 ```bash
 nix eval --impure --raw .#inputs.home-manager.outPath
 ```
-
-Evaluate a standalone expression:
-
-```bash
-nix eval --json --expr '{ foo = 1 + 1; bar = "hello"; }'
-```
-
-Manual exploration fallback:
-
-```bash
-nix repl .
-```
-
-## Output
-
-When reporting results, include:
-
-- The exact command used
-- The evaluated value or key list
-- Whether the answer is a final merged config value or only an intermediate attrset

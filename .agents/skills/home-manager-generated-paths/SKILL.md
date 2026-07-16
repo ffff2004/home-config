@@ -1,75 +1,126 @@
 ---
 name: home-manager-generated-paths
-description: Map files produced by a Home Manager build to their relative paths under result/home-files or result/home-path. Use this when answering where an option lands, what files exist in the build result, or how a home-directory path maps back to result.
+description: Verify Home Manager artifacts. Use when Codex needs to select profiles for artifact builds, map home paths into result/home-files or result/home-path, inspect generated systemd units, identify the source option for a file, or validate generated outputs after a profile build.
 ---
 
-# Home Manager Generated Paths
+# Home Manager Artifacts
 
-Use this skill to map files produced by a Home Manager build into a readable form:
+Establish the option contract with `$home-manager-docs`, the effective value with `$nix-eval`, and the built artifact here.
 
-`home path -> relative path under result -> source option`
+Use this mapping vocabulary:
 
-## When To Use
+`profile -> out-link -> generation -> home path -> artifact path -> source option`
 
-Use this when the user wants to know:
+## Artifact map
 
-- Where a config file will appear after `home-manager build`
-- How a home-directory path maps to `result/home-files` or `result/home-path`
-- Which files are produced by `home.file`, `xdg.configFile`, `xdg.dataFile`, or user systemd units
-- Which Home Manager option produced a path under `result`
+| Source | Typical artifact |
+| --- | --- |
+| `home.file`, `xdg.configFile`, `xdg.dataFile` | `GENERATION/home-files/...` |
+| `systemd.user.services` and `systemd.user.sockets` | `GENERATION/home-files/.config/systemd/user/...` |
+| Packages and profile executables | `GENERATION/home-path/...` |
 
-## Core Rules
+The final `home.file` attrset contains files materialized by several upstream modules. Treat an attr name as an implementation key until its evaluated `target` or built path confirms the home path.
 
-- `home.file`, `xdg.configFile`, and `xdg.dataFile` usually generate files under `result/home-files/...`
-- Installed packages, profile resources, executables, desktop files, icons, man pages, and shared resources usually come from `result/home-path/...`
-- User systemd units should be checked separately through Home Manager's systemd output
-- Inside Home Manager, config is merged: `systemd.user.*.*` -> `xdg.*File.*` -> `home.file.*`
-- `result` is usually a symlink to a Home Manager generation. When answering about concrete files, prefer paths relative to `result/home-files` or `result/home-path`
-- Nix attribute names (e.g., `xdg.configFile.niri-config`) may not correspond to generated file paths under `result`, always check the actual path config `<file-attr>.target`.
+## Profile selection
 
-## Workflow
+Separate profile selection into two sets:
 
-1. Inspect evaluated Home Manager options first, especially `config.home.file`, `config.xdg.configFile`, `config.xdg.dataFile`, and relevant `config.systemd.user.*` values.
-2. If the actual file tree needs to be verified, run or reuse `home-manager build`, then confirm where `result` points.
-3. Check the real paths under `result/home-files` and `result/home-path`. For symlinks, directories, or duplicate-looking entries, verify the file tree and link targets before answering.
-4. Report the home path, the relative path under `result`, and the source option when it can be identified.
-5. If there are many entries, group them by area, such as top-level files, `.config`, `.local/share`, `.gnupg`, and user systemd units.
+- Candidate profiles import or depend on the changed module.
+- Affected profiles may have different final values or artifacts after the change.
+
+Evaluate every candidate with `$nix-eval`, but build only affected profiles. A `config/gui` change normally makes only `fym` a candidate; a `config/common` change makes both `fym` and `fym-tty` candidates.
+
+Use common override patterns only as initial expectations:
+
+| Pattern | Initial expectation | Required evidence |
+| --- | --- | --- |
+| Common `mkDefault`; GUI normal definition or `mkForce` | GUI is often unchanged | Confirm the GUI final value and dependent artifact are unchanged before and after. |
+| Common normal definition; GUI `mkForce` | GUI is often unchanged | Confirm the GUI final value and dependent artifact are unchanged before and after. |
+| Common definition; no GUI override | Both profiles are likely affected | Evaluate the final value in both profiles. |
+| `mkBefore`, `mkAfter`, or list/attrset merge | The common contribution usually remains | Compare the merged final value; definition priority alone is insufficient. |
+| `mkIf` or a profile-dependent condition | Impact depends on each profile's condition | Evaluate the condition and resulting final option in each profile. |
+
+When override priority affects profile selection, use `$nix-eval`'s winning-definition pattern.
+
+Exclude a candidate only when explicit narrow evidence shows that its relevant final values and dependent artifacts are unchanged. Treat missing baseline evidence, incomplete probes, or uncertainty as affected.
+
+## Steps
+
+1. Determine candidate and affected profiles using the profile-selection rules above.
+
+   Complete when every candidate is either affected or excluded with explicit narrow evidence.
+
+2. For every affected profile, evaluate the narrow source option with `$nix-eval`. For file options, inspect `target`; for systemd artifacts, inspect the relevant service or socket; for packages, confirm the selected package.
+
+   Complete when the profile, expected home path, and source option are explicit.
+
+3. Build each affected profile's `activationPackage` with a profile-specific out-link under `/tmp/home-manager-builds/PROFILE`:
+
+   ```bash
+   nix build FLAKE#homeConfigurations.PROFILE.activationPackage \
+     --out-link /tmp/home-manager-builds/PROFILE
+   ```
+
+   Use one invocation and one named out-link per profile. These independent builds may run concurrently because their links do not collide. Reuse the stable profile link across runs; an existing out-link remains a GC root while it exists.
+
+   When repository policy separately requires `home-manager build`, run that validation with `--no-out-link`; use the profile-specific Nix out-link for artifact inspection. For build-only validation of several profiles, one `nix build` may accept several activation packages with `--no-link --print-out-paths`.
+
+   Complete when every inspected profile has a distinct named out-link and `readlink -f` resolves each link to its intended `home-manager-generation`.
+
+4. Inspect the artifact beneath the profile-specific out-link. Follow symlinks, distinguish `home-files` from `home-path`, and verify content when existence alone cannot prove correctness.
+
+   For a user unit, inspect both the evaluated `systemd.user` value and `home-files/.config/systemd/user/NAME.service` or `.socket`.
+
+   Complete when every requested artifact exists or is explicitly confirmed absent, and every symlink or duplicate-looking entry has an accounted-for target.
+
+5. Report candidate profiles, affected profiles, exclusions with evidence, and the artifact mapping for every built profile. Group large results by subsystem.
+
+   Complete when every requested artifact has one full mapping and `home-files`/`home-path` are not conflated.
 
 ## Commands
 
-List final home-file keys:
+Create a stable artifact link for one affected profile:
 
 ```bash
-nix eval .#homeConfigurations.fym.config.home.file --apply builtins.attrNames --json
+mkdir -p /tmp/home-manager-builds
+nix build '.#homeConfigurations."fym-tty".activationPackage' \
+  --out-link /tmp/home-manager-builds/fym-tty
+readlink -f /tmp/home-manager-builds/fym-tty
 ```
 
-Inspect a source option when known, using `--expr` if the attr name contains `/`:
+Inspect a generated config file and an installed executable:
 
 ```bash
-nix eval --impure --json --expr '(builtins.getFlake (toString ./.)).homeConfigurations.fym.config.xdg.configFile."tmux/tmux.conf"'
+ls -l /tmp/home-manager-builds/fym-tty/home-files/.config/tmux/tmux.conf
+ls -l /tmp/home-manager-builds/fym-tty/home-path/bin/tmux
 ```
 
-Check the built result path:
+Inspect a generated user unit:
 
 ```bash
-ls -l result/home-files/.config/tmux/tmux.conf result/home-path/bin/tmux
+ls -l /tmp/home-manager-builds/fym-tty/home-files/.config/systemd/user/ssh-agent.service
+sed -n '1,160p' /tmp/home-manager-builds/fym-tty/home-files/.config/systemd/user/ssh-agent.service
 ```
 
-## Output Format
+Only when profile selection marks several profiles as affected, build them together without creating links:
 
-Prefer this shape:
+```bash
+nix build \
+  .#homeConfigurations.fym.activationPackage \
+  '.#homeConfigurations."fym-tty".activationPackage' \
+  --no-link \
+  --print-out-paths
+```
 
+## Report shape
+
+- Candidate profiles: `fym`, `fym-tty`
+- Affected profiles: `fym-tty`
+- Excluded: `fym` — relevant final values are unchanged
+- Profile: `fym-tty`
+- Out-link: `/tmp/home-manager-builds/fym-tty`
+- Generation: `/nix/store/...-home-manager-generation`
 - Home path: `~/.config/example/config.toml`
-- Result path: `result/home-files/.config/example/config.toml`
+- Artifact: `home-files/.config/example/config.toml`
 - Source: `xdg.configFile."example/config.toml"`
-
-For larger answers, group entries by directory or subsystem.
-
-## Final Checks
-
-Before answering, confirm that:
-
-- Listed paths come from evaluated options or the actual build tree
-- `result/home-files` and `result/home-path` are not mixed up
-- Symlinks, directories, and duplicate-looking paths have been verified
-- Nix attribute names are not presented as final generated paths
+- Verified: symlink target and relevant content

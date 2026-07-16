@@ -1,0 +1,4 @@
+interface:
+  display_name: "Home Manager Artifacts"
+  short_description: "Select profiles and verify Home Manager artifacts"
+  default_prompt: "Use $home-manager-generated-paths to select affected profiles and verify their generated Home Manager artifacts."
