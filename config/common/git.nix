@@ -14,6 +14,7 @@
       };
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
+      push.default = "simple";
       alias = {
         cl = "clone --filter=blob:none";
         clrs = "clone --filter=blob:none --recurse-submodules --also-filter-submodules";
