@@ -13,6 +13,7 @@
         email = "293283756+ffff2004@users.noreply.github.com";
       };
       init.defaultBranch = "main";
+      push.autoSetupRemote = true;
       alias = {
         cl = "clone --filter=blob:none";
         clrs = "clone --filter=blob:none --recurse-submodules --also-filter-submodules";
