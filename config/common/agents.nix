@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   local.agents.skills = {
-    karpathy-guidelines = "${inputs.andrej-karpathy-skills}/skills/karpathy-guidelines";
+    #karpathy-guidelines = "${inputs.andrej-karpathy-skills}/skills/karpathy-guidelines";
 
     ask-matt = "${inputs.mattpocock-skills}/skills/engineering/ask-matt";
     code-review = "${inputs.mattpocock-skills}/skills/engineering/code-review";
