@@ -63,9 +63,9 @@ nix build .#<pkg-name>
 
 ```bash
 # config
-nix eval .#homeConfigurations.fym.config.<attr-path>
-home-manager build
-home-manager build --option substitute false
+nix eval '.#homeConfigurations."<profile>".config.<attr-path>'
+nix build '.#homeConfigurations."<profile>".activationPackage' \
+  --out-link /tmp/home-manager-builds/<profile>
 ```
 
 This repository has no separate repository-wide unit-test suite, but
@@ -76,19 +76,20 @@ using standard Nixpkgs check mechanisms where appropriate.
 Then build the changed package with `nix build .#<pkg-name>`.
 Then verify the artifacts in `result/` explicitly.
 
-After changing home-manager config, start with the `nix-eval` skill to do
-fast, read-only checks of syntax, affected flake attribute paths, and
-final option values.
-After that passes, run `home-manager build` as the main validation step.
-Use `home-manager build --option substitute false` when you only changed
-local configuration and want to skip binary cache substitute lookups for
-a faster build; if the change adds packages or new build dependencies,
-prefer `home-manager build` so substitutes remain available and
-we don't build the dependencies locally.
-If the change affects generated files,
-like config files (dotfiles), services, etc.,
-use the `home-manager-generated-paths` skill to map and
-verify the relevant outputs in `result/` explicitly.
+After changing Home Manager configuration, use the `nix-eval` skill to
+identify candidate and affected profiles and verify their narrow final
+option values. Evaluate every candidate profile, but build only affected
+profiles.
+
+Use the `home-manager-generated-paths` skill to build affected
+`activationPackage` attributes with profile-specific out-links under
+`/tmp/home-manager-builds/<profile>` and verify generated files,
+services, packages, or executables there. Do not rely on the shared
+repository `result` link for profile artifact inspection.
+
+Use `--option substitute false` when changes only affect local
+configuration and add no packages or build dependencies. Keep
+substitutes enabled when new dependencies may be required.
 
 ## Commit Guidelines
 
