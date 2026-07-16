@@ -1,5 +1,6 @@
 {
   config,
+  homeConfigRoot,
   lib,
   pkgs,
   ...
@@ -42,7 +43,7 @@ let
         profile=fym-tty
       fi
 
-      exec ${homeManager} ${command} --flake ".#$profile" ${extraArgs} "$@"
+      exec ${homeManager} ${command} --flake "${homeConfigRoot}#$profile" ${extraArgs} "$@"
     '';
 in
 {

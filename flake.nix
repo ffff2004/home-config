@@ -126,7 +126,12 @@ rec {
           inherit pkgs;
 
           extraSpecialArgs = {
-            inherit self inputs localLib;
+            inherit
+              self
+              inputs
+              homeConfigRoot
+              localLib
+              ;
             pkgsFrom = builtins.mapAttrs (_: f: (f.packages or { }).${system} or { }) inputs;
           };
 
