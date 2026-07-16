@@ -35,7 +35,7 @@
 | [config/common/home-manager-wrapper.nix](config/common/home-manager-wrapper.nix) | 自动按当前会话选择 `fym` 或 `fym-tty` 的 `hmb`/`hmbo`/`hms`/`hmso` 命令 |
 | [config/common/git.nix](config/common/git.nix) | Git 与 GitHub CLI 配置（签名、fsck、安全设置） |
 | [config/common/gpg.nix](config/common/gpg.nix) | GPG 与 gpg-agent 启用 |
-| [config/common/gnome-keyring.nix](config/common/gnome-keyring.nix) | libsecret 与 git-credential helper 集成 |
+| [config/common/ssh.nix](config/common/ssh.nix) | OpenSSH 客户端与默认 TTY ssh-agent 配置 |
 | [config/common/generic-linux.nix](config/common/generic-linux.nix) | 非 NixOS 通用兼容工具（`wrapIfEnabled`/`nullIfEnable`/`getCmd`） |
 | [config/common/tmux/default.nix](config/common/tmux/default.nix) | tmux 安装与配置文件（oh-my-tmux 主配置 + 本地覆盖） |
 | [config/common/neovim.nix](config/common/neovim.nix) | Neovim 默认编辑器配置：Lua 设置、常用插件、nvim-cmp 补全与 nil/ruff/bash/fish LSP |
@@ -51,6 +51,7 @@
 | 模块 | 职责 |
 | --- | --- |
 | [config/gui/default.nix](config/gui/default.nix) | gui 目录入口，递归导入 |
+| [config/gui/credentials/default.nix](config/gui/credentials/default.nix) | GNOME Keyring、libsecret 与 GCR SSH agent 集成 |
 | [config/gui/fontconfig.nix](config/gui/fontconfig.nix) | 字体渲染与默认字体族设置 |
 | [config/gui/terminal/default.nix](config/gui/terminal/default.nix) | 终端方案（Alacritty Graphics + matugen 主题）和 xdg-terminal-exec |
 | [config/gui/gtk/default.nix](config/gui/gtk/default.nix) | GTK3/GTK4 配置与 matugen CSS 引入 |

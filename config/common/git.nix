@@ -21,6 +21,7 @@
       transfer.fsckobjects = true;
       fetch.fsckobjects = true;
       receive.fsckobjects = true;
+      credential.helper = lib.mkDefault "cache --timeout=3600";
     };
     # Signing config is machine-local so this flake can be deployed on
     # machines with different signing keys or no signing key.
