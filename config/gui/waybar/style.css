@@ -63,8 +63,6 @@ menuitem label {
   color: inherit;
 }
 
-#custom-power,
-#idle_inhibitor,
 #cpu,
 #memory,
 #temperature,
@@ -74,26 +72,13 @@ menuitem label {
 #wireplumber,
 #clock,
 #battery,
-#backlight,
-#custom-notification {
+#backlight {
   padding: 0 8px;
 }
 
-#custom-power,
+#custom-notification,
 #idle_inhibitor,
-#temperature,
-#wireplumber,
-#battery,
-#backlight {
-  padding: 0 6px;
-  min-width: 0;
-}
-
 #custom-power {
-  padding: 0 12px;
-}
-
-#custom-notification {
   padding: 0 12px;
 }
 

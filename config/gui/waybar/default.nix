@@ -29,7 +29,7 @@ in
       layer = "top";
       position = "bottom";
       height = 28;
-      spacing = 8;
+      spacing = 0;
       fixed-center = true;
       reload_style_on_change = true;
 
