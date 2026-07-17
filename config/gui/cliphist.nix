@@ -11,7 +11,6 @@ let
     "-----BEGIN ((OPENSSH|RSA|EC|DSA|ENCRYPTED|PGP) )?PRIVATE KEY( BLOCK)?-----"
   ];
   secretPattern = lib.concatStringsSep "|" (map (pattern: "(${pattern})") secretPatterns);
-  cliphistFuzzelImg = lib.getExe' config.services.cliphist.package "cliphist-fuzzel-img";
   filteredCliphistStore = pkgs.writeShellApplication {
     name = "gui-filtered-cliphist-store";
     runtimeInputs = [
@@ -45,7 +44,7 @@ let
       pkgs.gnugrep
     ];
     text = ''
-      exec ${cliphistFuzzelImg}
+      exec ${lib.getExe' config.services.cliphist.package "cliphist-fuzzel-img"}
     '';
   };
 in
