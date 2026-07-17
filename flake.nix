@@ -115,7 +115,10 @@ rec {
               registry = builtins.mapAttrs (_: flake: { inherit flake; }) flakes;
               channels = flakes;
               package = pkgs.nix;
-              settings = nixConfig;
+              settings = nixConfig // {
+                substituters = nixConfig.extra-substituters;
+                trusted-public-keys = nixConfig.extra-trusted-public-keys;
+              };
             };
         }
       ];
