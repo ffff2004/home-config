@@ -119,7 +119,7 @@ in
           paused = "";
           stopped = "";
         };
-        dynamic-len = 16;
+        dynamic-len = 20;
         tooltip-format = "{player}: {artist} - {title}";
       };
 
@@ -132,7 +132,7 @@ in
         format = "{title}";
         icon = true;
         icon-size = 18;
-        max-length = 40;
+        max-length = 42;
         separate-outputs = true;
       };
 
