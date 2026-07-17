@@ -100,11 +100,11 @@ price       = { cache_hit = 0.025, input = 3, output = 6, currency = "¥" }   # 
 
 [tools]
 enabled = []   # empty = all built-in tools
-bash_timeout_seconds = 120   # foreground safety cap; set 0 for no tool-local cap
-mcp_call_timeout_seconds = 300   # default MCP call safety cap; per-plugin/tool overrides may raise it
+bash_timeout_seconds = 600   # foreground safety cap; set 0 for no tool-local cap
+mcp_call_timeout_seconds = 600   # default MCP call safety cap; per-plugin/tool overrides may raise it
 
 [tools.background_jobs]
-stalled_warning_seconds = 900   # warn once per background job after this many quiet seconds; 0 disables
+stalled_warning_seconds = 1200   # warn once per background job after this many quiet seconds; 0 disables
 
 [tools.shell]
 # prefer = "auto"   # auto|bash|powershell|pwsh; empty/default = auto-detect
