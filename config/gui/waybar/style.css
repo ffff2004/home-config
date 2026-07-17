@@ -64,6 +64,7 @@ menuitem label {
 }
 
 #custom-power,
+#idle_inhibitor,
 #cpu,
 #memory,
 #temperature,
@@ -79,6 +80,7 @@ menuitem label {
 }
 
 #custom-power,
+#idle_inhibitor,
 #temperature,
 #wireplumber,
 #battery,
@@ -106,6 +108,7 @@ menuitem label {
 }
 
 #custom-power:hover,
+#idle_inhibitor:hover,
 #cpu:hover,
 #memory:hover,
 #temperature:hover,

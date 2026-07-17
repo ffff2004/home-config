@@ -35,6 +35,7 @@ in
 
       modules-left = [
         "custom/power"
+        "idle_inhibitor"
         "cpu"
         "memory"
         "temperature"
@@ -68,6 +69,14 @@ in
           logout = "${niri} msg action quit";
           reboot = "systemctl reboot";
           shutdown = "systemctl poweroff";
+        };
+      };
+
+      idle_inhibitor = {
+        format = "{icon}";
+        format-icons = {
+          activated = "󰅶";
+          deactivated = "󰾪";
         };
       };
 
