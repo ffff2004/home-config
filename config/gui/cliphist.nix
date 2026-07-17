@@ -5,7 +5,12 @@
   ...
 }:
 let
-  openAIKeyPattern = "(^|[^[:alnum:]_])sk-[[:alnum:]_-]+";
+  secretPatterns = [
+    "(^|[^[:alnum:]_])sk-[[:alnum:]_-]+"
+    "(^|[^[:alnum:]_])(github_pat_|gh[pousr]_)[[:alnum:]_]+"
+    "-----BEGIN ((OPENSSH|RSA|EC|DSA|ENCRYPTED|PGP) )?PRIVATE KEY( BLOCK)?-----"
+  ];
+  secretPattern = lib.concatStringsSep "|" (map (pattern: "(${pattern})") secretPatterns);
   cliphistFuzzelImg = lib.getExe' config.services.cliphist.package "cliphist-fuzzel-img";
   filteredCliphistStore = pkgs.writeShellApplication {
     name = "gui-filtered-cliphist-store";
@@ -19,7 +24,7 @@ let
 
       cat > "$clipboard"
 
-      if grep -qE -- ${lib.escapeShellArg openAIKeyPattern} "$clipboard"; then
+      if grep -qE -- ${lib.escapeShellArg secretPattern} "$clipboard"; then
         exit 0
       fi
 
