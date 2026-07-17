@@ -1,10 +1,7 @@
 ## System Info
 
-- CPU: Intel Core i7-12700H (14 cores)
-- RAM: 32 GiB
-- GPU: Intel Iris Xe + NVIDIA GeForce RTX 3060 Mobile ~5.8 GiB
+- GPU: Intel iGPU + NVIDIA
 - Distro: Arch Linux
-- Window Manager: niri (wayland)
 
 ## Preferences
 
