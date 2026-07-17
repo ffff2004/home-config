@@ -46,18 +46,16 @@
       "Mod+Down".action = mkDefault focus-window-down;
       "Mod+Up".action = mkDefault focus-window-up;
       "Mod+Right".action = mkDefault focus-column-right;
-      # "Alt+Tab".action = mkDefault focus-column-right;
-      "Alt+Shift+Tab".action = mkDefault focus-column-left;
 
-      # Move window/column
+      # Move window/column within workspace
       "Mod+Ctrl+Left".action = mkDefault move-column-left;
+      "Mod+Ctrl+Down".action = mkDefault move-window-down;
+      "Mod+Ctrl+Up".action = mkDefault move-window-up;
       "Mod+Ctrl+Right".action = mkDefault move-column-right;
-      # "Mod+Ctrl+Down".action = mkDefault move-window-down;
-      # "Mod+Ctrl+Up".action = mkDefault move-window-up;
-      # "Mod+Ctrl+Page_Down".action = mkDefault move-column-to-workspace-down;
-      # "Mod+Ctrl+Page_Up".action = mkDefault move-column-to-workspace-up;
-      "Mod+Ctrl+Down".action = mkDefault move-column-to-workspace-down;
-      "Mod+Ctrl+Up".action = mkDefault move-column-to-workspace-up;
+
+      # Move column to workspace
+      "Mod+Ctrl+Page_Down".action = mkDefault move-column-to-workspace-down;
+      "Mod+Ctrl+Page_Up".action = mkDefault move-column-to-workspace-up;
       "Mod+Ctrl+U".action = mkDefault move-column-to-workspace-down;
       "Mod+Ctrl+I".action = mkDefault move-column-to-workspace-up;
 
@@ -68,16 +66,16 @@
       "Mod+Ctrl+End".action = mkDefault move-column-to-last;
 
       # Monitor navigation
-      "Mod+Shift+Left".action = mkDefault focus-monitor-left;
-      "Mod+Shift+Down".action = mkDefault focus-monitor-down;
-      "Mod+Shift+Up".action = mkDefault focus-monitor-up;
-      "Mod+Shift+Right".action = mkDefault focus-monitor-right;
+      "Mod+Alt+Left".action = mkDefault focus-monitor-left;
+      "Mod+Alt+Down".action = mkDefault focus-monitor-down;
+      "Mod+Alt+Up".action = mkDefault focus-monitor-up;
+      "Mod+Alt+Right".action = mkDefault focus-monitor-right;
 
       # Move column to monitor
-      "Mod+Shift+Ctrl+Left".action = mkDefault move-column-to-monitor-left;
-      "Mod+Shift+Ctrl+Down".action = mkDefault move-column-to-monitor-down;
-      "Mod+Shift+Ctrl+Up".action = mkDefault move-column-to-monitor-up;
-      "Mod+Shift+Ctrl+Right".action = mkDefault move-column-to-monitor-right;
+      "Mod+Ctrl+Alt+Left".action = mkDefault move-column-to-monitor-left;
+      "Mod+Ctrl+Alt+Down".action = mkDefault move-column-to-monitor-down;
+      "Mod+Ctrl+Alt+Up".action = mkDefault move-column-to-monitor-up;
+      "Mod+Ctrl+Alt+Right".action = mkDefault move-column-to-monitor-right;
 
       # Move workspace to monitor
       "Mod+Alt+Shift+Left".action = mkDefault move-workspace-to-monitor-left;
