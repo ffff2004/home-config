@@ -18,6 +18,10 @@ rustPlatform.buildRustPackage {
     hash = "sha256-9e4CVOxU+xzAR8sB3DVKU9N82ZT0548S74CM15TfREE=";
   };
 
+  patches = [
+    ./sort-workspaces-by-index.patch
+  ];
+
   cargoHash = "sha256-58lmbDJJWezpAiduWyqAzzLto5x/ESZpDycqh/XrTLM=";
 
   nativeBuildInputs = [

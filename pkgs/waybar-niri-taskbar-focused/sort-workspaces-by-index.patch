@@ -1,0 +1,29 @@
+diff --git a/src/niri/state.rs b/src/niri/state.rs
+index 4d75d2e..f9e8c7b 100644
+--- a/src/niri/state.rs
++++ b/src/niri/state.rs
+@@ -248,6 +248,6 @@ impl Niri {
+         });
+         wws.sort_by(|a, b| {
+-            // Compare by workspace ID first, then window position, then window ID as a last
++            // Compare by workspace index first, then window position, then window ID as a last
+             // fallback.
+             a.workspace
+                 .idx
+@@ -264,10 +264,13 @@ impl Niri {
++        let mut workspaces = self.workspaces.values().cloned().collect::<Vec<_>>();
++        workspaces.sort_by_key(|workspace| (workspace.idx, workspace.id));
++
+         Snapshot {
+             windows: wws
+                 .into_iter()
+                 .map(|ww| Window {
+                     window: ww.window.clone(),
+                     output: ww.workspace.output.clone(),
+                 })
+                 .collect(),
+-            workspaces: self.workspaces.values().cloned().collect(),
++            workspaces,
+         }
+     }
+ }
