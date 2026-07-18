@@ -1,4 +1,4 @@
-{
+{ localLib, ... }: {
   programs = {
     bash = {
       enable = true;
@@ -18,4 +18,6 @@
     "waydstatus" = "waydroid status";
     "hm" = "home-manager";
   };
+  xdg.configFile."fish/conf.d/fish_frozen_theme.fish".source =
+    localLib.mkSymlinkToSource ./fish_frozen_theme.fish;
 }
