@@ -1,6 +1,6 @@
 ---
 name: nix-eval
-description: Evaluate narrow Nix values from this flake. Use when Codex needs merged Home Manager values, option definition sources or override priorities, flake or package attributes, attribute existence, attrset keys, pinned input paths, or comparisons between profiles.
+description: Evaluate narrow Nix values from this flake. Use when Codex needs merged Home Manager values, option definition sources or override priorities, flake or package attributes, source paths, package artifacts, attrset keys, pinned input paths, or profile comparisons.
 ---
 
 # Narrow Nix Evaluation
@@ -25,25 +25,25 @@ Establish the option contract with `$home-manager-docs`, the effective value her
 
 ## Patterns
 
-Evaluate one final Home Manager value:
+### Evaluate one final Home Manager value
 
 ```bash
 nix eval .#homeConfigurations.fym.config.programs.zoxide.enable
 ```
 
-List keys before drilling into an attrset:
+### List keys before drilling into an attrset
 
 ```bash
 nix eval .#homeConfigurations.fym.config.programs --apply builtins.attrNames --json
 ```
 
-Evaluate an attribute name containing `/`:
+### Evaluate an attribute name containing `/`
 
 ```bash
 nix eval --impure --json --expr '(builtins.getFlake (toString ./.)).homeConfigurations.fym.config.xdg.configFile."tmux/tmux.conf"'
 ```
 
-Compare narrow final values across profiles:
+### Compare narrow final values across profiles
 
 ```bash
 nix eval --impure --json --expr '
@@ -58,7 +58,7 @@ nix eval --impure --json --expr '
 '
 ```
 
-Inspect the winning definitions of an option:
+### Inspect the winning definitions of an option
 
 ```bash
 nix eval --impure --json --expr '
@@ -78,8 +78,37 @@ nix eval --impure --json --expr '
 
 `definitionsWithLocations` contains definitions that remain after override priority filtering. Inspect dependent final values and artifacts separately.
 
-Resolve a pinned input path:
+### Resolve and, when needed, realize a path
+
+`nix eval` returns the requested value. When that value is a store path needed
+for inspection but the path does not exist, realize the original expression
+with `nix build`. This is an explicit step because it may fetch or build
+dependencies. The `nix eval` result is an intermediate path; the `nix build`
+result is realized.
+
+Pinned input source:
 
 ```bash
-nix eval --impure --raw .#inputs.home-manager.outPath
+nix eval --raw .#inputs.home-manager.outPath
 ```
+
+Package artifact:
+
+```bash
+nix eval --raw .#packages.x86_64-linux.waybar-niri-taskbar-focused
+```
+
+Package source:
+
+```bash
+nix eval --raw nixpkgs#packages.x86_64-linux.bash.src
+```
+
+Realize when needed:
+
+```bash
+nix build --no-link --print-out-paths <flake-url>#<attr-path>
+```
+
+The package `src` value denotes the original upstream source input. Patches are
+applied later during the package build.
