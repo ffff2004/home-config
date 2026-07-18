@@ -11,6 +11,7 @@
 - Use the First Principle Thinking
 - Prefer simplicity
 - Git repositories live in `~/repos`
+- User scripts live in `~/.local/sbin`
 
 ## Rules
 
