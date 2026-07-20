@@ -17,6 +17,13 @@
         Port = 2222;
         ProxyJump = "fujun";
       };
+
+      legion-neoarch-nixcache = {
+        HostName = "legion-neoarch";
+        User = "nixcache";
+        IdentityFile = "~/.ssh/id_ed25519-nixcache";
+        IdentitiesOnly = "yes";
+      };
     };
   };
 
