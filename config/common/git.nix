@@ -13,6 +13,7 @@
         email = "293283756+ffff2004@users.noreply.github.com";
       };
       init.defaultBranch = "main";
+      rerere.enabled = true;
       push.autoSetupRemote = true;
       push.default = "simple";
       alias = {
