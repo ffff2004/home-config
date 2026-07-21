@@ -13,7 +13,7 @@ lib.mkIf enable {
   home = {
     packages = [
       pkgs.uv
-      pkgs.python3
+      # Use the repo-local package exported from pkgs/default.nix
       pkgsFrom.self.nix-py
     ];
   };
