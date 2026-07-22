@@ -2,6 +2,8 @@
 
 本仓库用于管理用户 fym 的 Home Manager 配置，采用 flake + 模块化目录组织。
 
+![Screenshot Tmux and Neovim](screenshot_tmux_neovim.png)
+
 ## 1. 架构与加载关系
 
 核心入口与模块加载链路：
