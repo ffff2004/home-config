@@ -25,5 +25,7 @@
     handoff = "${inputs.mattpocock-skills}/skills/productivity/handoff";
     teach = "${inputs.mattpocock-skills}/skills/productivity/teach";
     writing-great-skills = "${inputs.mattpocock-skills}/skills/productivity/writing-great-skills";
+
+    orchestrate-impl-review = ./orchestrate-impl-review;
   };
 }
