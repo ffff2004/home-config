@@ -13,6 +13,4 @@
 - Git repositories live in `~/repos`
 - User scripts live in `~/.local/sbin`
 
-## Rules
 
-- AVOID `cd` into current workspace. You may assume current working directory is current workspace.

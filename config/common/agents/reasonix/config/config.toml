@@ -4,7 +4,7 @@
 # Secrets are named via api_key_env and stored in Reasonix's global .env; never put keys here.
 
 config_version = 5   # schema marker for diagnostics; old versions may ignore it
-default_model = "deepseek-flash"
+default_model = "deepseek/deepseek-v4-flash"
 language      = "auto"   # ui/model language; empty = auto-detect from $LANG / $REASONIX_LANG
 credentials_store = "auto"   # legacy compatibility; provider keys are saved in Reasonix's global .env
 
@@ -18,16 +18,17 @@ theme_style = "aurora"   # CLI accent palette; REASONIX_THEME_STYLE can override
 [desktop]
 # language = "zh"   # desktop UI language; empty/auto = browser/OS auto-detect
 layout_style = "workbench"   # desktop layout: classic|workbench|creation
-theme = "dark"   # desktop only: auto|dark|light
+theme = "auto"   # desktop only: auto|dark|light
 theme_style = "graphite"   # desktop accent palette
 # external_opener = "vscode"   # desktop Open control: installed application id
-close_behavior = "background"   # desktop: quit|background when the window close button is clicked
+close_behavior = "quit"   # desktop: quit|background when the window close button is clicked
 status_bar_style = "text"   # desktop: icon|text metric labels in the bottom status bar
 status_bar_items = ["model", "workspace", "git_branch", "cache", "cache_avg", "session_tokens", "turn_tokens", "turn_cost", "session_turns", "context", "compact", "cost", "balance"]   # desktop: ordered visible bottom status bar items
 default_tool_approval_mode = "auto"   # desktop: Ask/Auto/YOLO default for newly-created sessions
 check_updates = true   # desktop: check for new versions on startup
-telemetry = true   # desktop: anonymous launch ping (install id + version + OS); never content
-metrics = true   # desktop: aggregate desktop metrics (anonymous signal/bucket counts); never content
+telemetry = true   # desktop: anonymous launch ping + scrubbed next-launch native crash diagnostics; never content
+metrics = true   # desktop: aggregate quality/lifecycle metrics (anonymous signal/bucket counts); never content
+provider_access = ["deepseek"]   # desktop settings: providers shown on Settings > Model > Access
 expand_thinking = false   # desktop: show reasoning text expanded by default; false = collapsed
 display_mode = "standard"   # desktop: standard|compact transcript display mode
 
@@ -98,6 +99,18 @@ balance_url = "https://api.deepseek.com/user/balance"   # optional; wallet-balan
 context_window = 1000000   # tokens; compaction triggers near this limit
 price       = { cache_hit = 0.025, input = 3, output = 6, currency = "¥" }   # provider-wide fallback, per 1M tokens
 
+[[providers]]
+name        = "deepseek"
+kind        = "openai"
+base_url    = "https://api.deepseek.com"
+models      = ["deepseek-v4-flash", "deepseek-v4-pro"]
+default     = "deepseek-v4-flash"
+api_key_env = "DEEPSEEK_API_KEY"
+balance_url = "https://api.deepseek.com/user/balance"   # optional; wallet-balance endpoint shown in the status bar
+context_window = 1000000   # tokens; compaction triggers near this limit
+price       = { cache_hit = 0.02, input = 1, output = 2, currency = "¥" }   # provider-wide fallback, per 1M tokens
+prices      = { "deepseek-v4-flash" = { cache_hit = 0.02, input = 1, output = 2, currency = "¥" }, "deepseek-v4-pro" = { cache_hit = 0.025, input = 3, output = 6, currency = "¥" } }   # per-model prices, per 1M tokens
+
 [tools]
 enabled = []   # empty = all built-in tools
 bash_timeout_seconds = 600   # foreground safety cap; set 0 for no tool-local cap
@@ -107,7 +120,7 @@ mcp_call_timeout_seconds = 600   # default MCP call safety cap; per-plugin/tool 
 stalled_warning_seconds = 1200   # warn once per background job after this many quiet seconds; 0 disables
 
 [tools.shell]
-# prefer = "auto"   # auto|bash|powershell|pwsh; empty/default = auto-detect
+prefer = "auto"   # auto|bash|powershell|pwsh; empty/default = auto-detect
 # path   = "/opt/homebrew/bin/bash"   # absolute path to the shell executable; empty = PATH lookup
 
 [lsp]
@@ -139,11 +152,13 @@ mode  = "ask"
 # without one, bash execution is refused. Empty defaults to enforce on macOS/Linux.
 # Windows has no OS-level Bash sandbox and fixes bash = "off".
 # network allows sandboxed bash egress.
+# yolo_auto_approve_capabilities applies requested capability deltas for one invocation in YOLO.
 # workspace_root = ""            # default: current working directory
 # allow_write = ["/tmp"]          # extra dirs writers may also modify
 # forbid_read = []                  # dirs the agent cannot read or list
 bash    = "enforce"
 network = true
+yolo_auto_approve_capabilities = true
 
 [statusline]
 # A custom status line: a command whose first stdout line replaces the built-in
