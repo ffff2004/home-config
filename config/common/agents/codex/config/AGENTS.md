@@ -23,7 +23,9 @@
 
 - After spawning sub-agents, wait until they complete the work or be blocked. *Do not* do the same work in parallel.
 - Ask sub-agents to report pitfalls, trail-and-error and friction, so that you can optimize your prompt next time.
-- 为了节约context window和避免context rot，当你需要探索或者搜索一个目录，且以下条件中至少存在一个为真时，启动一个sub-agent来执行:
-  - keyword或match pattern可能的空间很大，或pattern很宽泛
+- 为了节约context window和避免context rot，当你需要探索或者搜索一个目录，且以下条件全部为真时，交给sub-agent来执行:
+  - keyword或match pattern可能的空间很大，或pattern很宽泛，导致可能有很多无关结果
   - 结果所在的文件路径范围不确定，导致需要搜索的范围很大或可能有很多无关文件
+- 当你需要进行web search时，如果遇上类似的情况（pattern很宽泛且网址不确定），也交给sub-agent来执行
+- 如果你已经是一个执行只读探索/搜索任务的sub-agent，一般情况下，不要再启动新的sub-agent
 - When using `code-review` or `codebase-design` skill, feel free to spawn sub-agents as the skill asks.
