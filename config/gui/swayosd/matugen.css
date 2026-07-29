@@ -1,0 +1,5 @@
+@define-color sw_surface {{colors.surface.default.hex}};
+@define-color sw_surface_container {{colors.surface_container.default.hex}};
+@define-color sw_on_surface {{colors.on_surface.default.hex}};
+@define-color sw_primary {{colors.primary.default.hex}};
+@define-color sw_outline {{colors.outline.default.hex}};

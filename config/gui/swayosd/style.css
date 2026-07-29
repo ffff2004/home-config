@@ -1,0 +1,45 @@
+@define-color sw_surface #1f1f1f;
+@define-color sw_surface_container #2b2b2b;
+@define-color sw_on_surface #eeeeee;
+@define-color sw_primary #8ab4f8;
+@define-color sw_outline rgba(255, 255, 255, 0.12);
+
+@import url("themes/matugen.css");
+
+window#osd {
+  border: 1px solid @sw_outline;
+  border-radius: 16px;
+  background: alpha(@sw_surface_container, 0.94);
+}
+
+window#osd #container {
+  margin: 8px 12px;
+}
+
+window#osd image {
+  color: @sw_primary;
+}
+
+window#osd label {
+  color: @sw_on_surface;
+  font-weight: 600;
+}
+
+window#osd progressbar,
+window#osd segmentedprogress {
+  min-height: 6px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+window#osd trough,
+window#osd segment {
+  border-radius: inherit;
+  background: alpha(@sw_on_surface, 0.28);
+}
+
+window#osd progress,
+window#osd segment.active {
+  border-radius: inherit;
+  background: @sw_primary;
+}

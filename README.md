@@ -70,6 +70,7 @@
 | [config/gui/fuzzel/default.nix](config/gui/fuzzel/default.nix) | Fuzzel 启动器配置与 matugen 主题引入 |
 | [config/gui/waybar/default.nix](config/gui/waybar/default.nix) | Waybar 底栏、托盘、任务栏、系统指标与 matugen 样式 |
 | [config/gui/swaync/default.nix](config/gui/swaync/default.nix) | SwayNC 通知守护进程、通知中心配置与 matugen 样式 |
+| [config/gui/swayosd/default.nix](config/gui/swayosd/default.nix) | SwayOSD 屏幕提示服务、matugen 样式与媒体、音量和背光键绑定 |
 | [config/gui/wpaperd.nix](config/gui/wpaperd.nix) | wpaperd 壁纸运行时与主题生成 hook |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix) | Fcitx5 输入法与配置树递归链接 |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix) | Niri 主入口，导入 niri-flake 与 settings 子模块 |
