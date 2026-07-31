@@ -71,12 +71,16 @@ in
     "XF86MonBrightnessUp" = osd [
       "--device"
       "intel_backlight"
+      "--min-brightness"
+      "0"
       "--brightness"
       "+2"
     ];
     "XF86MonBrightnessDown" = osd [
       "--device"
       "intel_backlight"
+      "--min-brightness"
+      "0"
       "--brightness"
       "-2"
     ];
