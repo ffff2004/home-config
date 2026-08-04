@@ -1,5 +1,16 @@
 { pkgs, lib, ... }:
+let
+  lspPackages = {
+    bash = pkgs.bash-language-server;
+    fish = pkgs.fish-lsp;
+    nix = pkgs.nil;
+    python = pkgs.ruff;
+    typescript = pkgs.vtsls;
+  };
+in
 {
+  home.packages = builtins.attrValues lspPackages;
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -232,31 +243,31 @@
           local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
           vim.lsp.config("nil_ls", {
-            cmd = { "${lib.getExe pkgs.nil}" },
+            cmd = { "${lib.getExe lspPackages.nix}" },
             capabilities = capabilities,
           })
           vim.lsp.enable("nil_ls")
 
           vim.lsp.config('ruff', {
-            cmd = { "${lib.getExe pkgs.ruff}", "server" },
+            cmd = { "${lib.getExe lspPackages.python}", "server" },
             capabilities = capabilities,
           })
           vim.lsp.enable('ruff')
 
           vim.lsp.config('bashls', {
-            cmd = { "${lib.getExe pkgs.bash-language-server}", "start" },
+            cmd = { "${lib.getExe lspPackages.bash}", "start" },
             capabilities = capabilities,
           })
           vim.lsp.enable('bashls')
 
           vim.lsp.config('fish_lsp', {
-            cmd = { "${lib.getExe pkgs.fish-lsp}", "start" },
+            cmd = { "${lib.getExe lspPackages.fish}", "start" },
             capabilities = capabilities,
           })
           vim.lsp.enable('fish_lsp')
 
           vim.lsp.config('vtsls', {
-            cmd = { "${lib.getExe pkgs.vtsls}", "--stdio" },
+            cmd = { "${lib.getExe lspPackages.typescript}", "--stdio" },
             capabilities = capabilities,
           })
           vim.lsp.enable('vtsls')
