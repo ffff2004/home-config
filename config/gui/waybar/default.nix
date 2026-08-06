@@ -67,6 +67,7 @@ in
           lock = lockSession;
           suspend = "systemctl suspend";
           logout = "${niri} msg action quit";
+          soft-reboot = "systemctl soft-reboot";
           reboot = "systemctl reboot";
           shutdown = "systemctl poweroff";
         };
