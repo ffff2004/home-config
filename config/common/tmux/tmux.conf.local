@@ -104,6 +104,13 @@ tmux_conf_theme_colour_15="#080808"   # dark gray
 tmux_conf_theme_colour_16="#d70000"   # red
 tmux_conf_theme_colour_17="#e4e4e4"   # white
 
+# mirror theme colours into persistent tmux user options, so that
+# #!important overrides can reference them via #{@theme-colour-N}
+# (set -gF expands the format at set-time; the plain env variables are
+# unset by Oh my tmux! after applying the configuration)
+set -gF @theme-colour-6 "#{tmux_conf_theme_colour_6}"
+set -gF @theme-colour-9 "#{tmux_conf_theme_colour_9}"
+
 # default theme (ansi)
 #tmux_conf_theme_colour_1="colour0"
 #tmux_conf_theme_colour_2="colour8"
@@ -233,14 +240,14 @@ tmux_conf_theme_window_status_last_bg="$tmux_conf_theme_colour_2"
 tmux_conf_theme_window_status_last_attr="none"
 
 # status left/right sections separators
-#tmux_conf_theme_left_separator_main=""
-#tmux_conf_theme_left_separator_sub="|"
-#tmux_conf_theme_right_separator_main=""
-#tmux_conf_theme_right_separator_sub="|"
-tmux_conf_theme_left_separator_main='\uE0B0'  # /!\ you don't need to install Powerline
-tmux_conf_theme_left_separator_sub='\uE0B1'   #   you only need fonts patched with
-tmux_conf_theme_right_separator_main='\uE0B2' #   Powerline symbols or the standalone
-tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see README.md
+tmux_conf_theme_left_separator_main=""
+tmux_conf_theme_left_separator_sub="|"
+tmux_conf_theme_right_separator_main=""
+tmux_conf_theme_right_separator_sub="|"
+#tmux_conf_theme_left_separator_main='\uE0B0'  # /!\ you don't need to install Powerline
+#tmux_conf_theme_left_separator_sub='\uE0B1'   #   you only need fonts patched with
+#tmux_conf_theme_right_separator_main='\uE0B2' #   Powerline symbols or the standalone
+#tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see README.md
 
 # status left/right content:
 #   - separate main sections with "|"
@@ -383,6 +390,13 @@ tmux_conf_urlscan_options="--compact --dedupe"
 # -- user customizations -------------------------------------------------------
 
 # this is the place to override or undo settings
+
+# status-left is normally rendered by Oh my tmux! with a trailing
+# separator plus an appended space, leaving a black gap before the window
+# list; override it to make the yellow block flush against the window list.
+# Colours reference the theme via @theme-colour-6/9 (mirrored above).
+# !important is required because Oh my tmux! would otherwise overwrite this.
+set -g status-left "#[fg=#{@theme-colour-6},bg=#{@theme-colour-9},bold]❐ #S:#I.#P " #!important
 
 # increase history size
 #set -g history-limit 10000
