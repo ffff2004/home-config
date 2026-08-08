@@ -48,10 +48,10 @@ if ! tmux has-session -t "$SESSION" 2>/dev/null; then
     tmux send-keys -t "$SESSION":1.2 'codex'
 
     tmux new-window -t "$SESSION"
-    tmux send-keys -t "$SESSION":2 'yazi'
+    tmux send-keys -t "$SESSION":2 'lazygit'
 
     tmux new-window -t "$SESSION"
-    tmux send-keys -t "$SESSION":3 'lazygit'
+    tmux send-keys -t "$SESSION":3 'yazi'
 
     tmux select-window -t "$SESSION":1
     tmux select-pane -t "$SESSION":1.1
