@@ -21,8 +21,8 @@
 
 ### Sub-agents
 
-- After spawning sub-agents, wait until they complete the work or be blocked. *Do not* do the same work in parallel.
-- Ask sub-agents to report pitfalls, trail-and-error and friction, so that you can optimize your prompt next time.
+- After spawning sub-agents, wait until they complete the work or be blocked. *Do not* do the same work in parallel. Be patient with sub-agents.
+- Ask sub-agents to report pitfalls, trail-and-error and friction, so that you can optimize your prompt when spawning another sub-agent.
 - 为了节约context window和避免context rot，当你需要探索或者搜索一个目录，且以下条件中至少一条为真时，交给sub-agent来执行:
   - keyword或match pattern可能的空间很大，或pattern很宽泛，导致可能有很多无关结果
   - 结果所在的文件路径范围不确定，导致需要搜索的范围很大或可能有很多无关文件
