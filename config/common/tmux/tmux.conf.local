@@ -271,8 +271,8 @@ tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see
 #     - #{username_ssh}
 tmux_conf_theme_status_left="❐ #S:#I.#P "
 #tmux_conf_theme_status_left=" ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} | #{pretty_pane_current_path} "
-tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
-#tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
+tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_color}#{battery_status},}#{?battery_percentage, #{battery_color}#{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
+#tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_color}#{battery_status},}#{?battery_percentage, #{battery_color}#{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
 
 # status left style
 tmux_conf_theme_status_left_fg="$tmux_conf_theme_colour_6,$tmux_conf_theme_colour_7,$tmux_conf_theme_colour_8"
@@ -487,6 +487,33 @@ tmux_conf_uninstall_plugins_on_reload=true
 # # usage: #{online}
 # online() {
 #   ping -c 1 1.1.1.1 >/dev/null 2>&1 && printf '✔' || printf '✘'
+# }
+#
+# # usage: #{battery_color}
+# # dynamic battery color replicating the gradient of #{battery_bar}
+# battery_color() {
+#   charge=$(tmux show -gv @battery_charge 2>/dev/null) || true
+#   [ -n "$charge" ] || return 0
+#   length=$(tmux -q display -p '#{client_width}' 2>/dev/null) || true
+#   length=${length:-80}
+#   if [ "$length" -ge 160 ]; then
+#     n=12
+#   elif [ "$length" -ge 130 ]; then
+#     n=10
+#   elif [ "$length" -ge 120 ]; then
+#     n=8
+#   elif [ "$length" -ge 100 ]; then
+#     n=6
+#   else
+#     n=4
+#   fi
+#   full=$(awk "BEGIN { printf \"%.0f\", $charge * $n }")
+#   [ "$full" -lt 1 ] && full=1
+#   palette=$(printf '%s' "colour196 colour202 colour208 colour214 colour220 colour226 colour190 colour154 colour118 colour82 colour46" | awk -v n="$n" '{ for (i = 0; i < n - 1; ++i) printf "%s ", $(1 + i * NF / n); printf $NF }')
+#   # shellcheck disable=SC2086
+#   set -- $palette
+#   shift $((full - 1))
+#   printf '#[fg=%s]' "$1"
 # }
 #
 # # usage: #{wan_ip_v4}
