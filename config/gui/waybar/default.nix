@@ -107,8 +107,9 @@ in
           ""
         ];
         critical-threshold = 85;
-        tooltip-format = "Temperature: {temperatureC}°C";
-        thermal-zone = 9;
+        tooltip-format = "Package id 0: {temperatureC}°C";
+        hwmon-path-abs = "/sys/devices/platform/coretemp.0/hwmon";
+        input-filename = "temp1_input";
       };
 
       mpris = {
