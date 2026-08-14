@@ -7,7 +7,7 @@ disable-model-invocation: true
 编排以下工作流：
 
 1. 若需求有模糊不清之处，按照 `grilling` 向用户提问，直到其清晰明确（要明确实现和不实现的范围，以免覆盖范围过大）。在确认共识之后暂停等待用户确认
-2. 若需要设计新模块和public interface，按照 `codebase-design` 启动sub-agents进行设计，然后输出设计选项。若设计已经存在，或可以简单地确定，可以跳过这一步，但仍然需要输出设计。暂停，等待用户确认设计后，再进入下一步
+2. 若需要设计新模块和public interface，按照 `codebase-design` 启动sub-agents进行设计，然后输出设计选项。若设计已经存在，或可以简单地确定，可以跳过这一步，此时输出可以跳过的理由。暂停，等待用户确认设计后，再进入下一步
 3. 进行以下implement-review-stage迭代（自主进行2轮，如果第二轮review还没有通过则报告review结果并暂停）。
 注：对于每一轮实现/修复，启动新的worker；对于同一个任务的不同轮次，复用reviewers：
   1. 启动新的worker sub-agent来实现/修复，将变更保持unstaged。
