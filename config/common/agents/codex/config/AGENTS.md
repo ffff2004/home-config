@@ -21,7 +21,8 @@
 
 ### Sub-agents
 
-- After spawning sub-agents, wait until they complete the work or be blocked. *Do not* do the same work in parallel. Be patient with sub-agents.
+- After spawning sub-agents, wait until they complete the work or be blocked. *Do not* do the same work in parallel.
+- Be patient with sub-agents. Do not interrupt a sub-agent before waiting for 30 minutes or unless the user asks to do so.
 - Ask sub-agents to report pitfalls, trail-and-error and friction, so that you can optimize your prompt when spawning another sub-agent.
 - 为了节约context window和避免context rot，当你需要探索或者搜索一个目录，且以下条件中至少一条为真时，交给sub-agent来执行:
   - keyword或match pattern可能的空间很大，或pattern很宽泛，导致可能有很多无关结果
