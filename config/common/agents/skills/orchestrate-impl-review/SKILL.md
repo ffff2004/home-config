@@ -17,4 +17,4 @@ disable-model-invocation: true
   注：如果启动了新的reviewers而没有复用，新的reviewers第一次review时将fixed-point设为修改之前的提交
   3. 若review未通过，stage当前变更，然后返回迭代的第一步，让worker修复；若review已通过，则结束迭代并进入下一步
 4. 最终审查通过后，你来执行一次项目要求的gate检查，确认其通过，或者报告不通过的理由并暂停
-5. 提交变更，并进行其他收尾工作。例如，如果任务与一个issue相关，就勾选checklist，comment完成报告并关闭issue
+5. 提交变更
