@@ -15,5 +15,14 @@
       ];
       open-floating = false;
     }
+
+    {
+      matches = [
+        {
+          app-id = "^xdg-desktop-portal-gtk$";
+        }
+      ];
+      open-floating = false;
+    }
   ];
 }
