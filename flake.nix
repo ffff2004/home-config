@@ -33,6 +33,11 @@ rec {
       url = "github:mattpocock/skills";
       flake = false;
     };
+
+    codexctl = {
+      url = "github:ffff2004/codexctl";
+      flake = false;
+    };
   };
 
   nixConfig = {

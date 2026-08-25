@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "codexctl": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787635108,
+        "narHash": "sha256-enMo4oCU0nWdU6gGfaun+d3f+PzLCDgNDWxWWd1/31s=",
+        "owner": "ffff2004",
+        "repo": "codexctl",
+        "rev": "29769277ef5f0ba958c04a88b49bf913b5055532",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ffff2004",
+        "repo": "codexctl",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -190,6 +206,7 @@
     "root": {
       "inputs": {
         "andrej-karpathy-skills": "andrej-karpathy-skills",
+        "codexctl": "codexctl",
         "fym998-nur": "fym998-nur",
         "home-manager": "home-manager",
         "mattpocock-skills": "mattpocock-skills",
