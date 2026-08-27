@@ -16,6 +16,8 @@
   # Python script example (checks included): pinentry-auto
 
   coding-setup = pkgs.callPackage ./coding-setup { };
+  archive-head = pkgs.callPackage ./archive-head { };
+  export-dependency-wheelhouse = pkgs.callPackage ./export-dependency-wheelhouse { };
   nix-py = pkgs.callPackage ./nix-py { };
   pinentry-auto = pkgs.callPackage ./pinentry-auto { };
   waybar-niri-taskbar-focused = pkgs.callPackage ./waybar-niri-taskbar-focused { };

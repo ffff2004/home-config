@@ -15,6 +15,7 @@ lib.mkIf enable {
       pkgs.uv
       # Use the repo-local package exported from pkgs/default.nix
       pkgsFrom.self.nix-py
+      pkgsFrom.self.export-dependency-wheelhouse
     ];
   };
 }

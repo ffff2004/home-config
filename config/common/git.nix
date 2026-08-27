@@ -39,4 +39,6 @@
   };
 
   programs.lazygit.enable = true;
+
+  home.packages = [ pkgsFrom.self.archive-head ];
 }
