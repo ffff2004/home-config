@@ -5,6 +5,9 @@
     enableDefaultConfig = false;
     settings = {
       "*".AddKeysToAgent = "yes";
+      "*".ControlMaster = "auto";
+      "*".ControlPersist = "10m";
+      "*".ControlPath = "~/.ssh/cm-%C";
 
       fujun = {
         HostName = "fujun";
