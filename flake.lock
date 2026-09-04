@@ -19,11 +19,11 @@
     "codexctl": {
       "flake": false,
       "locked": {
-        "lastModified": 1788053502,
-        "narHash": "sha256-mVyl/cVkLaK2vstv6va1U+L5ZF6CYlvy/bGIBU2sGF4=",
+        "lastModified": 1788511350,
+        "narHash": "sha256-m+fqfW5a3Kd5eA9LSAZdDlnQgw107wwVUOWJIimyLl0=",
         "owner": "ffff2004",
         "repo": "codexctl",
-        "rev": "68d714c2a6f889a2ce679e2fd890f69b5632639f",
+        "rev": "26c1eafe3d5cca3742786654ed9c6ec7940200a3",
         "type": "github"
       },
       "original": {
