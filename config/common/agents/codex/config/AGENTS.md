@@ -18,6 +18,8 @@
 - Run multiple Git commands that mutate the same repository state or write `.git` refs or locks *serially*, not in parallel.
 - If a command is failed likely due to sandboxing, and a permission like writing files out of the workspace or accessing GPU or network is REALLY needed, do not work around it or give up early, request approval instead.
 - When executing a command that takes a long time and the output or exit code matters, wait until the process ends and get the result, do not run again before it ends.
+- Use `yield_time_ms=30000` to run commands expect to take <30s.
+  Use skill `command-resume-hook` to run commands expect to take >30s.
 
 ### Sub-agents
 
