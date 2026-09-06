@@ -1,12 +1,4 @@
 { inputs, pkgs, ... }:
-let
-  setup-matt-pocock-skills = pkgs.applyPatches {
-    name = "setup-matt-pocock-skills";
-    src = "${inputs.mattpocock-skills}/skills/engineering/setup-matt-pocock-skills";
-    patches = [ ./setup-matt-pocock-skills/issue-tracker-github.patch ];
-    postPatch = "rm issue-tracker-github.md.orig";
-  };
-in
 {
   local.agents.skills = {
     #karpathy-guidelines = "${inputs.andrej-karpathy-skills}/skills/karpathy-guidelines";
@@ -17,12 +9,21 @@ in
     ask-matt = "${inputs.mattpocock-skills}/skills/engineering/ask-matt";
     code-review = "${inputs.mattpocock-skills}/skills/engineering/code-review";
     codebase-design = "${inputs.mattpocock-skills}/skills/engineering/codebase-design";
-    diagnosing-bugs = "${inputs.mattpocock-skills}/skills/engineering/diagnosing-bugs";
+    diagnosing-bugs = pkgs.applyPatches {
+      name = "diagnosing-bugs";
+      src = "${inputs.mattpocock-skills}/skills/engineering/diagnosing-bugs";
+      patches = [ ./diagnosing-bugs/disable-implicit-invocation.patch ];
+    };
     domain-modeling = "${inputs.mattpocock-skills}/skills/engineering/domain-modeling";
     grill-with-docs = "${inputs.mattpocock-skills}/skills/engineering/grill-with-docs";
     improve-codebase-architecture = "${inputs.mattpocock-skills}/skills/engineering/improve-codebase-architecture";
     research = "${inputs.mattpocock-skills}/skills/engineering/research";
-    inherit setup-matt-pocock-skills;
+    setup-matt-pocock-skills = pkgs.applyPatches {
+      name = "setup-matt-pocock-skills";
+      src = "${inputs.mattpocock-skills}/skills/engineering/setup-matt-pocock-skills";
+      patches = [ ./setup-matt-pocock-skills/issue-tracker-github.patch ];
+      postPatch = "rm issue-tracker-github.md.orig";
+    };
     prototype = "${inputs.mattpocock-skills}/skills/engineering/prototype";
     tdd = "${inputs.mattpocock-skills}/skills/engineering/tdd";
     to-spec = "${inputs.mattpocock-skills}/skills/engineering/to-spec";
