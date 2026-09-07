@@ -31,12 +31,12 @@
     triage = "${inputs.mattpocock-skills}/skills/engineering/triage";
     wayfinder = "${inputs.mattpocock-skills}/skills/engineering/wayfinder";
 
-    wizard = "${inputs.mattpocock-skills}/skills/in-progress/wizard";
+    wizard = "${inputs.mattpocock-skills}/skills/engineering/wizard";
 
     grilling = "${inputs.mattpocock-skills}/skills/productivity/grilling";
     handoff = "${inputs.mattpocock-skills}/skills/productivity/handoff";
     teach = "${inputs.mattpocock-skills}/skills/productivity/teach";
-    writing-great-skills = "${inputs.mattpocock-skills}/skills/productivity/writing-great-skills";
+    writing-for-agents = "${inputs.mattpocock-skills}/skills/productivity/writing-for-agents";
 
     orchestrate-impl-review = ./orchestrate-impl-review;
   };
