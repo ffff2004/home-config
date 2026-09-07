@@ -1,8 +1,9 @@
-{ localLib, inputs, ... }:
+{ localLib, ... }:
 {
-  imports = [ ./logs-tmpfiles-workaround.nix ];
+  imports = [
+    ./logs-tmpfiles-workaround.nix
+    ./codexctl.nix
+  ];
 
-  home.file = (localLib.mkSymlinkToSourceRecursively ".codex" ./config) // {
-    ".codex/skills/command-resume-hook".source = "${inputs.codexctl}/examples/command-resume-hook";
-  };
+  home.file = localLib.mkSymlinkToSourceRecursively ".codex" ./config;
 }

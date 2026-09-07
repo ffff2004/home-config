@@ -3,9 +3,6 @@
   local.agents.skills = {
     #karpathy-guidelines = "${inputs.andrej-karpathy-skills}/skills/karpathy-guidelines";
 
-    codexctl-as-subagent = "${inputs.codexctl}/examples/codexctl-as-subagent";
-    impl-review-orchestrator = "${inputs.codexctl}/examples/impl-review-orchestrator";
-
     ask-matt = "${inputs.mattpocock-skills}/skills/engineering/ask-matt";
     code-review = "${inputs.mattpocock-skills}/skills/engineering/code-review";
     codebase-design = "${inputs.mattpocock-skills}/skills/engineering/codebase-design";
