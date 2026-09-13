@@ -24,7 +24,7 @@ in
   programs.git.settings.credential.helper = lib.getExe pkgsFrom.fym998-nur.git-credential-libsecret;
 
   local.gui.lockSession.preLockCommands = [
-    "${lib.getExe pkgs.libsecret} lock || true"
+    #"${lib.getExe pkgs.libsecret} lock || true"
   ];
 
   home.activation.gnomeKeyringDefaultCollection = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
