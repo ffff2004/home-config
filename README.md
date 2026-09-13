@@ -54,6 +54,7 @@
 | --- | --- |
 | [config/gui/default.nix](config/gui/default.nix) | gui 目录入口，递归导入 |
 | [config/gui/credentials/default.nix](config/gui/credentials/default.nix) | GNOME Keyring、libsecret 与 GCR SSH agent 集成 |
+| [config/gui/default-browser.nix](config/gui/default-browser.nix) | 将 Firefox 设为 XDG 默认 Web 浏览器 |
 | [config/gui/fontconfig.nix](config/gui/fontconfig.nix) | 字体渲染与默认字体族设置 |
 | [config/gui/terminal/default.nix](config/gui/terminal/default.nix) | 终端方案（Alacritty Graphics + matugen 主题）和 xdg-terminal-exec |
 | [config/gui/gtk/default.nix](config/gui/gtk/default.nix) | GTK3/GTK4 配置与 matugen CSS 引入 |
