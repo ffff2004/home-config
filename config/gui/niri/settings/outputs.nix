@@ -1,19 +1,28 @@
 {
-  programs.niri.settings.outputs = {
-    eDP-1 = {
-      variable-refresh-rate = true;
-    };
-    DP-1 = {
-      mode = {
-        refresh = 143.988;
-        width = 3840;
-        height = 2160;
+  programs.niri.settings.outputs =
+    let
+      "redmi-24-2560-1440-180" = {
+        mode = {
+          refresh = 180.0;
+          width = 2560;
+          height = 1440;
+        };
+        position = {
+          x = 1707;
+          y = -125;
+        };
+        variable-refresh-rate = true;
       };
-      position = {
-        x = -2560;
-        y = -374;
+    in
+    {
+      # built-in
+      eDP-1 = {
+        position = {
+          x = 0;
+          y = 0;
+        };
+        variable-refresh-rate = true;
       };
-      variable-refresh-rate = true;
+      DP-1 = redmi-24-2560-1440-180;
     };
-  };
 }
