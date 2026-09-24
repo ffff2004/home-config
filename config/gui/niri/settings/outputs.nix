@@ -3,7 +3,7 @@
     let
       "redmi-24-2560-1440-180" = {
         mode = {
-          refresh = 180.0;
+          refresh = 119.998;
           width = 2560;
           height = 1440;
         };
