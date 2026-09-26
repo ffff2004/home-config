@@ -2,6 +2,7 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
+      "application/pdf" = "firefox.desktop";
       "application/xhtml+xml" = "firefox.desktop";
       "text/html" = "firefox.desktop";
       "x-scheme-handler/about" = "firefox.desktop";
