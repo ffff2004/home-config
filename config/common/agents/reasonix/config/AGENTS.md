@@ -8,7 +8,7 @@
 - Use uv to manage python dependencies and run python scripts (`uv run <SCRIPT>.py` or `uv run python ...`)
 - Use pnpm to manage npm dependencies
 - Use nix to run ad-hoc tools and build ad-hoc environment
-- Git repositories live in `~/repos`
+- Git repositories live in `~/repos`. Try to find local cloned repos before fetch from web.
 - User scripts live in `~/.local/sbin`
 
 - Use the First Principle Thinking
