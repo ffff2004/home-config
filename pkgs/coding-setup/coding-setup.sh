@@ -1,5 +1,5 @@
 #!/bin/sh
-SESSION="coding"
+SESSION=""
 TARGET_DIR="."
 
 # 手动解析参数以支持选项后置
@@ -36,6 +36,10 @@ done
 if ! cd "$TARGET_DIR" 2>/dev/null; then
     echo "Error: 无法切换到目录 '$TARGET_DIR'" >&2
     exit 1
+fi
+
+if [ -z "$SESSION" ]; then
+    SESSION="$(basename "$PWD")"
 fi
 
 if ! tmux has-session -t "$SESSION" 2>/dev/null; then
