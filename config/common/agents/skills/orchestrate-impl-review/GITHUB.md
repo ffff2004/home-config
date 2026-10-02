@@ -24,7 +24,7 @@ gh issue comment "$issue" --repo "$repo" --body-file "$comment_file"
 
 ## 创建和维护 PR
 
-默认在第一个 worker 完成提交、主 agent 核实交接并执行 gates 后创建 draft PR，再发布该 worker 的阶段评论；随后继续其余实现和 review。正文描述当前已实现行为、剩余范围并关联 ticket。创建前核实 head/base 并完成已授权的 push；远端已有同分支 PR 时更新该 PR。
+默认在第一个 worker 完成提交、主 agent 核实交接并执行 gates 后创建 draft PR，再发布该 worker 的阶段评论；随后继续其余实现和 review。正文关联 ticket。创建前核实 head/base 并完成已授权的 push；远端已有同分支 PR 时更新该 PR。
 
 ```sh
 gh pr create --repo "$repo" --base "$base" --head "$branch" \
@@ -33,12 +33,12 @@ gh pr create --repo "$repo" --base "$base" --head "$branch" \
 
 后续更新正文用 `gh pr edit --body-file`；title/body 随最终实现范围调整，以代码实际行为为准。
 
-每个 worker 完成后发布一条阶段评论，主 agent 验证后补齐最终结果再进入下一阶段。评论应包括：
+每个 worker 完成后，主 agent 验证后补齐最终结果并发布一条阶段评论再进入下一阶段。评论应包括：
 
 - 提交 SHA/链接和阶段 diff 区间。
 - 行为变化及其对应要求。
-- worker 与父 agent 的 gates/验收结果、失败原因或剩余验证；区分真实实测、mock/注入及未测场景。
-- 适用的临时资源清理、兼容限制和下一步。
+- gates/验收结果、失败原因或剩余验证；区分真实实测、mock/注入及未测场景。
+- 建议的下一步
 
 ```sh
 gh pr comment "$pr" --repo "$repo" --body-file "$comment_file"
