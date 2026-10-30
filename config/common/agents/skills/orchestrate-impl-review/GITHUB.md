@@ -24,7 +24,7 @@ gh issue comment "$issue" --repo "$repo" --body-file "$comment_file"
 
 ## 创建和维护 PR
 
-默认在第一个 worker 完成提交、主 agent 核实交接并执行 gates 后创建 draft PR，再发布该 worker 的阶段评论；随后继续其余实现和 review。正文关联 ticket。创建前核实 head/base 并完成已授权的 push；远端已有同分支 PR 时更新该 PR。
+默认在第一个 worker 完成工作、主 agent 核实交接并执行 gates 后创建 draft PR，再发布该 worker 的阶段评论；随后继续其余实现和 review。正文关联 ticket。创建前核实 head/base 并完成已授权的 push；远端已有同分支 PR 时更新该 PR。
 
 ```sh
 gh pr create --repo "$repo" --base "$base" --head "$branch" \
@@ -33,7 +33,7 @@ gh pr create --repo "$repo" --base "$base" --head "$branch" \
 
 后续更新正文用 `gh pr edit --body-file`；title/body 随最终实现范围调整，以代码实际行为为准。
 
-每个 worker 完成后，主 agent 验证后补齐最终结果并发布一条阶段评论再进入下一阶段。评论应包括：
+每个 worker 完成后，主 agent 验证交接后补齐最终结果并发布一条 worker 评论。评论应包括：
 
 - 提交 SHA/链接和阶段 diff 区间。
 - 行为变化及其对应要求。
@@ -44,7 +44,7 @@ gh pr create --repo "$repo" --base "$base" --head "$branch" \
 gh pr comment "$pr" --repo "$repo" --body-file "$comment_file"
 ```
 
-取得评论 URL 后，将 PR body 的相关实现/验证细节简化为到**最新阶段评论**的 GitHub 原生链接；正文保留简短行为描述、ticket 引用和当前状态。评论是详细记录的单一来源，避免在 body 重复维护。若本次完整范围只部分完成，应明确剩余范围。
+取得评论 URL 后，将 PR body 的相关实现/验证细节简化为到**最新阶段评论（并行开发时则是评论frontier列表）**的 GitHub 原生链接；正文保留简短行为描述、ticket 引用和当前状态。评论是详细记录的单一来源，避免在 body 重复维护。若本次完整范围只部分完成，应明确剩余范围。
 
 完成条件：远端 head 与交付提交一致，最新阶段评论存在，PR body 指向它并如实反映完成状态。
 

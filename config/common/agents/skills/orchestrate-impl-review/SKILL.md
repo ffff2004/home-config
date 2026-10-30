@@ -10,8 +10,8 @@ disable-model-invocation: true
 
 1. 若需求有模糊不清之处，按照 skill `grilling` 向用户提问，直到达到shared understanding且目标、验收标准和非目标明确。
 2. 若需要设计新模块或public interface，按照 skill `codebase-design` 进行设计，然后输出设计选项。若设计已经存在，或可以简单地确定，可以跳过这一步，此时输出可以跳过的理由。暂停，等待用户确认后，再进入下一步。
-3. 创建新分支，进行以下implement-review迭代（默认进行2轮，如果第二轮review还没有通过则报告review结果并暂停，等待用户确认后再继续）。
-  1. 选择：将本轮实现/修复拆分为多个子任务并委派多个workers实施（此时可以按需建立依赖关系和并行（并行时使用worktree，由父agent merge）），或者仅由单个worker实施。输出原因以及以父/子agent的工作为边界的计划（包括：父agent和每个worker的工作以及应该产生哪些提交），其中，暂停并等待用户确认。然后可以按计划启动worker(s)。
+3. 创建新分支，进行以下implement-review迭代：
+  1. 选择：将本轮实现/修复拆分为多个子任务并委派单个至任意多个workers实施（对于存在依赖关系的工作串行进行，独立无依赖工作可以并行（并行时使用多worktree，由父agent merge并保持分支线性历史），为了权衡协调成本，也可以纯串行/部分串行）。输出原因以及以父/子agent的工作为边界的计划（包括：父agent和每个worker的工作以及分别应该产生哪些提交），其中，暂停并等待用户确认。然后可以按计划启动（不复用）worker(s)。
   如果项目规定了某些gate（例如lint或test等），令worker在报告完成之前要么通过它们，要么报告不通过的理由（如gate与目标冲突等）。
   如果遇到阻塞性问题，或必须用户介入时，暂停工作并报告。
   2. 检查git状态clean，并确认gates通过。
