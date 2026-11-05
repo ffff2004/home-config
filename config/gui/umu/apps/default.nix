@@ -1,4 +1,0 @@
-{ localLib, ... }:
-{
-  imports = localLib.lsSubmodule ./.;
-}

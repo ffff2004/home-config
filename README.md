@@ -75,7 +75,7 @@
 | [config/gui/wpaperd.nix](config/gui/wpaperd.nix) | wpaperd 壁纸运行时与主题生成 hook |
 | [config/gui/fcitx5/default.nix](config/gui/fcitx5/default.nix) | Fcitx5 输入法与配置树递归链接 |
 | [config/gui/niri/default.nix](config/gui/niri/default.nix) | Niri 主入口，导入 niri-flake 与 settings 子模块 |
-| [config/gui/umu/default.nix](config/gui/umu/default.nix) | UMU Launcher 包装器定义与 Proton 变体 |
+| [config/gui/umu/default.nix](config/gui/umu/default.nix) | 安装 `umuctl`；应用与 Proton 预设由仓库外本地配置管理 |
 
 ## 3. lib 目录模块职责
 
@@ -99,6 +99,7 @@
 | [pkgs/export-dependency-wheelhouse/default.nix](pkgs/export-dependency-wheelhouse/default.nix) | 将锁定的 Python 依赖导出为 wheelhouse 压缩归档的 `export-dependency-wheelhouse` |
 | [pkgs/nix-py/default.nix](pkgs/nix-py/default.nix) | 使用 Nix 提供依赖启动 Python 的包装脚本 `nix-py` |
 | [pkgs/pinentry-auto/default.nix](pkgs/pinentry-auto/default.nix) | 按 pinentry 请求上下文选择图形或终端后端的代理 |
+| [pkgs/umuctl/default.nix](pkgs/umuctl/default.nix) | 本地 UMU 应用、Proton 预设与桌面入口管理；[使用说明](pkgs/umuctl/README.md) |
 | [pkgs/waybar-niri-taskbar-focused/default.nix](pkgs/waybar-niri-taskbar-focused/default.nix) | 当前 workspace 过滤的 Waybar Niri CFFI 任务栏模块 |
 
 ## 5. 其他有用信息

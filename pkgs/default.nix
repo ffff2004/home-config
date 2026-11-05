@@ -20,5 +20,6 @@
   export-dependency-wheelhouse = pkgs.callPackage ./export-dependency-wheelhouse { };
   nix-py = pkgs.callPackage ./nix-py { };
   pinentry-auto = pkgs.callPackage ./pinentry-auto { };
+  umuctl = pkgs.callPackage ./umuctl { };
   waybar-niri-taskbar-focused = pkgs.callPackage ./waybar-niri-taskbar-focused { };
 }
