@@ -27,10 +27,6 @@ removes, moves, or renames one of these indexed units:
 - an exported package directory under `pkgs/*/default.nix`;
 - a reusable Home Manager module under `modules/`, if one is added later.
 
-Do not add `README.md` entries for implementation details inside an
-indexed feature, such as `settings/`, `apps/`, package scripts,
-source-linked config files, generated files, or Codex runtime/cache files.
-
 Prefer source-link config files by `localLib.mkSymlinkToSource`.
 For large config trees (for example fcitx5), follow existing patterns
 that map files with `localLib.mkSymlinkToSourceRecursively target path`.
@@ -40,16 +36,15 @@ Home Manager options, so option names, types, defaults, and declarations
 match the pinned input.
 
 When this repository is evaluated as a Git flake, untracked files are
-not included in the flake source.
-If you add a new file and Nix cannot see it, `git add` it first,
-but don't commit unrelated changes.
+not included in the flake source. If you add a new file and Nix cannot see it,
+`git add` it first, but don't commit unrelated changes.
 
 ## Coding Style & Naming Conventions
 
 Nix files follow `.editorconfig`: 2-space indentation, LF endings,
-UTF-8, trimmed trailing whitespace, and a final newline. Match the
-existing naming style: area-based paths such as
-`config/common/git.nix`, `config/gui/niri/settings/apps/firefox.nix`,
+UTF-8, trimmed trailing whitespace, and a final newline.
+
+Prefer area-based paths such as `config/common/git.nix`
 or `lib/to-source-path.nix`.
 
 Run `nixfmt EDITED_FILES...` after editing files.
@@ -73,8 +68,9 @@ some Nix derivations run self-checks during the build.
 When adding or changing packages under `pkgs/`,
 prefer defining package-specific checks in the derivation itself,
 using standard Nixpkgs check mechanisms where appropriate.
-Then build the changed package with `nix build .#<pkg-name>`.
-Then verify the artifacts in `result/` explicitly.
+Then build the changed package with 
+`nix build .#<pkg-name> --out-link /tmp/home-manager-builds/<pkg-name>`.
+Then verify the artifacts in `/tmp/home-manager-builds/<pkg-name>`.
 
 After changing Home Manager configuration, use the `nix-eval` skill to
 identify candidate and affected profiles and verify their narrow final
@@ -93,9 +89,6 @@ substitutes enabled when new dependencies may be required.
 
 ## Commit Guidelines
 
-Use commit messages in the form `<type>(<scope>): <summary>`, for
-example `fix(gui/umu): use the correct Intel Vulkan ICD path`. Common
-types are `feat`, `fix`, `refactor`, `docs`, `chore`, and `agents`; use
-`agents` for agent-related files such as skills and `AGENTS.md`. Prefer
-stable scopes that match the tree, such as `common/nodejs`, `gui/niri`,
-or `lib/ls`.
+Use conventional commit messages, prefer stable scopes that match the tree,
+such as `common/nodejs`, `gui/niri`, or `lib/ls`, for
+example `fix(gui/umu): use the correct Intel Vulkan ICD path`. 
