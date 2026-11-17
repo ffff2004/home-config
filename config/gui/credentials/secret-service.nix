@@ -21,7 +21,7 @@ in
     components = [ "secrets" ];
   };
 
-  programs.git.settings.credential.helper = lib.getExe pkgsFrom.fym998-nur.git-credential-libsecret;
+  programs.git.settings.credential.helper = lib.getExe pkgsFrom.self.git-credential-libsecret;
 
   local.gui.lockSession.preLockCommands = [
     #"${lib.getExe pkgs.libsecret} lock || true"

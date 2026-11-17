@@ -15,6 +15,8 @@
   #
   # Python script example (checks included): pinentry-auto
 
+  git-credential-libsecret = pkgs.callPackage ./git-credential-libsecret { };
+  wallpaper-fetcher = pkgs.callPackage ./wallpaper-fetcher { };
   coding-setup = pkgs.callPackage ./coding-setup { };
   archive-head = pkgs.callPackage ./archive-head { };
   export-dependency-wheelhouse = pkgs.callPackage ./export-dependency-wheelhouse { };

@@ -97,6 +97,8 @@
 | [pkgs/archive-head/default.nix](pkgs/archive-head/default.nix) | 将当前 Git HEAD 导出为 gzip 压缩归档的 `archive-head` |
 | [pkgs/coding-setup/default.nix](pkgs/coding-setup/default.nix) | tmux 编程工作区初始化脚本 `coding-setup` |
 | [pkgs/export-dependency-wheelhouse/default.nix](pkgs/export-dependency-wheelhouse/default.nix) | 将锁定的 Python 依赖导出为 wheelhouse 压缩归档的 `export-dependency-wheelhouse` |
+| [pkgs/git-credential-libsecret/default.nix](pkgs/git-credential-libsecret/default.nix) | 使用 libsecret 的 Git credential helper |
+| [pkgs/wallpaper-fetcher/default.nix](pkgs/wallpaper-fetcher/default.nix) | 下载每日 Bing 壁纸的 CLI |
 | [pkgs/nix-py/default.nix](pkgs/nix-py/default.nix) | 使用 Nix 提供依赖启动 Python 的包装脚本 `nix-py` |
 | [pkgs/pinentry-auto/default.nix](pkgs/pinentry-auto/default.nix) | 按 pinentry 请求上下文选择图形或终端后端的代理 |
 | [pkgs/umuctl/default.nix](pkgs/umuctl/default.nix) | 本地 UMU 应用、Proton 预设与桌面入口管理；[使用说明](pkgs/umuctl/README.md) |

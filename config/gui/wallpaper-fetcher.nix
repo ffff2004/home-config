@@ -7,7 +7,7 @@
 {
   systemd.user.services.wallpaper-fetcher = {
     Service = {
-      ExecStart = "${pkgsFrom.fym998-nur.wallpaper-fetcher}/bin/wallpaper-fetcher -d --debug";
+      ExecStart = "${pkgsFrom.self.wallpaper-fetcher}/bin/wallpaper-fetcher -d --debug";
     };
   };
   systemd.user.timers.wallpaper-fetcher = {
