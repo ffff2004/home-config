@@ -9,20 +9,20 @@
 - Use pnpm to manage npm dependencies
 - Use nix to run ad-hoc tools and build ad-hoc environment
 - Git repositories (including cloned checkouts) live in `~/repos`
-- User scripts live in `~/.local/sbin`
+- Reusable user scripts live in `~/.local/sbin`
 
 - Use the First Principle Thinking
 - Prefer simplicity
 - When the user makes a mistake, point it out
-- When there is ambiguity in the user’s instructions, ask for clarification
-- 翻译时保留领域术语作为对照
+- When there is ambiguity in the user’s instructions, ask for clarification before action
+- 翻译时保留领域术语原文，不做翻译
+- 使用skill后报告值得修复/更新/新增的点，但禁止在未获得用户授权时自行修改
+- Prefer short documents, avoid unnecessary descriptions; 思考文档面向的职责（读者和阅读场景），不要直接包含不必要的细节，而是引用其来源（例如代码或其他文档）；如有必要可以拆分/新建文档——职责明确的多个文档好于混杂不清的单个文档
+- In UI, avoid unnecessary secondary labels and descriptions; let the layout/interaction do the explaining
+- 只写断言公开契约的测试，不写断言与契约无关的内部实现的测试
 
 ### Subagents
 
-- After spawning subagents, **do not** do the same work in parallel.
-- Be patient with subagents.
-- Ask subagents to report pitfalls and friction, so that you can optimize your prompt spawning another subagent.
-- 当你的subagent工具可用时，为了节约token和避免context rot，需要探索或者搜索文件系统，且以下条件中至少一条为真时，交给subagent来执行:
-  - keyword或match pattern可能的空间很大，或pattern很宽泛，导致可能有很多无关结果
-  - 结果所在的文件路径范围不确定，导致需要搜索的范围很大或可能有很多无关文件
-- 当你需要进行web search时，如果遇上类似的情况（pattern很宽泛或网址不确定），也交给subagent来执行
+- You are allowed to spawn subagents
+- Be patient with subagents
+- As a subagent, report pitfalls and friction, so that your parent can optimize prompt spawning another subagent
