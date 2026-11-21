@@ -6,7 +6,7 @@
 
 ## Preferences
 
-- Use uv to manage python dependencies and run python scripts (`uv run <SCRIPT>.py` or `uv run python ...`)
+- Use uv to manage python dependencies
 - Use pnpm to manage npm dependencies
 - Use nix to run ad-hoc tools and build ad-hoc environment
 - Git repositories (including cloned checkouts) live in `~/repos`
@@ -22,7 +22,7 @@
 - 使用skill后报告值得修复/更新/新增的点，但禁止在未获得用户授权时自行修改
 - Prefer short documents, avoid unnecessary descriptions; 思考文档面向的职责（读者和阅读场景），不要直接包含不必要的细节，而是引用其来源（例如代码或其他文档）；如有必要可以拆分/新建文档——职责明确的多个文档好于混杂不清的单个文档
 - In UI, avoid unnecessary secondary labels and descriptions; let the layout/interaction do the explaining
-- 只写断言公开契约的测试，不写断言与契约无关的内部实现的测试
+- 只写断言公开契约的测试，不断言内部实现细节，也不断言上游依赖的实现
 
 ### Subagents
 
