@@ -3,5 +3,5 @@ python-preference = "system"
 
 
 [[index]]
-url = "https://mirrors.cernet.edu.cn/pypi/web/simple/"
+url = "https://mirrors.ustc.edu.cn/pypi/web/simple"
 default = true
